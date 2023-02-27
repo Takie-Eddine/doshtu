@@ -38,9 +38,9 @@ class Product extends Model
         $builder->when($filters['status'] ?? false,function ($builder,$value){
             $builder->where('products.status','=', $value);
         });
-        $builder->when($filters['category'] ?? false,function ($builder,$value){
-            $builder->where('products.category_id','=', $value);
-        });
+        // $builder->when($filters['category'] ?? false,function ($builder,$value){
+        //     $builder->where('products.category_id','=', $value);
+        // });
     }
 
 

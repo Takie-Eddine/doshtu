@@ -23,13 +23,13 @@ class CategoriesController extends Controller
         $request = request();
         $categories = Category::with('parent')
             ->filter($request->query())
-            ->withCount([
-                'products as products_count' => function($query){
-                    $query->where('status' , '=' , 'active');
-                }
-            ])
             ->paginate();
         return view('dashboard.categories.index',compact('categories'));
+        // ->withCount([
+        //     'products as products_count' => function($query){
+        //         $query->where('status' , '=' , 'active');
+        //     }
+        // ])
     }
 
     /**

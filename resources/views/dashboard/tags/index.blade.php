@@ -80,11 +80,13 @@
                                             <td colspan="7">No tags defined.</td>
                                         </tr>
                                     @endforelse
-                                    <div>
-                                        {{$tags->withQueryString()->links()}}
-                                    </div>
+
                                 </tbody>
+
                             </table>
+                            <div>
+                                {{$tags->withQueryString()->links()}}
+                            </div>
                         </div>
                     </div>
                 </div>
