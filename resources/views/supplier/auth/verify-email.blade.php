@@ -50,7 +50,7 @@
 
                             <h2 class="card-title fw-bolder mb-1">Verify your email ✉️</h2>
                             <p class="card-text mb-2">
-                                We've sent a link to your email address: <span class="fw-bolder">notifications@doshtu.com</span> Please follow the
+                                We've sent a link to your email address: <span class="fw-bolder">{{env('MAIL_FROM_ADDRESS')}}</span> Please follow the
                                 link inside to continue.
                             </p>
 
