@@ -26,6 +26,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
 
+Route::prefix('shopify')->group(function(){
+    Route::get('auth',[InstalationController::class,'startInstalation']);
+    Route::get('auth/redirect',[InstalationController::class, 'handleRedirect'])->name('app_install_redirect');
+
+});
 
 Route::group(
     [
@@ -33,11 +38,7 @@ Route::group(
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){
 
-        Route::prefix('shopify')->group(function(){
-            Route::get('auth',[InstalationController::class,'startInstalation']);
-            Route::get('auth/redirect',[InstalationController::class, 'handleRedirect'])->name('app_install_redirect');
 
-        });
 
         // {{asset('assets/profile_images/'.Auth::user('web')->profile->photo)}}
 
