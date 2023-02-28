@@ -41,7 +41,7 @@ class InstalationController extends Controller
                         Log::info('New instalation for shop'.$request->shop);
 
                         $endpoint = 'https://'.$request->shop.
-                                    '/admin/oauth/authorize?client_id='.config('custom.shopify_api_key').
+                                    '/user/oauth/authorize?client_id='.config('custom.shopify_api_key').
                                     '&scope='.config('custom.api_scopes').
                                     '&redirect_uri='.route('app_install_redirect');
 
