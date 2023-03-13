@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('stores', function (Blueprint $table) {
             $table->string('shopify_domain')->nullable()->after('default');
-            $table->integer('shopify_id')->nullable()->after('shopify_domain');
+            $table->unsignedBigInteger('shopify_id')->nullable()->after('shopify_domain');
             $table->string('access_token')->nullable()->after('shopify_id');
         });
     }

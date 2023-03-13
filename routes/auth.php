@@ -22,6 +22,7 @@ Route::group(
         Route::prefix('shopify')->group(function(){
             Route::get('auth',[InstalationController::class,'startInstalation']);
             Route::get('auth/redirect',[InstalationController::class, 'handleRedirect'])->name('app_install_redirect');
+            Route::get('auth/complete',[InstalationController::class, 'completeInstalation'])->name('app_install_complete');
 
         });
 

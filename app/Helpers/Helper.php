@@ -10,7 +10,7 @@ if (!function_exists('getShopifyURLForStore')) {
      */
     function getShopifyURLForStore($endpoint, $store )
     {
-        return 'https://'.$store->shopify_domain.'/admin/api'.config('custom.shopify_api_version').'/'.$endpoint;
+        return 'https://'.$store['shopify_domain'].'/admin/api'.config('custom.shopify_api_version').'/'.$endpoint;
     }
 
     function getShopifyHeadersForStore($soreDetails){
