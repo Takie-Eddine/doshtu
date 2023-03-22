@@ -9,6 +9,6 @@ trait FunctionTrait{
 
     public function getStoreByDomain($shop){
 
-        return Store::where('shopify_domain',$shop)->first();
+        return Store::where('myshopify_domain',$shop)->first();
     }
 }

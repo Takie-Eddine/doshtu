@@ -13,7 +13,8 @@ class Store extends Model
 
     protected $fillable = [
         'store_name', 'store_email', 'store_mobile', 'store_logo',
-        'country', 'city', 'state', 'pincode', 'address', 'status', 'default',
+        'country', 'city', 'state', 'pincode', 'address', 'status',
+        'default', 'myshopify_domain', 'shopify_id', 'access_token',
     ];
 
 

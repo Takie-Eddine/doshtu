@@ -104,8 +104,8 @@ class InstalationController extends Controller
         try{
             $payload = [
                 'access_token' => $accessToken,
-                'shopify_domain' => $shopdetails['myshopify_domain'],
-                'id' => $shopdetails['id'],
+                'myshopify_domain' => $shopdetails['myshopify_domain'],
+                'shopify_id' => $shopdetails['id'],
                 'store_name' => $shopdetails['name'],
                 'store_mobile' => $shopdetails['phone'],
                 'address' => $shopdetails['address'],
@@ -114,7 +114,7 @@ class InstalationController extends Controller
                 'zip' => $shopdetails['zip'],
             ];
 
-            Store::updateOrcreate(['shopify_domain' => $shopdetails['myshopify_domain']], $payload);
+            Store::updateOrcreate(['myshopify_domain' => $shopdetails['myshopify_domain']], $payload);
             return true;
         }catch(Exception $ex){
             Log::info($ex->getMessage().''.$ex->getLine());
@@ -126,7 +126,7 @@ class InstalationController extends Controller
 
     private function getShopDetailsFromShopify($shop, $accessToken){
         try {
-            $endpoint = getShopifyURLForStore('shop.json',['shopify_domain'=>$shop]);
+            $endpoint = getShopifyURLForStore('shop.json',['myshopify_domain'=>$shop]);
             $headers = getShopifyHeadersForStore(['access_token' => $accessToken]);
             $response = $this->makeAnAPICallToShopify('GET', $endpoint, null, $headers);
             if ($response['statusCode'] == 200) {
