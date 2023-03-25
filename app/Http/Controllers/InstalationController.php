@@ -73,7 +73,6 @@ class InstalationController extends Controller
                     $accessToken = $this->requestAcessTokenFromShopifyForThisStore($shop, $code);
                     if($accessToken !==false && $accessToken !==null){
                         $shopDetails = $this->getShopDetailsFromShopify($shop, $accessToken);
-                        dd($shopDetails);
                         $saveDetails = $this->saveStoreDetailsToDatabase($shopDetails, $accessToken);
                         if($saveDetails){
                             //At this point the installation process is complete.
@@ -125,6 +124,7 @@ class InstalationController extends Controller
             $endpoint = getShopifyURLForStore('shop.json',['myshopify_domain' => $shop]);
             $headers = getShopifyHeadersForStore(['access_token' => $accessToken]);
             $response = $this->makeAnAPICallToShopify('GET', $endpoint, null, $headers);
+            dd($response['body']);
             if($response['statusCode'] == 200){
                 $body = $response['body'];
                 if(!is_array($body)) $body = json_decode($body,true);
