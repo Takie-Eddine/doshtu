@@ -15,106 +15,96 @@ class InstalationController extends Controller
 {
     use FunctionTrait, RequestTrait;
 
-    //public $scopes = 'write_orders,write_fulfillments,read_all_orders,write_customers,read_products,write_products,read_locations';
+    /**
+     * Three scenarios can hapen
+     * New installation
+     * Re-installation
+     * Opening the app
+     */
 
     public function startInstalation(Request $request){
 
-        try {
+        try{
             $validRequest = $this->validateRequestFromShopify($request->all());
-            if ($validRequest) {
-                $shop = $request->has('shop');
+            if($validRequest){
+                $shop = $request->has('shop'); // check if shop parameter exists on the request
                 if ($shop) {
                     $storeDetails = $this->getStoreByDomain($request->shop);
                     if ($storeDetails !== null && $storeDetails !== false) {
+                        //store record exists and now determine whether the access token is valid or not
+                        //if not then forward them to the re-instalation flow
+                        //if yes then redirect them to the login page
 
-                        $validAccessToken = $this->checkIfAccessTokenIsValid($storeDetails);
-                        if ($validAccessToken) {
-                            print_r('here in the valid token part');exit;
+                        $validAccessToken = $this->checkIfAccessTokenValid($storeDetails);
+                        if($validAccessToken){
+                            //Token is valid for shopify API calls so redirect to the login page
+                            print_r('Here in the valid token part');exit;
                         }else{
-                            print_r('here in the not valid token part');exit;
+                            //else is not valid so redirect the user to the  re-instalation phase
+                            print_r('Here in the not  valid token part');exit;
                         }
-
                     }else {
-                        //print_r('new instalation begins here');exit;
-
+                        //new instalation flow should be carried out
                         //https://{shop}.myshopify.com/admin/oauth/authorize?client_id={client_id}&scope={scopes}&redirect_uri={redirect_uri}&state={nonce}&grant_options[]={access_mode}
-
-                        Log::info('New instalation for shop'.$request->shop);
-
+                        Log::info('New installation for shop'.$request->shop);
                         $endpoint = 'https://'.$request->shop.
                                     '/admin/oauth/authorize?client_id='.config('custom.shopify_api_key').
                                     '&scope='.config('custom.api_scopes').
                                     '&redirect_uri='.route('app_install_redirect');
-
                         return Redirect::to($endpoint);
                     }
-
                 }else throw new Exception('shop parameter not present in the request');
-
-            } else throw new Exception('Request is not valid!');
-
-        } catch (Exception $ex) {
-            Log::info($ex->getMessage().''.$ex->getLine());
-            dd($ex->getMessage());
+            }else throw new Exception('Request is not valid');
+        }catch(Exception $ex){
+            Log::info($ex->getMessage().' '.$ex->getLine());
+            dd($ex->getMessage().' '.$ex->getLine());
         }
 
     }
 
-
     public function handleRedirect(Request $request){
-        try {
+        try{
             $validRequest = $this->validateRequestFromShopify($request->all());
-            if ($validRequest) {
+            if($validRequest){
                 Log::info(json_encode($request->all()));
-                if ($request->has('shop') && $request->has('code') ) {
-                    $shop = $request->shop ;
-                    $code = $request->code ;
-                    $accessToken = $this->requestAccessTokenFromShopifyForThisStore($shop,$code);
-                    if ($accessToken !==false && $accessToken !==null) {
-                        $shopdetails = $this->getShopDetailsFromShopify($shop, $accessToken);
-                        $saveDetails = $this->saveStoreDetailsToDatabase($shopdetails, $accessToken);
-                        if ($saveDetails) {
+                if($request->has('shop') && $request->has('code')){
+                    $shop = $request->shop;
+                    $code = $request->code;
+                    $accessToken = $this->requestAcessTokenFromShopifyForThisStore($shop, $code);
+                    if($accessToken !==false && $accessToken !==null){
+                        $shopDetails = $this->getShopDetailsFromShopify($shop, $accessToken);
+                        $saveDetails = $this->saveStoreDetailsToDatabase($shopDetails, $accessToken);
+                        if($saveDetails){
+                            //At this point the installation process is complete.
                             Redirect::to(route('app_install_complete'));
                         }else {
-                            Log::info('problem during saving shop details');
+                            Log::info('problem during saving shop details into db');
                             Log::info($saveDetails);
-                            dd('problem during installation. please check logs.');
+                            dd('Problem during installation. please check logs.');
                         }
-                    }else throw new Exception('Invalid Access Token '.$accessToken);
-
-                }else throw new Exception('code/shop not present in the URL');
-
-            }else throw new Exception('Request is not valid');
-
-        } catch (Exception $ex) {
+                    }else throw new Exception('Invalid Access Token '. $accessToken);
+                }else throw new Exception('code / shop param not present in the URL');
+            }else throw new Exception('Request is not valid!');
+        }catch(Exception $ex){
             Log::info($ex->getMessage().''.$ex->getLine());
             dd($ex->getMessage().''.$ex->getLine());
         }
-
     }
 
 
-    public function completeInstalation(Request $request){
-
-        print_r('Instalation complete !!'); exit;
-    }
-
-
-    public function saveStoreDetailsToDatabase($shopdetails, $accessToken){
+    public function saveStoreDetailsToDatabase($shopDetails, $accessToken){
         try{
             $payload = [
                 'access_token' => $accessToken,
-                'myshopify_domain' => $shopdetails['myshopify_domain'],
-                'shopify_id' => $shopdetails['id'],
-                'store_name' => $shopdetails['name'],
-                'store_mobile' => $shopdetails['phone'],
-                'address' => $shopdetails['address'],
-                'country' => $shopdetails['country'],
-                'city' => $shopdetails['city'],
-                'zip' => $shopdetails['zip'],
+                'myshopify_domain' => $shopDetails['myshopify_domain'],
+                'id' => $shopDetails['id'],
+                'name' => $shopDetails['name'],
+                'phone' => $shopDetails['phone'],
+                'address1' => $shopDetails['address1'],
+                'address2' => $shopDetails['address2'],
+                'zip' => $shopDetails['zip'],
             ];
-
-            Store::updateOrcreate(['myshopify_domain' => $shopdetails['myshopify_domain']], $payload);
+            Store::updateOrCreate(['myshopify_domain'=> $shopDetails['myshopify_domain']],$payload);
             return true;
         }catch(Exception $ex){
             Log::info($ex->getMessage().''.$ex->getLine());
@@ -123,112 +113,107 @@ class InstalationController extends Controller
     }
 
 
+    public function completeInstalation(Request $request){
+        //At this point the installation is complete so redirect the browser to either the login page or anywhere u want.
+        print_r('Instalation complete !!');exit;
+    }
+
 
     private function getShopDetailsFromShopify($shop, $accessToken){
         try {
-            $endpoint = getShopifyURLForStore('shop.json',['myshopify_domain'=>$shop]);
+            $endpoint = getShopifyURLForStore('shop.json',['myshopify_domain' => $shop]);
             $headers = getShopifyHeadersForStore(['access_token' => $accessToken]);
             $response = $this->makeAnAPICallToShopify('GET', $endpoint, null, $headers);
-            if ($response['statusCode'] == 200) {
+            if($response['statusCode'] == 200){
                 $body = $response['body'];
-                if (!is_array($body)) {
-                    $body = json_decode($body,true);
-                }
+                if(!is_array($body)) $body = json_decode($body,true);
                 return $body['shop'] ?? null;
             }else{
-                Log::info('Response rercived for shop details');
+                Log::info('Response recived for shop details');
                 Log::info($response);
-                return null ;
+                return null;
             }
-        } catch (\Exception $ex) {
-            Log::info('problem getting the shop details from shopify');
+        } catch (Exception $ex) {
+            Log::info('Problem getting the shop details from shopify');
             Log::info($ex->getMessage().''.$ex->getLine());
             return null;
         }
     }
 
 
-
-    private function requestAccessTokenFromShopifyForThisStore($shop,$code){
-        try {
-            $endpoint = 'https://'.$shop.'/admin/oauth/access_token';
+    private function requestAcessTokenFromShopifyForThisStore($shop, $code){
+        try{
+            //https://{shop}.myshopify.com/admin/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={authorization_code}
+            $endpoint = 'https://'.$shop.'./admin/oauth/access_token';
             $headers = ['Content-Type:application/json'];
             $requestBody = json_encode([
-                    'client_id' => config('custom.shopify_api_key'),
-                    'client_secret' => config('custom.shopify_api_secret'),
-                    'code' => $code,
+                'client_id' => config('custom.shopify_api_key'),
+                'client_secret' => config('custom.shopify_api_secret'),
+                'code' => $code,
             ]);
             $response = $this->makeAPOSTCallToShopify($requestBody, $endpoint, $headers);
 
-            if ($response['statusCode'] == 200) {
+            if($response['statusCode'] == 200){
                 $body = $response['body'];
-                if(! is_array($body)){
-                    $body = json_decode($body,true);
-                }
+                if(!is_array($body)) $body = json_decode($body, true);
                 Log::info('Body here');
                 Log::info($body);
-                if(isset($body['access_token']) && $body['access_token'] !== null){
+                if(is_array($body) && isset($body['access_token']) && $body['access_token']!== null)
                     return $body['access_token'];
-                }
-                return false;
             }
-        } catch (Exception $ex) {
-
+            return false;
+        }catch(Exception $ex){
+            return false;
         }
     }
 
 
     private function validateRequestFromShopify($request){
-
-        try {
+        try{
             $arr= [];
             $hmac = $request['hmac'];
             unset($request['hmac']);
-
-            foreach($request as $key => $value){
-
+            foreach($request as $key=>$value){
                 $key=str_replace("%","%25",$key);
                 $key=str_replace("&","%26",$key);
                 $key=str_replace("=","%3D",$key);
                 $value=str_replace("%","%25",$value);
                 $value=str_replace("&","%26",$value);
-
                 $arr[] = $key."=".$value;
             }
-
-            $str = implode('&', $arr);
+            $str = implode('&',$arr);
             $ver_hmac =  hash_hmac('sha256',$str,config('custom.shopify_api_secret'),false);
-
             return $ver_hmac === $hmac ;
-
-        } catch (Exception $ex) {
-            Log::info('Problem with verify hmac from request');
+        }catch(Exception $ex){
+            Log::info('problem with verify hmac from request');
             Log::info($ex->getMessage().''.$ex->getLine());
-            return false;
+            return false ;
         }
 
     }
 
+    /**
+     * write some code here that will use Guzzle library to fetch the shop object from shopify API
+     * if it succeeds with 200 status then that  means its valid and we can return true;
+     */
 
-    private function checkIfAccessTokenIsValid($storeDetails){
+
+    private function checkIfAccessTokenValid($storeDetails){
         try {
-            if ($storeDetails !==null && isset($storeDetails->access_token) && strlen($storeDetails->access_token) > 0) {
+            if($storeDetails !== null && isset($storeDetails->access_token) && strlen($storeDetails->access_token) >0){
                 $token = $storeDetails->access_token;
 
-                $endpoint = getShopifyURLForStore('shop.json', $storeDetails);
+                $endpoint = getShopifyURLForStore('shop.json',$storeDetails);
                 $headers = getShopifyHeadersForStore($storeDetails);
                 $response = $this->makeAnAPICallToShopify('GET', $endpoint, null, $headers, null);
-                Log::info('Response for checking the validity of token');
+                Log::info('Response for checkingthe validity of token');
                 Log::info($response);
                 return $response['statusCode'] === 200;
             }
 
-
             return false;
         } catch (Exception $ex) {
-            //throw $th;
             return false;
         }
-
     }
 }

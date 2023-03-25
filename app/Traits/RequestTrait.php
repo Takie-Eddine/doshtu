@@ -7,32 +7,41 @@ use GuzzleHttp\Client;
 
 trait RequestTrait{
     public function makeAnAPICallToShopify($method = 'GET', $endpoint, $url_params = null, $headers, $requestBody = null){
-
-        try {
+        //headers
+        /*
+        Content-Type:application/json
+        X-Shopify-Access-Token: value
+        */
+        try{
             $client = new Client();
             $response = null;
             switch ($method) {
                 case 'GET':
-                    $response = $client->request($method, $endpoint, ['headers'=>$headers]);
+                    $response = $client->request($method, $endpoint, ['headers' => $headers]);
                     break;
+
                 case 'POST':
-                    $response = $client->request($method, $endpoint, ['headers'=>$headers,'json'=>$requestBody]);
+                    $response = $client->request($method, $endpoint, ['headers' => $headers, 'json' => $requestBody]);
                     break;
+
+                // default:
+                //     # code...
+                //     break;
             }
-            //$response = $client->request($method, $url, ['headers'=>$headers]);
+
 
             return [
                 'statusCode' => $response->getStatusCode(),
                 'body' => $response->getBody(),
             ];
-
-        } catch (Exception $ex) {
+        }catch(Exception $ex){
             return [
                 'statusCode' => $ex->getCode(),
                 'message' => $ex->getMessage(),
                 'body' => null,
             ];
         }
+
     }
 
     public function makeAPOSTCallToShopify($data, $shopifyURL, $headers = NULL) {

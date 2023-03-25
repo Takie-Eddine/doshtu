@@ -8,7 +8,7 @@ if (!function_exists('getShopifyURLForStore')) {
      * @param
      * @return
      */
-    function getShopifyURLForStore($endpoint, $store )
+    function getShopifyURLForStore($endpoint, $store)
     {
         return 'https://'.$store['myshopify_domain'].'/admin/api'.config('custom.shopify_api_version').'/'.$endpoint;
     }
@@ -16,7 +16,7 @@ if (!function_exists('getShopifyURLForStore')) {
     function getShopifyHeadersForStore($soreDetails){
         return[
             'Content-Type' => 'application/json',
-            'x-Shopify-Access-Token' => $soreDetails->access_token
+            'x-Shopify-Access-Token' => $soreDetails['access_token'],
         ];
     }
 }
