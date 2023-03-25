@@ -73,7 +73,7 @@ class InstalationController extends Controller
                     $accessToken = $this->requestAcessTokenFromShopifyForThisStore($shop, $code);
                     if($accessToken !==false && $accessToken !==null){
                         $shopDetails = $this->getShopDetailsFromShopify($shop, $accessToken);
-                        Log::info($shopDetails);
+                        dd($shopDetails);
                         $saveDetails = $this->saveStoreDetailsToDatabase($shopDetails, $accessToken);
                         if($saveDetails){
                             //At this point the installation process is complete.
