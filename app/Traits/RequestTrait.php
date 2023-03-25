@@ -26,6 +26,7 @@ trait RequestTrait{
 
             }
 
+            dd($response);
 
             return [
                 'statusCode' => $response->getStatusCode(),
