@@ -76,7 +76,7 @@ class InstalationController extends Controller
                         $saveDetails = $this->saveStoreDetailsToDatabase($shopDetails, $accessToken);
                         if($saveDetails){
                             //At this point the installation process is complete.
-                            Redirect::to(route('app_install_complete'));
+                            Redirect::route('app_install_complete');
                         }else {
                             Log::info('problem during saving shop details into db');
                             Log::info($saveDetails);
