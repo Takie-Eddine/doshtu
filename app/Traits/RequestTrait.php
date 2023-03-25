@@ -6,32 +6,40 @@ use Exception;
 use GuzzleHttp\Client;
 
 trait RequestTrait{
-    public function makeAnAPICallToShopify($method, $endpoint, $url_params = null, $headers, $requestBody = null) {
-        //Headers
-        /**
-         * Content-Type: application/json
-         * X-Shopify-Access-Token: value
-         */
-        //Log::info('Endpoint '.$endpoint);
-        try {
+    public function makeAnAPICallToShopify($method = 'GET', $endpoint, $url_params = null, $headers, $requestBody = null){
+        //headers
+        /*
+        Content-Type:application/json
+        X-Shopify-Access-Token: value
+        */
+        try{
             $client = new Client();
             $response = null;
-            if($method == 'GET' || $method == 'DELETE') {
-                $response = $client->request($method, $endpoint, [ 'headers' => $headers ]);
-            } else {
-                $response = $client->request($method, $endpoint, [ 'headers' => $headers, 'json' => $requestBody ]);
+            switch ($method) {
+                case 'GET':
+                    $response = $client->request($method, $endpoint, ['headers' => $headers]);
+                    break;
+
+                case 'POST':
+                    $response = $client->request($method, $endpoint, ['headers' => $headers, 'json' => $requestBody]);
+                    break;
+
             }
+
+
             return [
                 'statusCode' => $response->getStatusCode(),
-                'body' => json_decode($response->getBody(), true)
+                'body' => $response->getBody(),
             ];
-        } catch(Exception $e) {
+        }catch(Exception $ex){
+            return $ex;
             return [
-                'statusCode' => $e->getCode(),
-                'message' => $e->getMessage(),
-                'body' => null
+                'statusCode' => $ex->getCode(),
+                'message' => $ex->getMessage(),
+                'body' => null,
             ];
         }
+
     }
 
     public function makeAPOSTCallToShopify($data, $shopifyURL, $headers = NULL) {
