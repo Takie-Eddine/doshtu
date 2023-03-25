@@ -123,7 +123,7 @@ class InstalationController extends Controller
         try {
             $endpoint = getShopifyURLForStore('shop.json',['myshopify_domain' => $shop]);
             $headers = getShopifyHeadersForStore(['access_token' => $accessToken]);
-            $response = $this->makeAnAPICallToShopify('', $endpoint, null, $headers);
+            $response = $this->makeAnAPICallToShopify('GET', $endpoint, null, $headers);
             //dd($response);
             if($response['statusCode'] == 200){
                 $body = $response['body'];
