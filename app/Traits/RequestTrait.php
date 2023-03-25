@@ -6,39 +6,32 @@ use Exception;
 use GuzzleHttp\Client;
 
 trait RequestTrait{
-    public function makeAnAPICallToShopify($method = 'GET', $endpoint, $url_params = null, $headers, $requestBody = null){
-        //headers
-        /*
-        Content-Type:application/json
-        X-Shopify-Access-Token: value
-        */
-        try{
+    public function makeAnAPICallToShopify($method, $endpoint, $url_params = null, $headers, $requestBody = null) {
+        //Headers
+        /**
+         * Content-Type: application/json
+         * X-Shopify-Access-Token: value
+         */
+        //Log::info('Endpoint '.$endpoint);
+        try {
             $client = new Client();
             $response = null;
-            switch ($method) {
-                case 'GET':
-                    $response = $client->request($method, $endpoint, ['headers' => $headers]);
-                    break;
-
-                case 'POST':
-                    $response = $client->request($method, $endpoint, ['headers' => $headers, 'json' => $requestBody]);
-                    break;
-
+            if($method == 'GET' || $method == 'DELETE') {
+                $response = $client->request($method, $endpoint, [ 'headers' => $headers ]);
+            } else {
+                $response = $client->request($method, $endpoint, [ 'headers' => $headers, 'json' => $requestBody ]);
             }
-
-
             return [
                 'statusCode' => $response->getStatusCode(),
-                'body' => $response->getBody(),
+                'body' => json_decode($response->getBody(), true)
             ];
-        }catch(Exception $ex){
+        } catch(Exception $e) {
             return [
-                'statusCode' => $ex->getCode(),
-                'message' => $ex->getMessage(),
-                'body' => null,
+                'statusCode' => $e->getCode(),
+                'message' => $e->getMessage(),
+                'body' => null
             ];
         }
-
     }
 
     public function makeAPOSTCallToShopify($data, $shopifyURL, $headers = NULL) {
