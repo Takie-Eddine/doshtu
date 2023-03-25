@@ -50,7 +50,7 @@ class InstalationController extends Controller
                         $endpoint = 'https://'.$request->shop.
                                     '/admin/oauth/authorize?client_id='.config('custom.shopify_api_key').
                                     '&scope='.config('custom.api_scopes').
-                                    '&redirect_uri='.route('app_install_redirect');
+                                    '&redirect_uri=https://doshtudashboard.doshtu.com/en/shopify/auth/redirect';
                         return Redirect::to($endpoint);
                     }
                 }else throw new Exception('shop parameter not present in the request');
