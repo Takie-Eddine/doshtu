@@ -6,7 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 
 trait RequestTrait{
-    public function makeAnAPICallToShopify($method = 'GET', $endpoint, $url_params = null, $headers, $requestBody = null){
+    public function makeAnAPICallToShopify($method , $endpoint, $url_params = null, $headers, $requestBody = null){
         //headers
         /*
         Content-Type:application/json
@@ -14,7 +14,7 @@ trait RequestTrait{
         */
         try{
             $client = new Client();
-            $response = null;
+            //$response = null;
             switch ($method) {
                 case 'GET':
                     $response = $client->request($method, $endpoint, ['headers' => $headers]);
