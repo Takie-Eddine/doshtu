@@ -130,6 +130,8 @@ class InstalationController extends Controller
                 return $body['shop'] ?? null;
             }else{
                 Log::info('Response recived for shop details');
+                Log::info($endpoint);
+                Log::info($headers);
                 Log::info($response);
                 return null;
             }
