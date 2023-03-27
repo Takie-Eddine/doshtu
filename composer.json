@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "browner12/helpers": "^3.4",
-        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/guzzle": "^7.0",
         "intervention/image": "^2.7",
         "intervention/imagecache": "^2.5",
         "laravel-validation-rules/credit-card": "^1.7",
