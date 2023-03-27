@@ -76,6 +76,7 @@ class InstalationController extends Controller
                     if($accessToken !==false && $accessToken !==null){
                         $shopDetails = $this->getShopDetailsFromShopify($shop, $accessToken);
                         $saveDetails = $this->saveStoreDetailsToDatabase($shopDetails, $accessToken);
+                        Log::info($shopDetails);
                         if($saveDetails){
                             //At this point the installation process is complete.
                             Redirect::route('app_install_complete');
