@@ -124,15 +124,12 @@ class InstalationController extends Controller
             $endpoint = getShopifyURLForStore('shop.json',['myshopify_domain' => $shop]);
             $headers = getShopifyHeadersForStore(['access_token' => $accessToken]);
             $response = $this->makeAnAPICallToShopify('GET', $endpoint, null, $headers);
-            //dd($response);
             if($response['statusCode'] == 200){
                 $body = $response['body'];
                 if(!is_array($body)) $body = json_decode($body,true);
                 return $body['shop'] ?? null;
             }else{
                 Log::info('Response recived for shop details');
-                Log::info($endpoint);
-                Log::info($headers);
                 Log::info($response);
                 return null;
             }
