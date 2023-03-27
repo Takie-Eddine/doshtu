@@ -32,7 +32,7 @@ trait RequestTrait{
                 'body' => $response->getBody(),
             ];
         }catch(Exception $ex){
-            return $ex;
+
             return [
                 'statusCode' => $ex->getCode(),
                 'message' => $ex->getMessage(),
