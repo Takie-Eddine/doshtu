@@ -12,7 +12,7 @@ trait RequestTrait{
         Content-Type:application/json
         X-Shopify-Access-Token: value
         */
-        try{
+
             $client = new Client();
             $response = null;
             switch ($method) {
@@ -31,14 +31,7 @@ trait RequestTrait{
                 'statusCode' => $response->getStatusCode(),
                 'body' => $response->getBody(),
             ];
-        }catch(Exception $ex){
-            return $ex;
-            return [
-                'statusCode' => $ex->getCode(),
-                'message' => $ex->getMessage(),
-                'body' => null,
-            ];
-        }
+
 
     }
 
