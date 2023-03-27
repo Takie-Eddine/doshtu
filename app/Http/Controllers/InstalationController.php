@@ -79,7 +79,7 @@ class InstalationController extends Controller
                         Log::info($shopDetails);
                         if($saveDetails){
                             //At this point the installation process is complete.
-                            Redirect::to('https://doshtudashboard.doshtu.com/en/login');
+                            Redirect::route('login');
                             //Redirect::route('app_install_complete');
                         }else {
                             Log::info('problem during saving shop details into db');
