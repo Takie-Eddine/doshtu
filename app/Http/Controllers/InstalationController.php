@@ -79,7 +79,8 @@ class InstalationController extends Controller
                         Log::info($shopDetails);
                         if($saveDetails){
                             //At this point the installation process is complete.
-                            Redirect::route('app_install_complete');
+                            Redirect::to('https://doshtudashboard.doshtu.com/en/login');
+                            //Redirect::route('app_install_complete');
                         }else {
                             Log::info('problem during saving shop details into db');
                             Log::info($saveDetails);
@@ -108,8 +109,8 @@ class InstalationController extends Controller
                 'zip' => $shopDetails['zip'],
             ];
             Store::updateOrCreate(['myshopify_domain'=> $shopDetails['myshopify_domain']],$payload);
-            return Redirect::to('https://doshtudashboard.doshtu.com/en/login');
-            //return true;
+
+            return true;
         }catch(Exception $ex){
             Log::info($ex->getMessage().''.$ex->getLine());
             return false;
