@@ -3,7 +3,7 @@
 namespace App\Traits ;
 
 use Exception;
-
+use GuzzleHttp\Client;
 
 trait RequestTrait{
     public function makeAnAPICallToShopify($method , $endpoint, $url_params = null, $headers, $requestBody = null){
@@ -12,8 +12,8 @@ trait RequestTrait{
         Content-Type:application/json
         X-Shopify-Access-Token: value
         */
-
-            $client = new \GuzzleHttp\Client();
+        try{
+            $client = new Client();
             $response = null;
             switch ($method) {
                 case 'GET':
@@ -31,7 +31,14 @@ trait RequestTrait{
                 'statusCode' => $response->getStatusCode(),
                 'body' => $response->getBody(),
             ];
-
+        }catch(Exception $ex){
+            return $ex;
+            return [
+                'statusCode' => $ex->getCode(),
+                'message' => $ex->getMessage(),
+                'body' => null,
+            ];
+        }
 
     }
 
