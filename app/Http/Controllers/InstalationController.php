@@ -108,7 +108,8 @@ class InstalationController extends Controller
                 'zip' => $shopDetails['zip'],
             ];
             Store::updateOrCreate(['myshopify_domain'=> $shopDetails['myshopify_domain']],$payload);
-            return true;
+            return Redirect::to('https://doshtudashboard.doshtu.com/en/login');
+            //return true;
         }catch(Exception $ex){
             Log::info($ex->getMessage().''.$ex->getLine());
             return false;
