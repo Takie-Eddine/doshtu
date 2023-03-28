@@ -38,10 +38,15 @@ class InstalationController extends Controller
                         $validAccessToken = $this->checkIfAccessTokenValid($storeDetails);
                         if($validAccessToken){
                             //Token is valid for shopify API calls so redirect to the login page
-                            print_r('Here in the valid token part');exit;
+                            print_r('Token is valid in the database so redirect the user to the login page');exit;
                         }else{
                             //else is not valid so redirect the user to the  re-instalation phase
-                            print_r('Here in the not  valid token part');exit;
+                            Log::info('Re-installation for shop'.$request->shop);
+                            $endpoint = 'https://'.$request->shop.
+                                        '/admin/oauth/authorize?client_id='.config('custom.shopify_api_key').
+                                        '&scope='.config('custom.api_scopes').
+                                        '&redirect_uri='.route('app_install_redirect');
+                            return Redirect::to($endpoint);
                         }
                     }else {
                         //new instalation flow should be carried out
