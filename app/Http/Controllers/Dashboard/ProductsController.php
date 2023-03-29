@@ -61,7 +61,7 @@ class ProductsController extends Controller
             'compare_price' => ['nullable', 'numeric'],
             'company' => ['required', Rule::exists('companies','id')],
             'shipping_time' => ['required', 'numeric'],
-            'sku' => 'required|min:3|max:10',
+            'sku' => 'required|min:3|max:50',
             'quantity' => 'nullable',
         ]);
 

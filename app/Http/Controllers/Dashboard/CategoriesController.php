@@ -23,7 +23,7 @@ class CategoriesController extends Controller
         $request = request();
         $categories = Category::with('parent')
             ->filter($request->query())
-            ->paginate();
+            ->paginate(100);
         return view('dashboard.categories.index',compact('categories'));
         // ->withCount([
         //     'products as products_count' => function($query){
