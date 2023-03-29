@@ -116,7 +116,7 @@
                                                         <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select opts" name="tags[]" multiple>
                                                             <option value="">Select Tag</option>
                                                             @forelse ($tags as $tag)
-                                                                <option value="{{$tag->id}}" @selected(old($tag->id) == $tag->id)>{{$tag->name}}</option>
+                                                                <option value="{{$tag->id}}" {{ (collect(old('tags'))->contains($tags->id)) ? 'selected':'' }}>{{$tag->name}}</option>
                                                             @empty
                                                             @endforelse
                                                             </select>
@@ -133,7 +133,7 @@
                                                         <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select" name="category[]" multiple>
                                                             <option value="">Select Category</option>
                                                             @forelse ($categories as $category)
-                                                                <option value="{{$category->id}}" @selected(old($category->id) == $category->id)>{{$category->name}}</option>
+                                                                <option value="{{$category->id}}" {{ (collect(old('category'))->contains($category->id)) ? 'selected':'' }}>{{$category->name}}</option>
                                                             @empty
                                                             @endforelse
                                                             </select>
