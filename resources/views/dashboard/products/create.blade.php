@@ -116,7 +116,7 @@
                                                         <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select opts" name="tags[]" multiple>
                                                             <option value="">Select Tag</option>
                                                             @forelse ($tags as $tag)
-                                                                <option value="{{$tag->id}}" @selected(old($tag->id) == $tag->id)>{{$tag->name}}</option>
+                                                                <option value="{{$tag->id}}" @selected(old('tag_id',$tag->id) == $tag->id)>{{$tag->name}}</option>
                                                             @empty
                                                             @endforelse
                                                             </select>
@@ -133,7 +133,7 @@
                                                         <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select" name="category[]" multiple>
                                                             <option value="">Select Category</option>
                                                             @forelse ($categories as $category)
-                                                                <option value="{{$category->id}}" @selected(old($category->id) == $category->id)>{{$category->name}}</option>
+                                                                <option value="{{$category->id}}" @selected(old('category_id', $category->id) == $category->id)>{{$category->name}}</option>
                                                             @empty
                                                             @endforelse
                                                             </select>
@@ -170,7 +170,7 @@
 
                                                         <div class="mb-1 col-md-6">
                                                             <label class="form-label" for="default_price"> Price</label>
-                                                            <input type="number" id="default_price" name="price" value="{{old('price')}}" class="form-control"  />
+                                                            <input type="text" id="default_price" name="price" value="{{old('price')}}" class="form-control"  />
                                                             @error('price')
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
