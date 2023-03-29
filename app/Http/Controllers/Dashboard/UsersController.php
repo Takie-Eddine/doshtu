@@ -90,7 +90,7 @@ class UsersController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'role_id' => 'required|numeric|exists:roles,id',
-            'email' => ['required','email',Rule::unique('companies','email')->ignore($id)],
+            'email' => ['required','email',Rule::unique('admins','email')->ignore($id)],
             'password'  => 'required_without:id|confirmed',
         ]);
 
@@ -103,7 +103,14 @@ class UsersController extends Controller
             ]);
         }
 
-        $admin->update($request->except('_token', 'id','password_confirmation'));
+        $admin->update([
+            'name'=> $request->name,
+            'role_id' => $request->role_id,
+            'email' => $request->email,
+            'password'  => Hash::make($request->password),
+        ]);
+
+        //$admin->update($request->except('_token', 'id','password','password_confirmation'));
 
         return redirect()->route('admin.user.index')->with([
             'message' => 'updated successfully',
