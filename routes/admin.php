@@ -96,6 +96,7 @@ Route::group(
                 Route::delete('/{product}/force-delete',[ProductsController::class, 'forceDelete'])->name('products.force-delete');
                 Route::get('/add_variant/{product}', [ProductsController::class, 'add_variant'])->name('products.add_variant');
                 Route::post('/store_variant', [ProductsController::class, 'store_variant'])->name('products.store_variant');
+                Route::delete('/variant/delete/{id}',[ProductsController::class, 'delete_variant'])->name('products.delete_variant');
             });
 
 

@@ -273,6 +273,35 @@ class ProductsController extends Controller
     }
 
 
+    public function delete_variant($id){
+
+        try{
+            $variant = Variant::findOrFail($id);
+
+
+
+            DB::beginTransaction();
+
+            $variant_attributes = VariantAttribute::where('variant_id',$variant->id)->delete();
+            $variant->delete();
+            DB::commit();
+            return redirect()->back()->with([
+                'message' => 'Deleted successfully',
+                'alert-type' => 'success',
+            ]);
+
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->with([
+                'message' => 'There is problem',
+                'alert-type' => 'errors',
+            ]);
+        }
+
+
+    }
+
+
 
     public function view($id){
 

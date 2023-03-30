@@ -181,6 +181,7 @@
                                             <th scope="col" class="text-nowrap">Sku</th>
                                             <th scope="col" class="text-nowrap">Price</th>
                                             <th scope="col" class="text-nowrap">Quantity</th>
+                                            <th scope="col" class="text-nowrap">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -205,6 +206,13 @@
                                                 <td class="text-nowrap">{{$variant->sku}}</td>
                                                 <td class="text-nowrap">{{$variant->price}}</td>
                                                 <td class="text-nowrap">{{$variant->quantity}}</td>
+                                                <td class="text-nowrap">
+                                                    <form action="{{route('admin.products.delete_variant',$variant->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         @empty
                                             <td colspan="7">No variants defined.</td>
