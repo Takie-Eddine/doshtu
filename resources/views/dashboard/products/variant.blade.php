@@ -166,6 +166,57 @@
             </section>
 
         </div>
+
+        <div class="content-body">
+            <div class="row" id="table-responsive">
+                <div class="col-12">
+                        <div class="card">
+                            <div class="table-responsive">
+                                <table id="varients" class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-nowrap">#</th>
+                                            <th scope="col" class="text-nowrap">Options</th>
+                                            <th scope="col" class="text-nowrap">Image</th>
+                                            <th scope="col" class="text-nowrap">Sku</th>
+                                            <th scope="col" class="text-nowrap">Price</th>
+                                            <th scope="col" class="text-nowrap">Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($variants as $variant)
+                                            <tr>
+                                                <td class="text-nowrap">{{$variant->id}}</td>
+                                                <td class="text-nowrap">
+                                                    @forelse ($variant->attributes as $name)
+                                                        {{$name->option->value}}/
+                                                    @empty
+
+                                                    @endforelse
+                                                </td>
+                                                <td class="text-nowrap"><div class="avatar">
+                                                    <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                        data-bs-placement="top" class="avatar pull-up my-0"
+                                                        title="{{ $product->name }}">
+                                                        <img src="{{ asset('assets/product_images/' . $variant->image) }}"
+                                                            alt="Avatar" height="50" width="50" />
+                                                    </div>
+                                                </div></td>
+                                                <td class="text-nowrap">{{$variant->sku}}</td>
+                                                <td class="text-nowrap">{{$variant->price}}</td>
+                                                <td class="text-nowrap">{{$variant->quantity}}</td>
+                                            </tr>
+                                        @empty
+                                            <td colspan="7">No variants defined.</td>
+                                        @endforelse
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

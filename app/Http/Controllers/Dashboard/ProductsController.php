@@ -195,7 +195,9 @@ class ProductsController extends Controller
 
         $attributes = Attribute::all();
 
-        return view('dashboard.products.variant',compact('product','attributes'));
+        $variants = Variant::where('product_id',$product->id)->get();
+
+        return view('dashboard.products.variant',compact('product','attributes','variants'));
     }
 
 

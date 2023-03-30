@@ -21,8 +21,8 @@
                     <!-- Login basic -->
                     <div class="card mb-0">
                         <div class="card-body">
-                            <a href="index.html" class="brand-logo">
-                                <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28">
+                            <a href="" class="brand-logo">
+                                {{-- <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28">
                                     <defs>
                                         <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
                                             <stop stop-color="#000000" offset="0%"></stop>
@@ -45,10 +45,19 @@
                                         </g>
                                     </g>
                                 </svg>
-                                <h2 class="brand-text text-primary ms-1">{{config('app.name')}}</h2>
+                                <h2 class="brand-text text-primary ms-1">{{config('app.name')}}</h2> --}}
+                                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1086.75 533">
+                                    <defs>
+                                        <style>.cls-1{fill:#fff;}.cls-2{font-size:89.77px;fill:#0e1530;font-family:Lato-Black, Lato;font-weight:800;}.cls-3{fill:#f50c44;}</style>
+                                    </defs>
+                                    <rect class="cls-1" width="1086.75" height="533"/>
+                                    <text class="cls-2" transform="translate(432.85 299.87)">DOSHTU</text>
+                                    <path class="cls-3" d="M404.66,225.65l-62-35.78a13.77,13.77,0,0,0-13.77,0l-62,35.78a13.77,13.77,0,0,0-6.88,11.93V295.4A13.77,13.77,0,0,0,267,307.32l62,35.78a13.77,13.77,0,0,0,13.77,0l62-35.78a13.77,13.77,0,0,0,6.9-11.92V237.58A13.77,13.77,0,0,0,404.66,225.65ZM377,277.49,351.33,292.3V262.75L317.21,243l24.6-15.41L377,247.94Z"/>
+                                    <polygon class="cls-1" points="376.98 247.94 376.98 277.49 351.33 292.3 351.33 262.75 317.21 243.04 341.81 227.63 376.98 247.94"/>
+                                </svg>
                             </a>
 
-                            <h4 class="card-title mb-1">Welcome to Vuexy! 👋</h4>
+                            <h4 class="card-title mb-1">Welcome to Doshtu! 👋</h4>
                             <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
 
                             <form class="auth-login-form mt-2" action="{{route('admin.login')}}" method="POST">
