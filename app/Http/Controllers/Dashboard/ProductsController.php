@@ -65,7 +65,7 @@ class ProductsController extends Controller
             'quantity' => 'nullable',
         ]);
 
-        try{
+        // try{
             DB::beginTransaction();
 
             $product = Product::create([
@@ -128,10 +128,10 @@ class ProductsController extends Controller
                 'alert-type' => 'success',
             ]);
 
-        }catch(Exception $ex){
-            DB::rollback();
-            return redirect()->route('admin.products.index')->with($ex->getMessage());
-        }
+        // }catch(Exception $ex){
+        //     DB::rollback();
+        //     return redirect()->route('admin.products.index')->with($ex->getMessage());
+        // }
 
 
     }
@@ -146,15 +146,35 @@ class ProductsController extends Controller
     public function edit($id){
 
         $product = Product::findOrFail($id);
+        $categories = Category::all();
+        $companies = Company::all();
         $tags = Tag::all();
 
-        return view('dashboard.products.edit', compact('product', 'tags'));
+        return view('dashboard.products.edit', compact('product', 'tags', 'categories', 'companies'));
     }
 
 
 
     public function update(Request $request, $id){
 
+        $request->validate([
+            'name_ar' => ['required', 'string', 'min:4', 'max:255'],
+            'name_en' => ['required', 'string', 'min:4', 'max:255'],
+            'description_ar' => ['required', 'min:50'],
+            'description_en' => ['required', 'min:50'],
+            'tags' => ['required', 'array', 'min:1'],
+            'category' => ['required', Rule::exists('categories','id'), 'array', 'min:1'],
+            'image' => 'nullable|array|min:1',
+            'image.*' => 'mimes:jpg,jpeg,png',
+            'price' => ['required','numeric'],
+            'selling_price' => ['nullable', 'numeric'],
+            'global_price' => ['nullable', 'numeric'],
+            'compare_price' => ['nullable', 'numeric'],
+            'company' => ['required', Rule::exists('companies','id')],
+            'shipping_time' => ['required', 'numeric'],
+            'sku' => 'required|min:3|max:50',
+            'quantity' => 'nullable',
+        ]);
     }
 
 

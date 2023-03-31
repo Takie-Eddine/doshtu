@@ -1,10 +1,18 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title','Edit')
+@section('title','Edit Product')
 
 
 @push('style')
-
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/forms/select/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/file-uploaders/dropzone.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/plugins/forms/form-file-uploader.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/katex.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/monokai-sublime.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/quill.snow.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/quill.bubble.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/plugins/forms/form-quill-editor.css') }}">
 @endpush
 
 @section('content')
@@ -17,12 +25,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-start mb-0">Category</h2>
+                        <h2 class="content-header-title float-start mb-0">Product</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.categories.index')}}">Categories</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.products.index')}}">Products</a>
                                 </li>
                                 <li class="breadcrumb-item active"><a >Edit</a>
                                 </li>
@@ -35,83 +43,235 @@
             </div>
         </div>
         <div class="content-body">
-            <!-- Basic multiple Column Form section start -->
-            <section id="multiple-column-form">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            @include('dashboard.layouts.alerts.flash')
-                            <div class="card-header">
-                                <h4 class="card-title">Edit {{$category->name}}</h4>
-                            </div>
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <h5>Error Occured!</h5>
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{$error}}</li>
-                                            @endforeach
-                                        </ul>
+            <div class="blog-edit-wrapper">
+                @include('dashboard.layouts.alerts.flash')
+
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <h5>Error Occured!</h5>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{route('admin.products.update', $product->id)}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start">
+                                        <div class="author-info">
+                                            <h4 class="mb-25">Edit {{$product->name}}</h4>
+                                        </div>
                                     </div>
-                                @endif
-                            <div class="card-body">
-                                <form class="form" action="{{route('admin.categories.update',$category->id)}}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="first-name-column">Arabic Name</label>
-                                                <input type="text" id="first-name-column" class="form-control" placeholder="Arabic Name" name="name_ar" value="{{$category->getTranslation('name','ar')}}" />
+                                    <div class="col-12">
+                                        <div class="col-md-12 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Arabic Title</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" value="{{$product->getTranslation('name','ar')}}" name="name_ar" />
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="last-name-column">English Name</label>
-                                                <input type="text" id="last-name-column" class="form-control" placeholder="English Name" name="name_en" value="{{$category->getTranslation('name','en')}}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 mb-1">
-                                            <label class="form-label" class="d-block">Category Parent</label>
-                                                <select name="parent_id" class="form-control" id="">
-                                                    <option value="">Primary Category</option>
-                                                    @foreach ($categories as $parent)
-                                                        <option value="{{$parent->id }}" @selected($category->parent_id == $parent->id)>{{$parent->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                        </div>
-                                        <div class="col-12 col-sm-6 mb-1">
-                                            <label class="form-label" class="d-block">Status</label>
-                                                <select name="status" class="form-control" id="">
-                                                    <option value="active" {{$category->status == 'active' ? 'selected' : null}} >Active</option>
-                                                    <option value="archived" {{$category->status == 'archived' ? 'selected' : null}} >Archived</option>
-                                                </select>
+                                            @error('name')
+                                                <span class="text-danger"> {{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-12 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="first-name-column">Description</label>
-                                                <textarea name="description" id="textarea-counter" class="form-control char-textarea" cols="30" rows="2">{{$category->description}}</textarea>
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">English Title</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" value="{{$product->getTranslation('name','en')}}" name="name_en" />
                                             </div>
-                                            <small class="textarea-counter-value float-end"><span class="char-count">0</span> / 10 </small>
+                                                @error('name')
+                                                    <span class="text-danger"> {{ $message }}</span>
+                                                @enderror
                                         </div>
-                                        <div class="col-md-12 col-12">
-                                            <div class="mb-1">
-                                                <input type="file" id="last-name-column" id="category-images" class="file" data-preview-file-type="text" placeholder="" name="image" />
-                                                <span class="form-text text-muted">Image width should be 500px x 500px</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label">Arabic Description</label>
+                                                <textarea name="description_ar" class="form-control summernote" >{!!($product->getTranslation('description','ar'))!!}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                            <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                                            <div class="mb-2">
+                                                <label class="form-label">English Description</label>
+                                                <textarea name="description_en" class="form-control summernote" >{!!($product->getTranslation('description','en'))!!}</textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
+                                    <div class="col-12 mb-2">
+                                        <div class="col-md-12 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="default-select-multi">Tags</label>
+                                                <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select opts" name="tags[]" multiple>
+                                                    <option value="">Select Tag</option>
+                                                    @forelse ($tags as $tag)
+                                                        <option value="{{$tag->id}}" {{in_array($tag->id,$product->tags->pluck('id')->toArray())? 'selected' : null }}>{{$tag->name}}</option>
+                                                    @empty
+                                                    @endforelse
+                                                </select>
+                                                @error('tags.0')
+                                                    <span class="text-danger"> {{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="default-select-multi">Categories</label>
+                                                <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select" name="category[]" multiple>
+                                                    <option value="">Select Category</option>
+                                                    @forelse ($categories as $category)
+                                                        <option value="{{$category->id}}" {{in_array($category->id,$product->categories->pluck('id')->toArray())? 'selected' : null }}>{{$category->name}}</option>
+                                                    @empty
+                                                    @endforelse
+                                                </select>
+                                                @error('category.0')
+                                                    <span class="text-danger"> {{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <!-- Basic Floating Label Form section end -->
+                        <div class="col-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 mb-2">
+                                            <div class="border rounded p-2">
+                                                <h4 class="mb-1">Thumbnail  Image</h4>
+                                                        <div class="form-group files color">
+                                                            <input type="file"  id="" class="file" data-preview-file-type="text" placeholder="" name="photo" />
+                                                <span class="form-text text-muted">Image width should be 500px x 500px</span>
+                                                        </div>
+                                            </div>
+                                            <div class="border rounded p-2">
+                                                <h4 class="mb-1">Details</h4>
+                                                <div class="d-flex flex-column flex-md-row">
+                                                    <div class="row">
 
+                                                        <div class="mb-1 col-md-6">
+                                                            <label class="form-label" for="default_price"> Price</label>
+                                                            <input type="text" id="default_price" name="price" value="{{$product->price}}" class="form-control"  />
+                                                            @error('price')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="mb-1 col-md-6">
+                                                            <label class="form-label" for="default_price">Selling Price</label>
+                                                            <input type="number" id="default_price" name="selling_price" value="{{$product->selling_price}}" class="form-control"  />
+                                                            @error('selling_price')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                        {{-- <label for="">profit margin:</label> --}}
+
+                                                    </div>
+                                                </div>
+                                                    <div class="d-flex flex-column flex-md-row">
+                                                        <div class="row">
+
+                                                            <div class="mb-1 col-md-6">
+                                                                <label class="form-label" for="default_price">Global Price</label>
+                                                                <input type="number" id="default_price" name="global_price" value="{{$product->global_price}}" class="form-control"  />
+                                                                @error('global_price')
+                                                                    <span class="text-danger"> {{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-1 col-md-6">
+                                                                <label class="form-label" for="default_price">Compare Price</label>
+                                                                <input type="number" id="default_price" name="compare_price" value="{{$product->compare_price}}" class="form-control"  />
+                                                                @error('compare_price')
+                                                                    <span class="text-danger"> {{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                            {{-- <label for="">profit margin:</label> --}}
+
+                                                        </div>
+                                                </div>
+                                                <hr>
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="mb-1 col-md-6">
+                                                            <label class="form-label" for="default_price"> SKU </label>
+                                                            <input type="text" id="default_price" name="sku" value="{{$product->sku}}" class="form-control"  />
+                                                            @error('sku')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="mb-1 col-md-6">
+                                                            <label class="form-label" for="default_price"> Quantity </label>
+                                                            <input type="number" id="quantity" name="quantity" value="{{$product->quantity}}" class="form-control"  />
+                                                            @error('quantity')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="mb-1 col-md-6">
+                                                            <label class="form-label" for="company"> Company</label>
+                                                            <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select" name="company" >
+                                                                <option value="">Select Company</option>
+                                                                @forelse ($companies as $company)
+                                                                    <option value="{{$company->id}}" @selected($company->id == $product->company_id)>{{$company->company_name}}</option>
+                                                                @empty
+                                                                @endforelse
+                                                                </select>
+                                                            @error('company')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="mb-1 col-md-6">
+                                                            <label class="form-label" for="default_price"> Shipping Time</label>
+                                                            <input type="number" id="default_price" name="shipping_time" value="{{$product->shipping_time}}" class="form-control"  />
+                                                            @error('shipping_time')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    {{-- <a href="" class="btn btn-light btn-wishlist">
+                                                        <i data-feather="edit"></i>
+                                                        <span>Add Variants</span>
+                                                    </a> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 mb-2">
+                                            <div class="border rounded p-2">
+                                                <h4 class="mb-1">Gallery</h4>
+                                                        <div class="form-group files color">
+                                                            <input type="file"  id="images" class="file" data-preview-file-type="text" placeholder="" name="image[]" multiple/>
+                                                <span class="form-text text-muted">Image width should be 500px x 500px</span>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary me-1">Save</button>
+                            <button type="reset" onclick="history.back()" class="btn btn-outline-secondary">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -120,5 +280,56 @@
 
 
 @push('script')
+<script src="{{ asset('app-assets/vendors/js/file-uploaders/dropzone.min.js') }}"></script>
+<script src="{{ asset('app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+<script src="{{ asset('app-assets/js/scripts/forms/form-select2.js') }}"></script>
+<script src="{{ asset('app-assets/js/scripts/forms/form-file-uploader.js') }}"></script>
+<script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.js') }}"></script>
+<script>
+    $(function(){
 
+        $('.summernote').summernote({
+                tabSize: 2,
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+        })
+
+    });
+</script>
+<script>
+    $(".opts").select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+    })
+</script>
+<script>
+    $(function(){
+
+        $("#image").fileinput({
+
+            theme:'fas',
+            maxFilesize: 5,
+            maxFileCount: 10,
+            allowedFileTypes:['image'],
+            showCancel :true ,
+            showRemove: false,
+            showUpload: false,
+            overwriteInitial:false,
+
+        });
+
+
+    });
+</script>
 @endpush
