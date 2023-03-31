@@ -54,6 +54,8 @@ class ProductsController extends Controller
             'description_en' => ['required', 'min:50'],
             'tags' => ['required', 'array', 'min:1'],
             'category' => ['required', Rule::exists('categories','id'), 'array', 'min:1'],
+            'photo' => 'nullable',
+            'photo.*'=> 'mimes:jpg,jpeg,png',
             'image' => 'nullable|array|min:1',
             'image.*' => 'mimes:jpg,jpeg,png',
             'price' => ['required','numeric'],
@@ -69,12 +71,23 @@ class ProductsController extends Controller
         try{
             DB::beginTransaction();
 
+            $file_name = null;
+            if ($request->file('photo')) {
+
+                $file_name = Str::slug($request->name_en).".".rand(00,99).".".$request->photo->getClientOriginalExtension();
+                    $path = public_path('/assets/product_images/' .$file_name);
+                    Image::make($request->photo->getRealPath())->resize(500,null,function($constraint){
+                        $constraint->aspectRatio();
+                    })->save($path,100);
+            }
+
             $product = Product::create([
                 'company_id' => $request->company,
                 //'category_id' => $request-> category,
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar] ,
                 'slug' => Str::slug($request->name_en) ,
                 'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
+                'image' => $file_name,
                 'price' => $request->price ,
                 'selling_price' => $request->selling_price ,
                 'compare_price' => $request->compare_price ,

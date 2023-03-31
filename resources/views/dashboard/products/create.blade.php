@@ -157,9 +157,9 @@
                                     <div class="row">
                                         <div class="col-12 mb-2">
                                             <div class="border rounded p-2">
-                                                <h4 class="mb-1">Images</h4>
+                                                <h4 class="mb-1">Thumbnail  Image</h4>
                                                         <div class="form-group files color">
-                                                            <input type="file"  id="images" class="file" data-preview-file-type="text" placeholder="" name="image[]" multiple/>
+                                                            <input type="file"  id="" class="file" data-preview-file-type="text" placeholder="" name="photo" />
                                                 <span class="form-text text-muted">Image width should be 500px x 500px</span>
                                                         </div>
                                             </div>
@@ -253,6 +253,24 @@
                                                         <span>Add Variants</span>
                                                     </a> --}}
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 mb-2">
+                                            <div class="border rounded p-2">
+                                                <h4 class="mb-1">Gallery</h4>
+                                                        <div class="form-group files color">
+                                                            <input type="file"  id="images" class="file" data-preview-file-type="text" placeholder="" name="image[]" multiple/>
+                                                <span class="form-text text-muted">Image width should be 500px x 500px</span>
+                                                        </div>
                                             </div>
                                         </div>
                                     </div>
