@@ -91,4 +91,18 @@ class RolePermissionsController extends Controller
         $role->save();
         return $role;
     }
+    public function delete(Request $request,$id){
+
+        //return $request;
+        $role = RoleUser::findOrFail($id);
+
+        $role->delete();
+
+        return redirect()->back()->with([
+            'success' => 'delete successfully',
+            'alert-type' => 'success',
+        ]);
+
+
+    }
 }

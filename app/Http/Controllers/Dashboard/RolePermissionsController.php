@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\RoleAdmin;
 use Illuminate\Http\Request;
 
@@ -91,6 +92,23 @@ class RolePermissionsController extends Controller
         $role->permissions = json_encode($r->permissions);
         $role->save();
         return $role;
+    }
+
+
+
+    public function delete(Request $request,$id){
+
+        //return $request;
+        $role = RoleAdmin::findOrFail($id);
+
+        $role->delete();
+
+        return redirect()->back()->with([
+            'success' => 'delete successfully',
+            'alert-type' => 'success',
+        ]);
+
+
     }
 
 }

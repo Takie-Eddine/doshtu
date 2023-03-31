@@ -64,6 +64,7 @@ Route::group(
             Route::post('/store', [RolePermissionsController::class, 'store'])->name('role-permissions.store');
             Route::get('/edit/{id}', [RolePermissionsController::class, 'edit'])->name('role-permissions.edit');
             Route::post('/update/{id}', [RolePermissionsController::class, 'update'])->name('role-permissions.update');
+            Route::delete('/delete/{id}', [RolePermissionsController::class, 'delete'])->name('role-permissions.delete');
 
         });
 
