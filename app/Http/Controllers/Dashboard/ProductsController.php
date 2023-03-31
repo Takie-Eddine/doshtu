@@ -14,6 +14,7 @@ use App\Models\VariantAttribute;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as Image;
@@ -65,7 +66,7 @@ class ProductsController extends Controller
             'quantity' => 'nullable',
         ]);
 
-        // try{
+        try{
             DB::beginTransaction();
 
             $product = Product::create([
@@ -128,10 +129,10 @@ class ProductsController extends Controller
                 'alert-type' => 'success',
             ]);
 
-        // }catch(Exception $ex){
-        //     DB::rollback();
-        //     return redirect()->route('admin.products.index')->with($ex->getMessage());
-        // }
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->route('admin.products.index')->with($ex->getMessage());
+        }
 
 
     }
@@ -166,6 +167,8 @@ class ProductsController extends Controller
             'category' => ['required', Rule::exists('categories','id'), 'array', 'min:1'],
             'image' => 'nullable|array|min:1',
             'image.*' => 'mimes:jpg,jpeg,png',
+            'photo' => 'nullable',
+            'photo.*'=> 'mimes:jpg,jpeg,png',
             'price' => ['required','numeric'],
             'selling_price' => ['nullable', 'numeric'],
             'global_price' => ['nullable', 'numeric'],
@@ -175,6 +178,92 @@ class ProductsController extends Controller
             'sku' => 'required|min:3|max:50',
             'quantity' => 'nullable',
         ]);
+
+        $product = Product::findOrFail($id);
+        try{
+            DB::beginTransaction();
+
+            $file_name = null;
+            if ($request->file('photo')) {
+                if(File::exists('assets/product_images/'.$product->image) && $product->image) {
+                    unlink('assets/product_images/'.$product->image);
+                    $product->image = null ;
+                    $product->save();
+                }
+                $file_name = Str::slug($request->name_en).".".rand(00,99).".".$request->photo->getClientOriginalExtension();
+                    $path = public_path('/assets/product_images/' .$file_name);
+                    Image::make($request->photo->getRealPath())->resize(500,null,function($constraint){
+                        $constraint->aspectRatio();
+                    })->save($path,100);
+            }
+
+            $product->update([
+                'company_id' => $request->company,
+                //'category_id' => $request-> category,
+                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar] ,
+                'slug' => Str::slug($request->name_en) ,
+                'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
+                'image' => $file_name,
+                'price' => $request->price ,
+                'selling_price' => $request->selling_price ,
+                'compare_price' => $request->compare_price ,
+                'global_price' => $request->global_price ,
+                'status' => 'active' ,
+                'shipping_time' => $request->shipping_time ,
+                'sku' => $request->sku ,
+                'quantity' => $request->quantity ,
+            ]);
+            $product->categories()->sync($request->category);
+
+            $tags = $request->post('tags');
+            $tag_ids = [];
+            $saved_tags = Tag::all();
+
+            foreach ($tags as $item) {
+
+                $slug = Str::slug($item);
+                $tag = $saved_tags->where('slug', $slug)->first();
+
+                if (!$tag) {
+                    $tag = Tag::create([
+                        'name' => $item,
+                        'slug' => $slug,
+                    ]);
+                }
+                $tag_ids[] = $tag->id;
+            };
+            $product->tags()->sync($tag_ids);
+
+
+
+            if ($request->image && $request->image >0) {
+
+                foreach ($request->image as $value) {
+                    $file_name = Str::slug($request->name_en).".".rand(00,99).".".$value->getClientOriginalExtension();
+                    $path = public_path('/assets/product_images/' .$file_name);
+                    Image::make($value->getRealPath())->resize(500,null,function($constraint){
+                        $constraint->aspectRatio();
+                    })->save($path,100);
+                    ProductImage::create([
+                        'product_id' =>$product->id,
+                        'name' => $file_name,
+                    ]);
+                };
+            };
+
+
+            DB::commit();
+            return redirect()->route('admin.products.index')->with([
+                'message' => 'Created successfully',
+                'alert-type' => 'success',
+            ]);
+
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->route('admin.products.index')->with($ex->getMessage());
+        }
+
+
     }
 
 
