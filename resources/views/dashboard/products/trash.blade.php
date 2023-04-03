@@ -73,7 +73,10 @@
                                         <tr>
                                             <td><img src="{{$product->image_url}}" height="100" width="100" ></td>
                                             <td>{{$product->id}}</td>
-                                            <td>{{$product->category->name }}</td>
+                                            <td>@forelse ($product->categories as $item)
+                                                {{$item->name}},
+                                            @empty
+                                            @endforelse</td>
                                             <td>{{$product->company->company_name }}</td>
                                             <td>{{$product->status}}</td>
                                             <td>{{$product->created_at}}</td>
