@@ -110,7 +110,7 @@
                                                 <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select opts" name="tags[]" multiple>
                                                     <option value="">Select Tag</option>
                                                     @forelse ($tags as $tag)
-                                                        <option value="{{$tag->id}}" {{in_array($tag->id,$product->tags->pluck('id')->toArray())? 'selected' : null }}>{{$tag->name}}</option>
+                                                        <option value="{{$tag->id}}" {{in_array($tag->id,$product->tags->pluck('name')->toArray())? 'selected' : null }}>{{$tag->name}}</option>
                                                     @empty
                                                     @endforelse
                                                 </select>
