@@ -84,22 +84,26 @@ class UsersController extends Controller
 
 
     public function update(Request $request,$id){
-        //return $request;
-
-
+        //return $request ;
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'role_id' => 'required|numeric|exists:roles,id',
+            'role_id' => ['required',Rule::exists('role_admins','id')],
             'email' => ['required','email',Rule::unique('admins','email')->ignore($id)],
             'password'  => 'required_without:id|confirmed',
         ]);
-
         $admin = Admin::find($id);
-
         if (!$admin) {
             return redirect()->back()-> with([
                 'message' => 'this user does not exist',
                 'alert-type' => 'danger',
+            ]);
+        }
+        if ($request->password) {
+            $admin->update([
+                'name'=> $request->name,
+                'role_id' => $request->role_id,
+                'email' => $request->email,
+                'password'  => Hash::make($request->password),
             ]);
         }
 
@@ -107,10 +111,7 @@ class UsersController extends Controller
             'name'=> $request->name,
             'role_id' => $request->role_id,
             'email' => $request->email,
-            'password'  => Hash::make($request->password),
         ]);
-
-        //$admin->update($request->except('_token', 'id','password','password_confirmation'));
 
         return redirect()->route('admin.user.index')->with([
             'message' => 'updated successfully',

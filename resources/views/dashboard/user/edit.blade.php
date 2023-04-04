@@ -90,7 +90,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="company-column">Password</label>
-                                                <input type="password" id="password-column" class="form-control" value="{{$admin->password}}" name="password" placeholder="Password" />
+                                                <input type="password" id="password-column" class="form-control" value="" name="password" placeholder="Password" />
                                             </div>
                                             @error('password')
                                                     <span class="text-danger"> {{ $message }}</span>
@@ -99,7 +99,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="company-column">Password Confirmation</label>
-                                                <input type="password" id="" class="form-control" value="{{$admin->password}}" name="password_confirmation" placeholder="Confirm Password" />
+                                                <input type="password" id="" class="form-control" value="" name="password_confirmation" placeholder="Confirm Password" />
                                             </div>
                                             @error('password')
                                                     <span class="text-danger"> {{ $message }}</span>
