@@ -65,7 +65,7 @@
                             <!-- header section -->
                             <div class="d-flex">
                                 <a href="#" class="me-25">
-                                    <img src="{{asset('assets/profile_images/' .$admin->photo)}}" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profile image" height="100" width="100" />
+                                    <img src="{{asset('assets/profile_images/'.$admin->profile->photo)}}" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profile image" height="100" width="100" />
                                 </a>
                                 <!-- upload and reset button -->
 
@@ -78,11 +78,11 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-6 mb-1">
                                         <h5> First Name : </h5>
-                                        <span> {{$admin->first_name}}</span>
+                                        <span> {{$admin->profile->first_name}}</span>
                                     </div>
                                     <div class="col-12 col-sm-6 mb-1">
                                         <h5> Last Name : </h5>
-                                        <span> {{$admin->first_name}}</span>
+                                        <span> {{$admin->profile->last_name}}</span>
                                     </div>
                                     <div class="col-12 col-sm-6 mb-1">
                                         <h5> Email : </h5>
