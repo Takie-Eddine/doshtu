@@ -154,6 +154,9 @@ class ProductsController extends Controller
 
     public function show (Product $product){
 
+        //return $product->variants[0]->attributes;
+        return view('dashboard.products.show',compact('product'));
+
     }
 
 
