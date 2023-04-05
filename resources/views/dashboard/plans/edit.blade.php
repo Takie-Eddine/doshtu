@@ -54,7 +54,7 @@
                                     </div>
                                 @endif
 
-                                <form action="{{route('admin.plans.update',$plan->id)}}" method="POST" class="mt-2">
+                                <form action="{{route('admin.plans.update',$plan->id)}}" method="POST" class="mt-2" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 col-12">
@@ -92,6 +92,12 @@
                                             <div class="mb-2">
                                                 <label class="form-label">English Description</label>
                                                 <textarea name="description_en" class="form-control summernote" >{!!$plan->getTranslation('description','en')!!}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-12">
+                                            <div class="mb-1">
+                                                <input type="file" id="last-name-column" id="category-images" class="file" data-preview-file-type="text" placeholder="" name="image" value="{{old('image')}}"/>
+                                                <span class="form-text text-muted">Image width should be 500px x 500px</span>
                                             </div>
                                         </div>
                                         <div class="col-12 mt-50">

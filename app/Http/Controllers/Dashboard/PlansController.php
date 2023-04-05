@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str ;
+use Intervention\Image\Facades\Image as Image;
 
 class PlansController extends Controller
 {
@@ -29,9 +32,22 @@ class PlansController extends Controller
             'name_en' => ['required', 'string', Rule::unique('plans','name')],
             'description_ar' => ['required'],
             'description_en' => ['required'],
+            'image' => ['nullable'],
+            'image.*' => 'mimes:jpg,jpeg,png,svg',
             'annualy_price' => ['nullable', 'numeric:decimal'],
             'monthly_price' => ['nullable', 'numeric:decimal'],
         ]);
+
+        if ($photo = $request->file('image')) {
+            $file_name = Str::slug($request->name_en).".".$photo->getClientOriginalExtension();
+            $path = public_path('/assets/plan_images/' .$file_name);
+            Image::make($photo->getRealPath())->resize(500,null,function($constraint){
+                $constraint->aspectRatio();
+            })->save($path,100);
+
+            $request-> image =  $file_name;
+            //return $input['photo'];
+        }
 
         Plan::create([
             'name' => [
@@ -42,6 +58,7 @@ class PlansController extends Controller
                         'ar'=>$request->description_ar,
                         'en'=>$request->description_en,
                     ],
+            'image' => $request-> image,
             'annual_price' => $request->annualy_price,
             'monthly_price' => $request->monthly_price,
         ]);
@@ -62,15 +79,36 @@ class PlansController extends Controller
 
 
     public function update(Request $request, $id){
+        //return $request ;
         $request->validate([
             'name_ar' => ['required', 'string', Rule::unique('plans','name')->ignore($id)],
             'name_en' => ['required', 'string', Rule::unique('plans','name')->ignore($id)],
             'description_ar' => ['required'],
             'description_en' => ['required'],
+            'image' => ['nullable'],
+            'image.*' => 'mimes:jpg,jpeg,png,svg',
             'annualy_price' => ['nullable', 'numeric:decimal'],
             'monthly_price' => ['nullable', 'numeric:decimal'],
         ]);
+
         $plan = Plan::findOrFail($id);
+
+        if ($photo = $request->file('image')) {
+            if(File::exists('assets/plan_images/'.$plan->image) && $plan->image) {
+                unlink('assets/plan_images/'.$plan->image);
+                $plan->image = null ;
+                $plan->save();
+            }
+            $file_name = Str::slug($request->name_en).".".$photo->getClientOriginalExtension();
+            $path = public_path('/assets/plan_images/' .$file_name);
+            Image::make($photo->getRealPath())->resize(100,null,function($constraint){
+                $constraint->aspectRatio();
+            })->save($path,100);
+
+            $plan->update([
+                'image' => $file_name,
+            ]) ;
+        }
 
         $plan->update([
             'name' => [

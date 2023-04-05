@@ -46,7 +46,7 @@
                                 <div class="col-12 col-md-4">
                                     <div class="card standard-pricing popular text-center">
                                         <div class="card-body">
-                                            <img src="{{asset('app-assets/images/illustration/Pot2.svg')}}" class="mb-1" alt="svg img" />
+                                            <img src="{{asset('assets/plan_images/'.$plan->image)}}" class="mb-1" alt="svg img" />
                                             <h1 > <b>{{$plan->name}}</b></h1>
                                             {{-- <p class="card-text">For small to medium businesses</p> --}}
                                             <div class="annual-plan">
