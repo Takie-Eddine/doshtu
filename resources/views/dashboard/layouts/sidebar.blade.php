@@ -39,28 +39,64 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span><span class="badge badge-light-warning rounded-pill ms-auto me-1"></span></a>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.role-permissions.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Role & Permissions</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.user.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Users</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.categories.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Categories</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.suppliers.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Companies Owners</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.clients.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Clients</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.companies.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Manufactories</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.tags.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Tags</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.attributes.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Attributes</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.plans.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Plans</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.subscriptions.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Subscriptions</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.products.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Products</span></a>
-            </li>
+
+            @can('category')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.categories.index')}}"><i data-feather='menu'></i><span class="menu-title text-truncate" data-i18n="Email">Categories</span></a>
+                </li>
+            @endcan
+
+            @can('product')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.products.index')}}"><i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Email">Products</span></a>
+                </li>
+            @endcan
+
+            @can('role-permission')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.role-permissions.index')}}"><i data-feather='shield'></i></i><span class="menu-title text-truncate" data-i18n="Email">Role & Permissions</span></a>
+                </li>
+            @endcan
+
+            @can('user')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.user.index')}}"><i data-feather='user'></i><span class="menu-title text-truncate" data-i18n="Email">Users</span></a>
+                </li>
+            @endcan
+
+            @can('company')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.companies.index')}}"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="Email">Manufactories</span></a>
+                </li>
+            @endcan
+
+            @can('supplier')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.suppliers.index')}}"><i data-feather='users'></i></i><span class="menu-title text-truncate" data-i18n="Email">Companies Owners</span></a>
+                </li>
+            @endcan
+
+            @can('client')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.clients.index')}}"><i data-feather='shopping-cart'></i></i><span class="menu-title text-truncate" data-i18n="Email">E-store Owners</span></a>
+                </li>
+            @endcan
+
+            @can('tag')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.tags.index')}}"><i data-feather='tag'></i></i><span class="menu-title text-truncate" data-i18n="Email">Tags</span></a>
+                </li>
+            @endcan
+
+            @can('attribute')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.attributes.index')}}"><i data-feather='list'></i><span class="menu-title text-truncate" data-i18n="Email">Attributes</span></a>
+                </li>
+            @endcan
+
+            @can('plan')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.plans.index')}}"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="Email">Plans</span></a>
+                </li>
+            @endcan
+
+            @can('subscription')
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.subscriptions.index')}}"><i data-feather='bookmark'></i></i><span class="menu-title text-truncate" data-i18n="Email">Subscriptions</span></a>
+                </li>
+            @endcan
+
+
+
 
         </ul>
     </div>

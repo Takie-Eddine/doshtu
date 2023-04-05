@@ -40,7 +40,7 @@ Route::group(
             Route::get('/',[DashboardController::class,'index'])->name('dashboard');
 
 
-            Route::group(['prefix'=>'profile' ],function(){
+            Route::group(['prefix'=>'profile', 'middleware'=>'can:profile'  ],function(){
                 Route::get('/', [ProfileController::class, 'index'])->name('profile');
                 Route::patch('/update', [ProfileController::class, 'update'])->name('profile.update');
                 Route::get('/security', [ProfileController::class, 'security'])->name('profile.security');
@@ -49,7 +49,7 @@ Route::group(
 
 
 
-            Route::group(['prefix' =>'roles-permission'], function () {
+            Route::group(['prefix' =>'roles-permission', 'middleware'=>'can:role-permission'], function () {
                 Route::get('/roles-permissions', [RolePermissionsController::class, 'rolepermission'])->name('role-permissions.index');
                 Route::get('/create', [RolePermissionsController::class, 'create'])->name('role-permissions.create');
                 Route::post('/store', [RolePermissionsController::class, 'store'])->name('role-permissions.store');
@@ -59,7 +59,7 @@ Route::group(
 
             });
 
-            Route::group(['prefix' => 'users' ], function () {
+            Route::group(['prefix' => 'users', 'middleware'=>'can:user' ], function () {
                 Route::get('/', [UsersController::class, 'index'])->name('user.index');
                 Route::get('create', [UsersController::class, 'create'])->name('user.create');
                 Route::post('store', [UsersController::class, 'store'])->name('user.store');
@@ -70,7 +70,7 @@ Route::group(
 
             });
 
-            Route::group(['prefix' => 'categories' ], function () {
+            Route::group(['prefix' => 'categories', 'middleware'=>'can:category' ], function () {
                 Route::get('/', [CategoriesController::class, 'index'])->name('categories.index');
                 Route::get('create', [categoriesController::class, 'create'])->name('categories.create');
                 Route::post('store', [categoriesController::class, 'store'])->name('categories.store');
@@ -84,7 +84,7 @@ Route::group(
             });
 
 
-            Route::group(['prefix' => 'products' ], function () {
+            Route::group(['prefix' => 'products', 'middleware'=>'can:product' ], function () {
                 Route::get('/', [ProductsController::class, 'index'])->name('products.index');
                 Route::get('create', [ProductsController::class, 'create'])->name('products.create');
                 Route::post('store', [ProductsController::class, 'store'])->name('products.store');
@@ -102,7 +102,7 @@ Route::group(
 
 
 
-            Route::group(['prefix' => 'suppliers' ], function () {
+            Route::group(['prefix' => 'suppliers', 'middleware'=>'can:supplier' ], function () {
                 Route::get('/', [SupplierController::class, 'index'])->name('suppliers.index');
                 Route::get('create', [SupplierController::class, 'create'])->name('suppliers.create');
                 Route::post('store', [SupplierController::class, 'store'])->name('suppliers.store');
@@ -116,7 +116,7 @@ Route::group(
             });
 
 
-            Route::group(['prefix' => 'clients' ], function () {
+            Route::group(['prefix' => 'clients', 'middleware'=>'can:client' ], function () {
                 Route::get('/', [ClientController::class, 'index'])->name('clients.index');
                 Route::get('create', [ClientController::class, 'create'])->name('clients.create');
                 Route::post('store', [ClientController::class, 'store'])->name('clients.store');
@@ -131,7 +131,7 @@ Route::group(
 
 
 
-            Route::group(['prefix' => 'companies' ], function () {
+            Route::group(['prefix' => 'companies', 'middleware'=>'can:company' ], function () {
                 Route::get('/', [CompaniesController::class, 'index'])->name('companies.index');
                 Route::get('create', [CompaniesController::class, 'create'])->name('companies.create');
                 Route::post('store', [CompaniesController::class, 'store'])->name('companies.store');
@@ -144,7 +144,7 @@ Route::group(
                 Route::delete('/{company}/force-delete',[CompaniesController::class, 'forceDelete'])->name('companies.force-delete');
             });
 
-            Route::group(['prefix' => 'tags' ], function () {
+            Route::group(['prefix' => 'tags', 'middleware'=>'can:tag' ], function () {
                 Route::get('/', [TagController::class, 'index'])->name('tags.index');
                 Route::get('create', [TagController::class, 'create'])->name('tags.create');
                 Route::post('store', [TagController::class, 'store'])->name('tags.store');
@@ -153,7 +153,7 @@ Route::group(
                 Route::delete('destroy/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
             });
 
-            Route::group(['prefix' => 'attributes' ], function () {
+            Route::group(['prefix' => 'attributes', 'middleware'=>'can:attribute' ], function () {
                 Route::get('/', [AttributeController::class, 'index'])->name('attributes.index');
                 Route::get('create', [AttributeController::class, 'create'])->name('attributes.create');
                 Route::post('store', [AttributeController::class, 'store'])->name('attributes.store');
@@ -163,7 +163,7 @@ Route::group(
             });
 
 
-            Route::group(['prefix' => 'plans'],function(){
+            Route::group(['prefix' => 'plans', 'middleware'=>'can:plan'],function(){
                 Route::get('/', [PlansController::class, 'index'])->name('plans.index');
                 Route::get('create', [PlansController::class, 'create'])->name('plans.create');
                 Route::post('store', [PlansController::class, 'store'])->name('plans.store');
@@ -173,7 +173,7 @@ Route::group(
             });
 
 
-            Route::group(['prefix' => 'subscriptions'],function(){
+            Route::group(['prefix' => 'subscriptions', 'middleware'=>'can:subscription'],function(){
                 Route::get('/', [SubscriptionController::class, 'index'])->name('subscriptions.index');
                 Route::get('create', [SubscriptionController::class, 'create'])->name('subscriptions.create');
                 Route::post('store', [SubscriptionController::class, 'store'])->name('subscriptions.store');

@@ -22,10 +22,10 @@
 
                     <h1 class="mt-5">Pricing Plans</h1>
                     <p class="mb-2 pb-75">
-                        All plans include 40+ advanced tools and features to boost your product. Choose the best plan to fit your needs.
+                        <a class="btn btn-primary mt-2 mt-lg-3" href="{{ route('admin.plans.create') }}">Create</a>
                     </p>
 
-                    <a class="btn btn-primary mt-2 mt-lg-3" href="{{ route('admin.plans.create') }}">Create</a>
+
                     {{-- <div class="d-flex align-items-center justify-content-center mb-5 pb-50">
                         <h6 class="me-1 mb-0">Monthly</h6>
                         <div class="form-check form-switch">
@@ -47,8 +47,8 @@
                                     <div class="card standard-pricing popular text-center">
                                         <div class="card-body">
                                             <img src="{{asset('app-assets/images/illustration/Pot2.svg')}}" class="mb-1" alt="svg img" />
-                                            <h3>{{$plan->name}}</h3>
-                                            <p class="card-text">For small to medium businesses</p>
+                                            <h1 > <b>{{$plan->name}}</b></h1>
+                                            {{-- <p class="card-text">For small to medium businesses</p> --}}
                                             <div class="annual-plan">
                                                 <div class="plan-price mt-2">
                                                     <sup class="font-medium-1 fw-bold text-primary">$</sup>
