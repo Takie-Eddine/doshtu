@@ -42,7 +42,7 @@ $app->singleton(
 );
 
 $app->bind('path.public', function () {
-    return '/../../public_html/DoshtuDashboard';
+    return __DIR__.'/public_html';
 });
 
 /*
