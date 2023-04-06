@@ -40,7 +40,7 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
-$app->bind('path.public', function() { return base_path().'/public_html'; });
+
 
 /*
 |--------------------------------------------------------------------------
