@@ -41,6 +41,9 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->bind('path.public', function () {
+    return __DIR__.'/../public_html/DoshtuDashboard';
+});
 
 /*
 |--------------------------------------------------------------------------
