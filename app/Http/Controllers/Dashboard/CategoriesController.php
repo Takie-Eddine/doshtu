@@ -20,10 +20,19 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+
         $request = request();
         $categories = Category::with('parent')
             ->filter($request->query())
             ->paginate(100);
+
+            // $data['categories'] = Category::Parents()->select('id', 'slug')->with(['children' => function ($q) {
+            //     $q->select('id', 'parent_id', 'slug');
+            //     $q->with(['children' => function ($qq) {
+            //         $qq->select('id', 'parent_id', 'slug');
+            //     }]);
+            // }])->get();
+            // return $data['categories'];
         return view('dashboard.categories.index',compact('categories'));
         // ->withCount([
         //     'products as products_count' => function($query){

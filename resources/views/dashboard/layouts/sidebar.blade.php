@@ -41,7 +41,7 @@
             </li>
 
             @can('category')
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.categories.index')}}"><i data-feather='menu'></i><span class="menu-title text-truncate" data-i18n="Email">Categories</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.categories.index')}}"><i data-feather='list'></i><span class="menu-title text-truncate" data-i18n="Email">Categories</span></a>
                 </li>
             @endcan
 
@@ -81,7 +81,7 @@
             @endcan
 
             @can('attribute')
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.attributes.index')}}"><i data-feather='list'></i><span class="menu-title text-truncate" data-i18n="Email">Attributes</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.attributes.index')}}"><i data-feather='menu'></i><span class="menu-title text-truncate" data-i18n="Email">Attributes</span></a>
                 </li>
             @endcan
 

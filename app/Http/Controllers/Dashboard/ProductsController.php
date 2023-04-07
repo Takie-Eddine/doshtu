@@ -68,7 +68,7 @@ class ProductsController extends Controller
             'quantity' => 'nullable',
         ]);
 
-        try{
+        // try{
             DB::beginTransaction();
 
             $file_name = null;
@@ -142,10 +142,10 @@ class ProductsController extends Controller
                 'alert-type' => 'success',
             ]);
 
-        }catch(Exception $ex){
-            DB::rollback();
-            return redirect()->route('admin.products.index')->with($ex->getMessage());
-        }
+        // }catch(Exception $ex){
+        //     DB::rollback();
+        //     return redirect()->route('admin.products.index')->with($ex->getMessage());
+        // }
 
 
     }
