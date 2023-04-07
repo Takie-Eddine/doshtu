@@ -85,7 +85,7 @@ class ProductsController extends Controller
                 'company_id' => $request->company,
                 //'category_id' => $request-> category,
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar] ,
-                'slug' => Str::slug($request->name_en) ,
+                'slug' => Str::slug($request->name_en.rand(000,999)) ,
                 'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
                 'image' => $file_name,
                 'price' => $request->price ,
@@ -200,6 +200,7 @@ class ProductsController extends Controller
             DB::beginTransaction();
 
             $file_name = null;
+
             if ($request->file('photo')) {
                 if(File::exists('assets/product_images/'.$product->image) && $product->image) {
                     unlink('assets/product_images/'.$product->image);
@@ -211,15 +212,18 @@ class ProductsController extends Controller
                     Image::make($request->photo->getRealPath())->resize(500,null,function($constraint){
                         $constraint->aspectRatio();
                     })->save($path,100);
+                $product->update([
+                    'image' => $file_name,
+                ])  ;
             }
 
             $product->update([
                 'company_id' => $request->company,
                 //'category_id' => $request-> category,
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar] ,
-                'slug' => Str::slug($request->name_en) ,
+                'slug' => Str::slug($request->name_en.rand(000,999)) ,
                 'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
-                'image' => $file_name,
+                //'image' => $file_name,
                 'price' => $request->price ,
                 'selling_price' => $request->selling_price ,
                 'compare_price' => $request->compare_price ,
