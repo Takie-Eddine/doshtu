@@ -24,7 +24,7 @@ class CategoriesController extends Controller
         $request = request();
         $categories = Category::with('parent')
             ->filter($request->query())
-            ->paginate(100);
+            ->paginate(4);
 
             // $data['categories'] = Category::Parents()->select('id', 'slug')->with(['children' => function ($q) {
             //     $q->select('id', 'parent_id', 'slug');

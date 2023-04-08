@@ -80,10 +80,16 @@
                                             <td colspan="7">No attributes defined.</td>
                                         </tr>
                                     @endforelse
-                                    <div>
-                                        {{$attributes->withQueryString()->links()}}
-                                    </div>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="9">
+                                            <div class="float-right">
+                                                {{$attributes->withQueryString()->links()}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

@@ -47,6 +47,7 @@ class ProductsController extends Controller
 
     public function store(Request $request){
 
+        //return $request;
         $request->validate([
             'name_ar' => ['required', 'string', 'min:4', 'max:255'],
             'name_en' => ['required', 'string', 'min:4', 'max:255'],
@@ -68,7 +69,7 @@ class ProductsController extends Controller
             'quantity' => 'nullable',
         ]);
 
-        // try{
+        try{
             DB::beginTransaction();
 
             $file_name = null;
@@ -142,10 +143,10 @@ class ProductsController extends Controller
                 'alert-type' => 'success',
             ]);
 
-        // }catch(Exception $ex){
-        //     DB::rollback();
-        //     return redirect()->route('admin.products.index')->with($ex->getMessage());
-        // }
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->route('admin.products.index')->with($ex->getMessage());
+        }
 
 
     }

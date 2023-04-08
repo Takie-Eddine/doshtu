@@ -89,10 +89,16 @@
                                         </tr>
                                     @endforelse
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">
+                                            <div class="float-right">
+                                                {{$users->withQueryString()->links()}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
-                            <div>
-                                {{$users->withQueryString()->links()}}
-                            </div>
                         </div>
                     </div>
                 </div>

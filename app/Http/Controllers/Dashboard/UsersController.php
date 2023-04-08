@@ -15,7 +15,7 @@ class UsersController extends Controller
 {
     public function index(){
 
-        $admins = Admin::latest()->where('id', '<>', auth()->id())->get();
+        $admins = Admin::latest()->where('id', '<>', auth()->id())->paginate();
 
 
 

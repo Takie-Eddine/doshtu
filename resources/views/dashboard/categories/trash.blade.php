@@ -99,10 +99,16 @@
                                         </tr>
                                     @endforelse
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">
+                                            <div class="float-right">
+                                                {{$categories->withQueryString()->links()}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
-                            <div>
-                                {{$categories->withQueryString()->links()}}
-                            </div>
                         </div>
                     </div>
                 </div>

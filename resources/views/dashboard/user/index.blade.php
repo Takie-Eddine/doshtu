@@ -105,6 +105,15 @@
                                         @endforeach
                                     @endif
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">
+                                            <div class="float-right">
+                                                {{$admins->withQueryString()->links()}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

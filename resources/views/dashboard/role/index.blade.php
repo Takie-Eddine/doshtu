@@ -73,19 +73,15 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                <div class="btn-group" role="group"
-                                                                    aria-label="Basic example">
-                                                                    <a href="{{route('admin.role-permissions.edit',$role->id)}}"
-                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
-
-                                                                    <form action="{{route('admin.role-permissions.delete',$role->id)}}" method="POST">
-                                                                        @csrf
-                                                                        @method('delete')
-                                                                        <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
-                                                                    </form>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="{{route('admin.role-permissions.edit',$role->id)}}" class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
+                                                    <form action="{{route('admin.role-permissions.delete',$role->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
+                                                    </form>
                                                                     {{-- <a href=""
                                                                         class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</a> --}}
-
                                                 </div>
                                             </td>
                                         </tr>

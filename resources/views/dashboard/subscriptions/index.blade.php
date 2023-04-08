@@ -58,6 +58,9 @@
                                     @forelse ($subscriptions as $subscription)
                                         <tr>
                                             <td>
+                                                <span class="fw-bold">{{$subscription->user->id}}</span>
+                                            </td>
+                                            <td>
                                                 <span class="fw-bold">{{$subscription->user->name}}</span>
                                             </td>
                                             <td>
@@ -85,10 +88,16 @@
                                             <td colspan="7">No subscriptions defined.</td>
                                         </tr>
                                     @endforelse
-                                    <div>
-                                        {{$subscriptions->withQueryString()->links()}}
-                                    </div>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">
+                                            <div class="float-right">
+                                                {{$subscriptions->withQueryString()->links()}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
