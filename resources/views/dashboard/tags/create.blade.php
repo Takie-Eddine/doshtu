@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title', 'Create Attribute')
+@section('title', 'Create Tag')
 
 @section('style')
 
@@ -21,12 +21,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-start mb-0">Attribute</h2>
+                        <h2 class="content-header-title float-start mb-0">Tag</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.attributes.index')}}">Attributes</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.tags.index')}}">Tags</a>
                                 </li>
                                 <li class="breadcrumb-item active"><a>Create</a>
                                 </li>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="card-body">
                                 @include('dashboard.layouts.alerts.flash')
-                                <form class="form" action="{{route('admin.attributes.store')}}" method="POST">
+                                <form class="form" action="{{route('admin.tags.store')}}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 col-12">
