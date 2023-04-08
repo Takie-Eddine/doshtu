@@ -88,7 +88,7 @@ class TagController extends Controller
 
         $tag = Tag::findOrFail($id);
         $tag->delete();
-        return redirect()->route('admin.tags.index')->with([
+        return redirect()->back()->with([
             'message' => 'Deleted successfully',
             'alert-type' => 'success',
         ]);
