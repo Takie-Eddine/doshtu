@@ -61,12 +61,12 @@
             @endcan
 
             @can('company')
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.companies.index')}}"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="Email">Manufactories</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.companies.index')}}"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="Email">Suppliers</span></a>
                 </li>
             @endcan
 
             @can('supplier')
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.suppliers.index')}}"><i data-feather='users'></i></i><span class="menu-title text-truncate" data-i18n="Email">Companies Owners</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.suppliers.index')}}"><i data-feather='users'></i></i><span class="menu-title text-truncate" data-i18n="Email">Suppliers Owners</span></a>
                 </li>
             @endcan
 

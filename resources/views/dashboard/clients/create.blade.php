@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title','Create')
+@section('title','Create E-Store Owner')
 
 
 @push('style')
@@ -17,12 +17,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-start mb-0">Client</h2>
+                        <h2 class="content-header-title float-start mb-0">E-Store Owner</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.clients.index')}}">Clients</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.clients.index')}}">E-Stores Owners</a>
                                 </li>
                                 <li class="breadcrumb-item active"><a >Create</a>
                                 </li>
@@ -42,7 +42,7 @@
                         <div class="card">
                             @include('dashboard.layouts.alerts.flash')
                             <div class="card-header">
-                                <h4 class="card-title">Create Client</h4>
+                                <h4 class="card-title">Create E-store owner</h4>
                             </div>
                                 @if ($errors->any())
                                     <div class="alert alert-danger">

@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title','Categories')
+@section('title','Show Supplier Owner')
 
 
 @push('style')

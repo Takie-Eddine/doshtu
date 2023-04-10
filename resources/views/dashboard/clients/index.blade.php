@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title','clients')
+@section('title','E-Store Owner')
 
 
 @push('style')
@@ -17,12 +17,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-start mb-0">Client</h2>
+                        <h2 class="content-header-title float-start mb-0">E-Store Owner</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a>
                                 </li>
-                                <li class="breadcrumb-item active">Clients
+                                <li class="breadcrumb-item active">E-Stores Owners
                                 </li>
                             </ol>
                         </div>
@@ -56,7 +56,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Company</th>
+                                        <th>Store</th>
                                         <th>Created At</th>
                                         <th colspan="2">Action</th>
                                     </tr>
