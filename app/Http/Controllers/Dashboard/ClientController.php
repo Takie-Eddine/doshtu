@@ -13,8 +13,15 @@ use Illuminate\Validation\Rule;
 class ClientController extends Controller
 {
     public function index(){
-        $request = request();
-        $users = User::filter($request->query())->paginate();
+
+        $users = User::when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->email != null, function ($query) {
+            $query->search(request()->email);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);
 
         return view('dashboard.clients.index',compact('users'));
     }
@@ -124,7 +131,15 @@ class ClientController extends Controller
 
     public function trash()
     {
-        $users = User::onlyTrashed()->paginate();
+        $users = User::onlyTrashed()
+        ->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->email != null, function ($query) {
+            $query->search(request()->email);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);;
         return view('dashboard.clients.trash',compact('users'));
     }
 

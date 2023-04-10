@@ -26,8 +26,14 @@ class ProductsController extends Controller
         $request = request();
 
         $products = Product::with(['categories','company','images'])
-                            ->filter($request->query())
-                            ->paginate();
+        ->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->status != null, function ($query) {
+            $query->whereStatus(\request()->status);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);
 
 
 
@@ -304,7 +310,14 @@ class ProductsController extends Controller
 
     public function trash()
     {
-        $products = Product::onlyTrashed()->paginate();
+        $products = Product::onlyTrashed()->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->status != null, function ($query) {
+            $query->whereStatus(\request()->status);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);;
         return view('dashboard.products.trash',compact('products'));
     }
 

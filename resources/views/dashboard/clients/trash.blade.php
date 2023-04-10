@@ -41,16 +41,16 @@
                     <div class="mb-5">
                         <a href="{{route('admin.clients.index')}}" class="btn btn-sm btn-primary btn-rounded btn-fw">Back</a>
                     </div>
-                    <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
+                    {{-- <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
                         <input type="text" name="name"  placeholder="Name" class="form-control mx-2" value="{{request('name')}}">
-                        {{-- <x-form.input name="name" placeholder="Name" class="mx-2" value="{{request('name')}}" /> --}}
                         <input type="text" name="email"  placeholder="email" class="form-control mx-2" value="{{request('email')}}">
                         <button class="btn  btn-dark mx-2" > <i data-feather='search'></i></button>
-                    </form>
+                    </form> --}}
+
+
                     <div class="card">
-
+                        @include('dashboard.clients.filter.filter')
                         <div class="table-responsive">
-
                             <table class="table">
                                 <thead>
                                     <tr>

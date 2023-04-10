@@ -13,8 +13,14 @@ use Illuminate\Validation\Rule;
 class SupplierController extends Controller
 {
     public function index(){
-        $request = request();
-        $suppliers = Supplier::with('company')->filter($request->query())->paginate();
+        $suppliers = Supplier::with('company')->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->email != null, function ($query) {
+            $query->search(request()->email);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);
 
         return view('dashboard.suppliers.index',compact('suppliers'));
     }

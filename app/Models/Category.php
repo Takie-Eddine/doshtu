@@ -7,17 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
+use Nicolaslopezj\Searchable\SearchableTrait;
 use Illuminate\Support\Str;
 
 class Category extends Model
 {
-    use HasFactory , HasTranslations , SoftDeletes;
+    use HasFactory , HasTranslations , SoftDeletes, SearchableTrait;
 
 
     public $translatable = ['name'];
 
     protected $fillable = [
         'name' , 'parent_id' , 'description' , 'image' , 'status' , 'slug'
+    ];
+
+    protected $searchable = [
+
+        'columns' => [
+            'categories.name' => 10,
+        ],
     ];
 
 

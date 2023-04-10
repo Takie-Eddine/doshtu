@@ -42,20 +42,19 @@
                         <a href="{{route('admin.products.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
                         <a href="{{route('admin.products.trash')}}" class="btn btn-sm btn-dark btn-rounded btn-fw">Trash</a>
                     </div>
-                    <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
+                    {{-- <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
                         <input type="text" name="name"  placeholder="Name" class="form-control mx-2" value="{{request('name')}}">
-                        {{-- <x-form.input name="name" placeholder="Name" class="mx-2" value="{{request('name')}}" /> --}}
                         <select name="status" class="form-control mx-2">
                             <option value="">All</option>
                             <option value="active" @selected(request('status') == 'active')>Active</option>
                             <option value="inactive" @selected(request('status') == 'inactive')>Inactive</option>
                         </select>
                         <button class="btn  btn-dark mx-2" > <i data-feather='search'></i></button>
-                    </form>
+                    </form> --}}
+
                     <div class="card">
-
+                        @include('dashboard.products.filter.filter')
                         <div class="table-responsive">
-
                             <table class="table">
                                 <thead>
                                     <tr>

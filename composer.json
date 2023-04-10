@@ -15,6 +15,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "mcamara/laravel-localization": "^1.7",
+        "nicolaslopezj/searchable": "^1.13",
         "shopify/shopify-api": "^4.2",
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-translatable": "^6.2",

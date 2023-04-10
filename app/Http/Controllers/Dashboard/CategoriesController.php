@@ -21,11 +21,16 @@ class CategoriesController extends Controller
     public function index()
     {
 
-        $request = request();
+        //$request = request();
         $categories = Category::with('parent')
-            ->filter($request->query())
-            ->paginate(100);
-
+            ->when(request()->keyword != null,function ($query){
+                $query->search(request()->keyword);
+            })
+            ->when(\request()->status != null, function ($query) {
+                $query->whereStatus(\request()->status);
+            })
+            ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+            ->paginate(\request()->limit_by ?? 10);
             // $data['categories'] = Category::Parents()->select('id', 'slug')->with(['children' => function ($q) {
             //     $q->select('id', 'parent_id', 'slug');
             //     $q->with(['children' => function ($qq) {
@@ -34,11 +39,7 @@ class CategoriesController extends Controller
             // }])->get();
             // return $data['categories'];
         return view('dashboard.categories.index',compact('categories'));
-        // ->withCount([
-        //     'products as products_count' => function($query){
-        //         $query->where('status' , '=' , 'active');
-        //     }
-        // ])
+
     }
 
     /**
@@ -232,7 +233,15 @@ class CategoriesController extends Controller
 
     public function trash()
     {
-        $categories = Category::onlyTrashed()->paginate();
+        $categories = Category::onlyTrashed()
+        ->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->status != null, function ($query) {
+            $query->whereStatus(\request()->status);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);;
         return view('dashboard.categories.trash',compact('categories'));
     }
 

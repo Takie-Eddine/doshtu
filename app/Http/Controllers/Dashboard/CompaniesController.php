@@ -21,8 +21,14 @@ class CompaniesController extends Controller
 
         $request = request();
         $companies = Company::with('suppliers')
-                                ->filter($request->query())
-                                ->paginate();
+        ->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->status != null, function ($query) {
+            $query->whereis_active(\request()->status);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);
 
         return view('dashboard.companies.index',compact('companies'));
     }
@@ -226,7 +232,14 @@ class CompaniesController extends Controller
 
     public function trash()
     {
-        $companies = Company::onlyTrashed()->paginate();
+        $companies = Company::onlyTrashed()->when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->when(\request()->status != null, function ($query) {
+            $query->whereis_active(\request()->status);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);
         return view('dashboard.companies.trash',compact('companies'));
     }
 

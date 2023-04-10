@@ -13,7 +13,11 @@ class TagController extends Controller
 
     public function index(){
 
-        $tags = Tag::paginate();
+        $tags = Tag::when(request()->keyword != null,function ($query){
+            $query->search(request()->keyword);
+        })
+        ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
+        ->paginate(\request()->limit_by ?? 10);
 
         return view('dashboard.tags.index',compact('tags'));
     }

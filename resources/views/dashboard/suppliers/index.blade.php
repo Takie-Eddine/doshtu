@@ -42,16 +42,14 @@
                         <a href="{{route('admin.suppliers.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
                         <a href="{{route('admin.suppliers.trash')}}" class="btn btn-sm btn-dark btn-rounded btn-fw">Trash</a>
                     </div>
-                    <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
+                    {{-- <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
                         <input type="text" name="name"  placeholder="Name" class="form-control mx-2" value="{{request('name')}}">
-                        {{-- <x-form.input name="name" placeholder="Name" class="mx-2" value="{{request('name')}}" /> --}}
                         <input type="text" name="email"  placeholder="email" class="form-control mx-2" value="{{request('email')}}">
                         <button class="btn  btn-dark mx-2" > <i data-feather='search'></i></button>
-                    </form>
+                    </form> --}}
                     <div class="card">
-
                         <div class="table-responsive">
-
+                            @include('dashboard.suppliers.filter.filter')
                             <table class="table">
                                 <thead>
                                     <tr>

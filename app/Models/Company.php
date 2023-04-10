@@ -10,16 +10,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Support\Str;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Company extends Model implements HasMedia
 {
-    use HasFactory , InteractsWithMedia,  SoftDeletes;
+    use HasFactory , InteractsWithMedia,  SoftDeletes, SearchableTrait;
 
     protected $fillable = [
         'company_name', 'mobile', 'office_mobile', 'email', 'description', 'address', 'website', 'country', 'city',
         'state', 'pincode', 'is_active', 'logo', 'facebook', 'instagram', 'twitter', 'youtube', 'telegram', 'linkedin',
     ];
 
+    protected $searchable = [
+
+        'columns' => [
+            'companies.company_name' => 10,
+        ],
+    ];
 
 
     public function scopeFilter(Builder $builder,$filters){

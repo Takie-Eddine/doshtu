@@ -45,7 +45,7 @@
                         <a href="{{route('admin.attributes.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
                     </div>
                     <div class="card">
-
+                        @include('dashboard.attributes.filter.filter')
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>

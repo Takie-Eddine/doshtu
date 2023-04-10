@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Translatable\HasTranslations;
 
 class Tag extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory, HasTranslations, SearchableTrait;
 
 
 
@@ -18,6 +19,14 @@ class Tag extends Model
         'name', 'slug',
     ];
     public $timestamps = false;
+
+
+    protected $searchable = [
+
+        'columns' => [
+            'tags.name' => 10,
+        ],
+    ];
 
     public function products(){
 
