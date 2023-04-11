@@ -65,7 +65,7 @@
                                                 <span class="fw-bold">{{$admin->id}}</span>
                                             </td>
                                             <td>
-                                                <span class="fw-bold">{{$admin->name}}</span>
+                                                <a href="{{route('admin.user.view',$admin->id)}}">{{$admin->name}}</a>
                                             </td>
                                             <td>
                                                 <span class="fw-bold">{{$admin->email}}</span>
@@ -88,8 +88,8 @@
                                                                     class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
 
 
-                                                                    <a href="{{route('admin.user.view',$admin->id)}}"
-                                                                    class="btn btn-outline-info btn-min-width box-shadow-3 mr-1 mb-1">view</a>
+                                                                    {{-- <a href="{{route('admin.user.view',$admin->id)}}"
+                                                                    class="btn btn-outline-info btn-min-width box-shadow-3 mr-1 mb-1">view</a> --}}
 
                                                                     <form action="{{route('admin.user.delete',$admin->id)}}" method="POST">
                                                                         @csrf

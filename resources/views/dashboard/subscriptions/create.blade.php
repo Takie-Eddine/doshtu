@@ -18,12 +18,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-start mb-0">Plan</h2>
+                        <h2 class="content-header-title float-start mb-0">Subscription</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.plans.index')}}">Plans</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.subscriptions.index')}}">Subscriptions</a>
                                 </li>
                                 <li class="breadcrumb-item"><a >Create</a>
                                 </li>
@@ -55,7 +55,7 @@
                                     </div>
                                 @endif
 
-                                <form action="{{route('admin.plans.store')}}" method="POST" class="mt-2">
+                                <form action="{{route('admin.subscriptions.store')}}" method="POST" class="mt-2">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 col-12">

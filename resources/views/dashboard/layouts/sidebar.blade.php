@@ -37,76 +37,76 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span><span class="badge badge-light-warning rounded-pill ms-auto me-1"></span></a>
+            <li class=" nav-item {{request()->routeIs('admin.dashboard') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span><span class="badge badge-light-warning rounded-pill ms-auto me-1"></span></a>
             </li>
 
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Products</span></a>
+            <li class=" nav-item has-sub sidebar-group"><a class="d-flex align-items-center" href="#"><i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Products</span></a>
                 <ul class="menu-content">
                     @can('category')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.categories.index')}}"><i data-feather='list'></i><span class="menu-title text-truncate" data-i18n="Email">Categories</span></a>
+                        <li class="{{request()->routeIs('admin.categories.index') ? 'active' : ''}} {{request()->routeIs('admin.categories.create') ? 'active' : ''}} {{request()->routeIs('admin.categories.edit') ? 'active' : ''}} {{request()->routeIs('admin.categories.trash') ? 'active' : ''}}" ><a class="d-flex align-items-center" href="{{route('admin.categories.index')}}"><i data-feather='list'></i><span class="menu-title text-truncate" data-i18n="Email">Categories</span></a>
                         </li>
                     @endcan
 
                     @can('product')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.products.index')}}"><i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Email">Products</span></a>
+                        <li class="{{request()->routeIs('admin.products.index') ? 'active' : ''}} {{request()->routeIs('admin.products.create') ? 'active' : ''}} {{request()->routeIs('admin.products.edit') ? 'active' : ''}} {{request()->routeIs('admin.products.trash') ? 'active' : ''}} {{request()->routeIs('admin.products.add_variant') ? 'active' : ''}} {{request()->routeIs('admin.products.show') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.products.index')}}"><i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Email">Products</span></a>
                         </li>
                     @endcan
 
                     @can('tag')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.tags.index')}}"><i data-feather='tag'></i></i><span class="menu-title text-truncate" data-i18n="Email">Tags</span></a>
+                        <li class="{{request()->routeIs('admin.tags.index') ? 'active' : ''}} {{request()->routeIs('admin.tags.create') ? 'active' : ''}} {{request()->routeIs('admin.tags.edit') ? 'active' : ''}}" ><a class="d-flex align-items-center" href="{{route('admin.tags.index')}}"><i data-feather='tag'></i></i><span class="menu-title text-truncate" data-i18n="Email">Tags</span></a>
                         </li>
                     @endcan
 
                     @can('attribute')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.attributes.index')}}"><i data-feather='menu'></i><span class="menu-title text-truncate" data-i18n="Email">Attributes</span></a>
+                        <li class="{{request()->routeIs('admin.attributes.index') ? 'active' : ''}} {{request()->routeIs('admin.attributes.create') ? 'active' : ''}} {{request()->routeIs('admin.attributes.edit') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.attributes.index')}}"><i data-feather='menu'></i><span class="menu-title text-truncate" data-i18n="Email">Attributes</span></a>
                         </li>
                     @endcan
 
                 </ul>
             </li>
 
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='user'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Users</span></a>
+            <li class="nav-item has-sub sidebar-group"><a class="d-flex align-items-center" href="#"><i data-feather='user'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Users</span></a>
                 <ul class="menu-content">
                     @can('role-permission')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.role-permissions.index')}}"><i data-feather='shield'></i></i><span class="menu-title text-truncate" data-i18n="Email">Role & Permissions</span></a>
+                        <li class="{{request()->routeIs('admin.role-permissions.index') ? 'active' : ''}} {{request()->routeIs('admin.role-permissions.create') ? 'active' : ''}} {{request()->routeIs('admin.role-permissions.edit') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.role-permissions.index')}}"><i data-feather='shield'></i></i><span class="menu-title text-truncate" data-i18n="Email">Role & Permissions</span></a>
                         </li>
                     @endcan
 
                     @can('user')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.user.index')}}"><i data-feather='user'></i><span class="menu-title text-truncate" data-i18n="Email">Users</span></a>
+                        <li class=" {{request()->routeIs('admin.user.index') ? 'active' : ''}} {{request()->routeIs('admin.user.create') ? 'active' : ''}} {{request()->routeIs('admin.user.edit') ? 'active' : ''}} {{request()->routeIs('admin.user.view') ? 'active' : ''}} "><a class="d-flex align-items-center" href="{{route('admin.user.index')}}"><i data-feather='user'></i><span class="menu-title text-truncate" data-i18n="Email">Users</span></a>
                         </li>
                     @endcan
                 </ul>
             </li>
 
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Suppliers</span></a>
+            <li class=" nav-item has-sub sidebar-group"><a class="d-flex align-items-center" href="#"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Suppliers</span></a>
                 <ul class="menu-content">
                     @can('company')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.companies.index')}}"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="Email">Suppliers</span></a>
+                        <li class=" {{request()->routeIs('admin.companies.index') ? 'active' : ''}}  {{request()->routeIs('admin.companies.create') ? 'active' : ''}} {{request()->routeIs('admin.companies.edit') ? 'active' : ''}} {{request()->routeIs('admin.companies.trash') ? 'active' : ''}} {{request()->routeIs('admin.companies.show') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.companies.index')}}"><i data-feather='package'></i><span class="menu-title text-truncate" data-i18n="Email">Suppliers</span></a>
                         </li>
                     @endcan
 
                     @can('supplier')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.suppliers.index')}}"><i data-feather='users'></i></i><span class="menu-title text-truncate" data-i18n="Email">Suppliers Owners</span></a>
+                        <li class=" {{request()->routeIs('admin.suppliers.index') ? 'active' : ''}} {{request()->routeIs('admin.suppliers.create') ? 'active' : ''}} {{request()->routeIs('admin.suppliers.edit') ? 'active' : ''}} {{request()->routeIs('admin.suppliers.trash') ? 'active' : ''}} {{request()->routeIs('admin.suppliers.show') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.suppliers.index')}}"><i data-feather='users'></i></i><span class="menu-title text-truncate" data-i18n="Email">Suppliers Owners</span></a>
                         </li>
                     @endcan
                 </ul>
             </li>
 
             @can('client')
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.clients.index')}}"><i data-feather='shopping-cart'></i></i><span class="menu-title text-truncate" data-i18n="Email">E-store Owners</span></a>
+                <li class="{{request()->routeIs('admin.clients.index') ? 'active' : ''}} {{request()->routeIs('admin.clients.create') ? 'active' : ''}} {{request()->routeIs('admin.clients.edit') ? 'active' : ''}} {{request()->routeIs('admin.clients.trash') ? 'active' : ''}} {{request()->routeIs('admin.clients.show') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.clients.index')}}"><i data-feather='shopping-cart'></i></i><span class="menu-title text-truncate" data-i18n="Email">E-store Owners</span></a>
                 </li>
             @endcan
 
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Plan</span></a>
+            <li class=" nav-item has-sub sidebar-group "><a class="d-flex align-items-center" href="#"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="eCommerce">Plan</span></a>
                 <ul class="menu-content">
                     @can('plan')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.plans.index')}}"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="Email">Plans</span></a>
+                        <li class="{{request()->routeIs('admin.plans.index') ? 'active' : ''}} {{request()->routeIs('admin.plans.create') ? 'active' : ''}} {{request()->routeIs('admin.plans.edit') ? 'active' : ''}} {{request()->routeIs('admin.plans.trash') ? 'active' : ''}} {{request()->routeIs('admin.plans.show') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.plans.index')}}"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="Email">Plans</span></a>
                         </li>
                     @endcan
 
                     @can('subscription')
-                        <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.subscriptions.index')}}"><i data-feather='bookmark'></i></i><span class="menu-title text-truncate" data-i18n="Email">Subscriptions</span></a>
+                        <li class="{{request()->routeIs('admin.subscriptions.index') ? 'active' : ''}} {{request()->routeIs('admin.subscriptions.create') ? 'active' : ''}} {{request()->routeIs('admin.subscriptions.edit') ? 'active' : ''}} {{request()->routeIs('admin.subscriptions.trash') ? 'active' : ''}} {{request()->routeIs('admin.subscriptions.show') ? 'active' : ''}}"><a class="d-flex align-items-center" href="{{route('admin.subscriptions.index')}}"><i data-feather='bookmark'></i></i><span class="menu-title text-truncate" data-i18n="Email">Subscriptions</span></a>
                         </li>
                     @endcan
                 </ul>
