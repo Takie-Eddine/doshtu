@@ -91,6 +91,7 @@ Route::group(
                 Route::get('edit/{id}', [ProductsController::class, 'edit'])->name('products.edit');
                 Route::post('update/{id}', [ProductsController::class, 'update'])->name('products.update');
                 Route::get('show/{product}', [ProductsController::class, 'show'])->name('products.show');
+                Route::post('activate-unactivate/{id}', [ProductsController::class, 'activate'])->name('products.activate');
                 Route::delete('delete/{id}', [ProductsController::class, 'destroy'])->name('products.destroy');
                 Route::get('/trash',[ProductsController::class, 'trash'])->name('products.trash');
                 Route::put('/{product}/restore',[ProductsController::class, 'restore'])->name('products.restore');

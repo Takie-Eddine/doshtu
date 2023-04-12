@@ -83,23 +83,40 @@ class CategoriesController extends Controller
             //return $input['photo'];
         }
 
+        $category = Category::whereSlug(Str::slug($request->name_en))->first();
 
-        $category = Category::create([
-            'name' => [
-                'en' => $request-> name_en,
-                'ar' => $request-> name_ar,
-            ],
-            'slug' => Str::slug($request->name_en),
-            'parent_id' => $request->parent_id,
-            'description' => $request->description,
-            'image' => $request->image,
-            'status' =>$request->status,
-        ]);
+        if($category){
+            return redirect()->back()->with([
+                'message' => 'This category exists',
+                'alert-type' => 'success',
+            ]);
+        }
 
-        return redirect()->route('admin.categories.index')->with([
-            'message' => 'Created successfully',
-            'alert-type' => 'success',
-        ]);
+
+        try{
+
+            $category = Category::create([
+                'name' => [
+                    'en' => $request-> name_en,
+                    'ar' => $request-> name_ar,
+                ],
+                'slug' => Str::slug($request->name_en),
+                'parent_id' => $request->parent_id,
+                'description' => $request->description,
+                'image' => $request->image,
+                'status' =>$request->status,
+            ]);
+
+            return redirect()->route('admin.categories.index')->with([
+                'message' => 'Created successfully',
+                'alert-type' => 'success',
+            ]);
+
+        }catch(Exception $ex){
+
+        }
+
+
     }
 
     /**

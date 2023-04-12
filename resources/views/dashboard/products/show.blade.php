@@ -88,6 +88,24 @@
                                     @endforelse
                                 @empty
                                 @endforelse
+                                <div class="d-flex flex-column flex-sm-row pt-1">
+                                    <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-outline-primary btn-cart me-0 me-sm-1 mb-1 mb-sm-0">
+                                        <i data-feather='edit' class="me-50"></i>
+                                        <span class="edit">edit</span>
+                                    </a>
+                                    <a href="{{route('admin.products.add_variant',$product->id)}}" class="btn btn-outline-secondary btn-wishlist me-0 me-sm-1 mb-1 mb-sm-0">
+                                        <i data-feather='info' class="me-50"></i>
+                                        <span>variant</span>
+                                    </a>
+                                    <form action="{{route('admin.products.destroy',$product->id)}}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-outline-danger btn-wishlist me-0 me-sm-1 mb-1 mb-sm-0">
+                                            <i data-feather='trash' class="me-50"></i>
+                                            <span> delete</span>
+                                        </button>
+                                    </form>
+                                </div>
                                 <hr />
                             </div>
                         </div>

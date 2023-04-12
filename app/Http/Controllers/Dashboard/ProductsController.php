@@ -446,7 +446,30 @@ class ProductsController extends Controller
 
 
 
-    public function view($id){
+    public function activate($id){
+
+        $product = Product::findOrFail($id);
+
+
+        if ($product->status === 'active' ) {
+            $product->update([
+                'status'=> 'inactive',
+            ]);
+            return redirect()->back()->with([
+                'message' => 'Changed successfully',
+                'alert-type' => 'success',
+            ]);
+        }
+
+        if ($product->status ==='inactive' ) {
+            $product->update([
+                'status'=> 'active',
+            ]);
+            return redirect()->back()->with([
+                'message' => 'Changed successfully',
+                'alert-type' => 'success',
+            ]);
+        }
 
 
     }

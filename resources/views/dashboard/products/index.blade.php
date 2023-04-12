@@ -81,14 +81,32 @@
                                                 @endforelse
                                             </td>
                                             <td>{{$product->company->company_name }}</td>
-                                            <td>{{$product->status}}</td>
+                                            <td >
+                                                @if ($product->status == 'active' )
+                                                    <span class="badge rounded-pill badge-light-success me-1">{{$product->status}}</span>
+                                                @endif
+                                                @if ($product->status === 'inactive')
+                                                    <span class="badge rounded-pill badge-light-warning me-1">{{$product->status}}</span>
+                                                @endif
+                                                @if ($product->status === 'archived')
+                                                    <span class="badge rounded-pill badge-light-danger me-1">{{$product->status}}</span>
+                                                @endif
+
+                                            </td>
                                             <td>{{$product->created_at}}</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a href="{{route('admin.products.edit',$product->id)}}"
-                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
-                                                    <a href="{{route('admin.products.add_variant',$product->id)}}"
-                                                        class="btn btn-outline-secondary btn-min-width box-shadow-3 mr-1 mb-1">variant</a>
+                                                    <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
+                                                    <a href="{{route('admin.products.add_variant',$product->id)}}" class="btn btn-outline-secondary btn-min-width box-shadow-3 mr-1 mb-1">variant</a>
+                                                    <form action="{{route('admin.products.activate',$product->id)}}" method="POST">
+                                                        @csrf
+                                                        @if ($product->status == 'active')
+                                                            <button class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">unactivate</button>
+                                                        @endif
+                                                        @if ($product->status == 'inactive')
+                                                            <button class="btn btn-outline-success btn-min-width box-shadow-3 mr-1 mb-1">activate</button>
+                                                        @endif
+                                                    </form>
                                                     <form action="{{route('admin.products.destroy',$product->id)}}" method="POST">
                                                         @csrf
                                                         @method('delete')
