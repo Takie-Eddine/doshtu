@@ -88,7 +88,7 @@ class CategoriesController extends Controller
         if($category){
             return redirect()->back()->with([
                 'message' => 'This category exists',
-                'alert-type' => '',
+                'alert-type' => 'danger',
             ]);
         }
 
@@ -109,7 +109,7 @@ class CategoriesController extends Controller
 
             return redirect()->route('admin.categories.index')->with([
                 'message' => 'Created successfully',
-                'alert-type' => 'danger',
+                'alert-type' => 'success',
             ]);
 
         }catch(Exception $ex){
