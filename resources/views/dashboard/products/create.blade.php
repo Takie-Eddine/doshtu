@@ -167,44 +167,77 @@
                                                 <h4 class="mb-1">Details</h4>
                                                 <div class="d-flex flex-column flex-md-row">
                                                     <div class="row">
-
-                                                        <div class="mb-1 col-md-6">
+                                                        {{-- <div class="mb-1 col-md-6">
                                                             <label class="form-label" for="default_price"> Price</label>
                                                             <input type="text" id="default_price" name="price" value="{{old('price')}}" class="form-control"  />
                                                             @error('price')
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
+                                                        </div> --}}
+                                                        <div class="input-group input-group-merge mb-2">
+                                                            <label class="input-group-text" for="default_price">Price</label>
+                                                            <span class="input-group-text">$</span>
+                                                            <input type="text" class="form-control" name="price" id="price" value="{{old('price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                            {{-- <span class="input-group-text">.00</span> --}}
+                                                            @error('price')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
                                                         </div>
-                                                        <div class="mb-1 col-md-6">
-                                                            <label class="form-label" for="default_price">Selling Price</label>
-                                                            <input type="number" id="default_price" name="selling_price" value="{{old('selling_price')}}" class="form-control"  />
+                                                        <div class="input-group input-group-merge mb-2">
+                                                            <label class="input-group-text" for="default_price">Selling Price</label>
+                                                            <span class="input-group-text">$</span>
+                                                            <input type="text" class="form-control" name="selling_price" id="selling_price" value="{{old('selling_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                            {{-- <span class="input-group-text">.00</span> --}}
                                                             @error('selling_price')
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
                                                         </div>
+                                                        {{-- <div class=" mb-1 col-md-6">
+                                                            <label class="form-label" for="default_price">Selling Price</label>
+                                                            <span class="input-group-text">$</span>
+                                                            <input type="number" class="form-control" id="default_price" name="selling_price" value="{{old('selling_price')}}" class="form-control"  />
+                                                            @error('selling_price')
+                                                                <span class="text-danger"> {{ $message }}</span>
+                                                            @enderror
+                                                        </div> --}}
                                                         {{-- <label for="">profit margin:</label> --}}
-
                                                     </div>
                                                 </div>
                                                     <div class="d-flex flex-column flex-md-row">
                                                         <div class="row">
-
-                                                            <div class="mb-1 col-md-6">
+                                                            <div class="input-group input-group-merge mb-2">
+                                                                <label class="input-group-text" for="default_price">Global Price</label>
+                                                                <span class="input-group-text">$</span>
+                                                                <input type="text" class="form-control" name="global_price" value="{{old('global_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                                @error('global_price')
+                                                                    <span class="text-danger"> {{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                            {{-- <div class="mb-1 col-md-6">
                                                                 <label class="form-label" for="default_price">Global Price</label>
                                                                 <input type="number" id="default_price" name="global_price" value="{{old('global_price')}}" class="form-control"  />
                                                                 @error('global_price')
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
+                                                            </div> --}}
+                                                            <div class="input-group input-group-merge mb-2">
+                                                                <label class="input-group-text" for="default_price">Compare Price</label>
+                                                                <span class="input-group-text">$</span>
+                                                                <input type="text" class="form-control" name="compare_price" value="{{old('compare_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                                @error('compare_price')
+                                                                    <span class="text-danger"> {{ $message }}</span>
+                                                                @enderror
                                                             </div>
-                                                            <div class="mb-1 col-md-6">
+                                                            {{-- <div class="mb-1 col-md-6">
                                                                 <label class="form-label" for="default_price">Compare Price</label>
                                                                 <input type="number" id="default_price" name="compare_price" value="{{old('compare_price')}}" class="form-control"  />
                                                                 @error('compare_price')
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
-                                                            </div>
+                                                            </div> --}}
                                                             {{-- <label for="">profit margin:</label> --}}
-
                                                         </div>
                                                 </div>
                                                 <hr>
@@ -344,6 +377,14 @@
         });
 
 
+    });
+</script>
+
+<script>
+    $('#price').click(function(){
+        var number = parseFloat($('#price').val());
+
+        $('#selling_price').val( ((number * 20)/100 + number) );
     });
 </script>
 @endpush
