@@ -203,7 +203,7 @@
                                                                 <div class="input-group input-group-merge mb-2">
                                                                     <label class="input-group-text" for="default_price">Global Price</label>
                                                                     <span class="input-group-text">$</span>
-                                                                    <input type="text" class="form-control" name="global_price" value="{{$product->global_price}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                    <input type="text" class="form-control" name="global_price" value="{{$product->global_price}}"  aria-label="Amount (to the nearest dollar)" />
                                                                     {{-- <span class="input-group-text">.00</span> --}}
                                                                 </div>
                                                                 @error('global_price')
@@ -274,7 +274,7 @@
                                                             @enderror
                                                         </div>
                                                         <div class="mb-1 col-md-6">
-                                                            <label class="form-label" for="default_price"> Shipping Time</label>
+                                                            <label class="form-label" for="default_price"> Shipping Time(d)</label>
                                                             <input type="number" id="default_price" name="shipping_time" value="{{$product->shipping_time}}" class="form-control"  />
                                                             @error('shipping_time')
                                                                 <span class="text-danger"> {{ $message }}</span>
@@ -382,7 +382,7 @@
     $('#selling_price, #price').mouseenter(function(){
         var number = parseFloat($('#price').val());
 
-        $('#selling_price').val( (((number * 20)/100 + number)) );
+        $('#selling_price').val( (((number * 25)/100 + number)) );
     });
 </script>
 @endpush

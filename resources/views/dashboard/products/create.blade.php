@@ -178,7 +178,7 @@
                                                             <div class="input-group input-group-merge mb-2">
                                                                 <label class="input-group-text" for="default_price">Price</label>
                                                                 <span class="input-group-text">$</span>
-                                                                <input type="text" class="form-control" name="price" id="price" value="{{old('price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                <input type="text" class="form-control" name="price" id="price" value="{{old('price')}}"  aria-label="Amount (to the nearest dollar)" />
                                                                 {{-- <span class="input-group-text">.00</span> --}}
                                                             </div>
                                                             @error('price')
@@ -190,7 +190,7 @@
                                                             <div class="input-group input-group-merge mb-2">
                                                                 <label class="input-group-text" for="default_price">Selling Price</label>
                                                                 <span class="input-group-text">$</span>
-                                                                <input type="text" class="form-control" name="selling_price" id="selling_price" value="{{old('selling_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                <input type="text" class="form-control" name="selling_price" id="selling_price" value="{{old('selling_price')}}"  aria-label="Amount (to the nearest dollar)" />
                                                                 {{-- <span class="input-group-text">.00</span> --}}
                                                             </div>
                                                             @error('selling_price')
@@ -214,7 +214,7 @@
                                                                 <div class="input-group input-group-merge mb-2">
                                                                     <label class="input-group-text" for="default_price">Global Price</label>
                                                                     <span class="input-group-text">$</span>
-                                                                    <input type="text" class="form-control" name="global_price" value="{{old('global_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                    <input type="text" class="form-control" name="global_price" value="{{old('global_price')}}"  aria-label="Amount (to the nearest dollar)" />
                                                                     {{-- <span class="input-group-text">.00</span> --}}
                                                                 </div>
                                                                 @error('global_price')
@@ -232,7 +232,7 @@
                                                                 <div class="input-group input-group-merge mb-2">
                                                                     <label class="input-group-text" for="default_price">Compare Price</label>
                                                                     <span class="input-group-text">$</span>
-                                                                    <input type="text" class="form-control" name="compare_price" value="{{old('compare_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                    <input type="text" class="form-control" name="compare_price" value="{{old('compare_price')}}"  aria-label="Amount (to the nearest dollar)" />
                                                                     {{-- <span class="input-group-text">.00</span> --}}
                                                                 </div>
                                                                 @error('compare_price')
@@ -283,7 +283,7 @@
                                                             @enderror
                                                         </div>
                                                         <div class="mb-1 col-md-6">
-                                                            <label class="form-label" for="default_price"> Shipping Time</label>
+                                                            <label class="form-label" for="default_price"> Shipping Time(d)</label>
                                                             <input type="number" id="default_price" name="shipping_time" value="{{old('shipping_time')}}" class="form-control"  />
                                                             @error('shipping_time')
                                                                 <span class="text-danger"> {{ $message }}</span>

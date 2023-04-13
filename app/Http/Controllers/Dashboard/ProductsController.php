@@ -90,7 +90,7 @@ class ProductsController extends Controller
 
             if (!$request->selling_price) {
 
-                $request->selling_price = ((($request->price)*20)/100 + $request->price);
+                $request->selling_price = ((($request->price)*25)/100 + $request->price);
             }
 
             $product = Product::create([
