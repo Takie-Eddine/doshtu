@@ -65,7 +65,7 @@ class ProductsController extends Controller
             'photo.*'=> 'mimes:jpg,jpeg,png',
             'image' => 'nullable|array|min:1',
             'image.*' => 'mimes:jpg,jpeg,png',
-            'price' => ['required','numeric','between:0,*.99'],
+            'price' => ['required','numeric','between:0,99999999.99'],
             'selling_price' => ['nullable', 'numeric','between:0,99999999.99'],
             'global_price' => ['nullable', 'numeric','between:0,99999999.99'],
             'compare_price' => ['nullable', 'numeric','between:0,99999999.99'],
@@ -86,6 +86,11 @@ class ProductsController extends Controller
                     Image::make($request->photo->getRealPath())->resize(500,null,function($constraint){
                         $constraint->aspectRatio();
                     })->save($path,100);
+            }
+
+            if (!$request->selling_price) {
+
+                $request->selling_price = ((($request->price)*20)/100 + $request->price);
             }
 
             $product = Product::create([
@@ -181,7 +186,7 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id){
 
-        //return $request;
+
         $request->validate([
             'name_ar' => ['required', 'string', 'min:4', 'max:255'],
             'name_en' => ['required', 'string', 'min:4', 'max:255'],

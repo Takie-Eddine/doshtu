@@ -116,7 +116,7 @@
                                                         <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select opts" name="tags[]" multiple>
                                                             <option value="">Select Tag</option>
                                                             @forelse ($tags as $tag)
-                                                                <option value="{{$tag->name}}" {{ (collect(old('tags'))->contains($tag->id)) ? 'selected':'' }} >{{$tag->name}}</option>
+                                                                <option value="{{$tag->name}}" {{ (collect(old('tags'))->contains($tag->name)) ? 'selected':'' }} >{{$tag->name}}</option>
                                                             @empty
                                                             @endforelse
                                                             </select>
@@ -174,20 +174,25 @@
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
                                                         </div> --}}
-                                                        <div class="input-group input-group-merge mb-2">
-                                                            <label class="input-group-text" for="default_price">Price</label>
-                                                            <span class="input-group-text">$</span>
-                                                            <input type="text" class="form-control" name="price" id="price" value="{{old('price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
-                                                            {{-- <span class="input-group-text">.00</span> --}}
+                                                        <div class="row">
+                                                            <div class="input-group input-group-merge mb-2">
+                                                                <label class="input-group-text" for="default_price">Price</label>
+                                                                <span class="input-group-text">$</span>
+                                                                <input type="text" class="form-control" name="price" id="price" value="{{old('price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            </div>
                                                             @error('price')
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
                                                         </div>
-                                                        <div class="input-group input-group-merge mb-2">
-                                                            <label class="input-group-text" for="default_price">Selling Price</label>
-                                                            <span class="input-group-text">$</span>
-                                                            <input type="text" class="form-control" name="selling_price" id="selling_price" value="{{old('selling_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
-                                                            {{-- <span class="input-group-text">.00</span> --}}
+
+                                                        <div class="row">
+                                                            <div class="input-group input-group-merge mb-2">
+                                                                <label class="input-group-text" for="default_price">Selling Price</label>
+                                                                <span class="input-group-text">$</span>
+                                                                <input type="text" class="form-control" name="selling_price" id="selling_price" value="{{old('selling_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            </div>
                                                             @error('selling_price')
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
@@ -205,11 +210,13 @@
                                                 </div>
                                                     <div class="d-flex flex-column flex-md-row">
                                                         <div class="row">
-                                                            <div class="input-group input-group-merge mb-2">
-                                                                <label class="input-group-text" for="default_price">Global Price</label>
-                                                                <span class="input-group-text">$</span>
-                                                                <input type="text" class="form-control" name="global_price" value="{{old('global_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
-                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            <div class="row">
+                                                                <div class="input-group input-group-merge mb-2">
+                                                                    <label class="input-group-text" for="default_price">Global Price</label>
+                                                                    <span class="input-group-text">$</span>
+                                                                    <input type="text" class="form-control" name="global_price" value="{{old('global_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                    {{-- <span class="input-group-text">.00</span> --}}
+                                                                </div>
                                                                 @error('global_price')
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
@@ -221,11 +228,13 @@
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
                                                             </div> --}}
-                                                            <div class="input-group input-group-merge mb-2">
-                                                                <label class="input-group-text" for="default_price">Compare Price</label>
-                                                                <span class="input-group-text">$</span>
-                                                                <input type="text" class="form-control" name="compare_price" value="{{old('compare_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
-                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            <div class="row">
+                                                                <div class="input-group input-group-merge mb-2">
+                                                                    <label class="input-group-text" for="default_price">Compare Price</label>
+                                                                    <span class="input-group-text">$</span>
+                                                                    <input type="text" class="form-control" name="compare_price" value="{{old('compare_price')}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                    {{-- <span class="input-group-text">.00</span> --}}
+                                                                </div>
                                                                 @error('compare_price')
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
@@ -265,7 +274,7 @@
                                                             <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select" name="company" >
                                                                 <option value="">Select Company</option>
                                                                 @forelse ($companies as $company)
-                                                                    <option value="{{$company->id}}" @selected(old($company->id) == $company->id)>{{$company->company_name}}</option>
+                                                                    <option value="{{$company->id}}" {{ (collect(old('company'))->contains($company->id)) ? 'selected':'' }}>{{$company->company_name}}</option>
                                                                 @empty
                                                                 @endforelse
                                                                 </select>
