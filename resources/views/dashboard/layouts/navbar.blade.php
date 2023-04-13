@@ -21,9 +21,35 @@
             </ul> --}}
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            <li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+            {{-- <li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
-            </li>
+            </li> --}}
+            <li class="nav-item dropdown dropdown-language">
+                <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if (App::getLocale() == 'en')
+                        <i class="flag-icon flag-icon-us"></i>
+                    @endif
+                    @if (App::getLocale() == 'ar' )
+                        <i class="flag-icon flag-icon-dz"></i>
+                    @endif
+
+                    <span class="selected-language">{{LaravelLocalization::getCurrentLocaleName()}}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag">
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"  data-language="{{ $localeCode }}">
+                            @if ($properties['native'] == 'English')
+                                <i class="flag-icon flag-icon-us"></i>
+                            @endif
+                            @if ($properties['native'] == 'العربية')
+                                <i class="flag-icon flag-icon-dz"></i>
+                            @endif
+                            {{ $properties['native'] }}
+                        </a>
+                    @endforeach
+                </div>
+
+        </li>
             <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="moon"></i></a></li>
             {{-- <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon" data-feather="search"></i></a>
                 <div class="search-input">
