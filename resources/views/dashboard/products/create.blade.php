@@ -381,10 +381,10 @@
 </script>
 
 <script>
-    $('#price').click(function(){
+    $('#selling_price, #price').mouseenter(function(){
         var number = parseFloat($('#price').val());
 
-        $('#selling_price').val( ((number * 20)/100 + number) );
+        $('#selling_price').val( (((number * 20)/100 + number)) );
     });
 </script>
 @endpush

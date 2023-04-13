@@ -65,10 +65,10 @@ class ProductsController extends Controller
             'photo.*'=> 'mimes:jpg,jpeg,png',
             'image' => 'nullable|array|min:1',
             'image.*' => 'mimes:jpg,jpeg,png',
-            'price' => ['required','numeric','between:0,99.99'],
-            'selling_price' => ['nullable', 'numeric','between:0,99.99'],
-            'global_price' => ['nullable', 'numeric','between:0,99.99'],
-            'compare_price' => ['nullable', 'numeric','between:0,99.99'],
+            'price' => ['required','numeric','between:0,*.99'],
+            'selling_price' => ['nullable', 'numeric','between:0,99999999.99'],
+            'global_price' => ['nullable', 'numeric','between:0,99999999.99'],
+            'compare_price' => ['nullable', 'numeric','between:0,99999999.99'],
             'company' => ['required', Rule::exists('companies','id')],
             'shipping_time' => ['required', 'numeric'],
             'sku' => 'required|min:3|max:50',
@@ -181,6 +181,7 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id){
 
+        //return $request;
         $request->validate([
             'name_ar' => ['required', 'string', 'min:4', 'max:255'],
             'name_en' => ['required', 'string', 'min:4', 'max:255'],
@@ -192,10 +193,10 @@ class ProductsController extends Controller
             'image.*' => 'mimes:jpg,jpeg,png',
             'photo' => 'nullable',
             'photo.*'=> 'mimes:jpg,jpeg,png',
-            'price' => ['required','numeric','between:0,99.99'],
-            'selling_price' => ['nullable','numeric', 'between:0,99.99'],
-            'global_price' => ['nullable','numeric', 'between:0,99.99'],
-            'compare_price' => ['nullable','numeric', 'between:0,99.99'],
+            'price' => ['required','numeric','between:0,99999999.99'],
+            'selling_price' => ['nullable','numeric', 'between:0,99999999.99'],
+            'global_price' => ['nullable','numeric', 'between:0,99999999.99'],
+            'compare_price' => ['nullable','numeric', 'between:0,99999999.99'],
             'company' => ['required', Rule::exists('companies','id')],
             'shipping_time' => ['required', 'numeric'],
             'sku' => 'required|min:3|max:50',

@@ -154,15 +154,18 @@
                                                 <h4 class="mb-1">Details</h4>
                                                 <div class="d-flex flex-column flex-md-row">
                                                     <div class="row">
-                                                        <div class="input-group input-group-merge mb-2">
-                                                            <label class="input-group-text" for="default_price">Price</label>
-                                                            <span class="input-group-text">$</span>
-                                                            <input type="text" class="form-control" name="price" value="{{$product->price}}"  aria-label="Amount (to the nearest dollar)" />
-                                                            {{-- <span class="input-group-text">.00</span> --}}
+                                                        <div class="row">
+                                                            <div class="input-group input-group-merge mb-2 ">
+                                                                <label class="input-group-text" for="default_price">Price</label>
+                                                                <span class="input-group-text">$</span>
+                                                                <input type="text" class="form-control" id="price" name="price" value="{{$product->price}}"  aria-label="Amount (to the nearest dollar)" />
+                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            </div>
                                                             @error('price')
-                                                                <span class="text-danger"> {{ $message }}</span>
-                                                            @enderror
+                                                            <span class="text-danger"> {{ $message }}</span>
+                                                        @enderror
                                                         </div>
+
                                                         {{-- <div class="mb-1 col-md-6">
                                                             <label class="form-label" for="default_price"> Price</label>
                                                             <input type="text" id="default_price" name="price" value="{{$product->price}}" class="form-control"  />
@@ -170,15 +173,19 @@
                                                                 <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
                                                         </div> --}}
-                                                        <div class="input-group input-group-merge mb-2">
-                                                            <label class="input-group-text" for="default_price">Selling Price</label>
-                                                            <span class="input-group-text">$</span>
-                                                            <input type="text" class="form-control" name="selling_price" value="{{$product->selling_price}}"  aria-label="Amount (to the nearest dollar)" />
-                                                            {{-- <span class="input-group-text">.00</span> --}}
+                                                        <div class="row">
+                                                            <div class="input-group input-group-merge mb-2">
+                                                                <label class="input-group-text" for="default_price">Selling Price</label>
+                                                                <span class="input-group-text">$</span>
+                                                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{$product->selling_price}}"  aria-label="Amount (to the nearest dollar)" />
+                                                                {{-- <span class="input-group-text">.00</span> --}}
+
+                                                            </div>
                                                             @error('selling_price')
-                                                                <span class="text-danger"> {{ $message }}</span>
+                                                                    <span class="text-danger"> {{ $message }}</span>
                                                             @enderror
                                                         </div>
+
                                                         {{-- <div class="mb-1 col-md-6">
                                                             <label class="form-label" for="default_price">Selling Price</label>
                                                             <input type="number" id="default_price" name="selling_price" value="{{$product->selling_price}}" class="form-control"  />
@@ -192,11 +199,13 @@
                                                 </div>
                                                     <div class="d-flex flex-column flex-md-row">
                                                         <div class="row">
-                                                            <div class="input-group input-group-merge mb-2">
-                                                                <label class="input-group-text" for="default_price">Global Price</label>
-                                                                <span class="input-group-text">$</span>
-                                                                <input type="text" class="form-control" name="global_price" value="{{$product->global_price}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
-                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            <div class="row">
+                                                                <div class="input-group input-group-merge mb-2">
+                                                                    <label class="input-group-text" for="default_price">Global Price</label>
+                                                                    <span class="input-group-text">$</span>
+                                                                    <input type="text" class="form-control" name="global_price" value="{{$product->global_price}}" placeholder="100" aria-label="Amount (to the nearest dollar)" />
+                                                                    {{-- <span class="input-group-text">.00</span> --}}
+                                                                </div>
                                                                 @error('global_price')
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
@@ -208,15 +217,18 @@
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
                                                             </div> --}}
-                                                            <div class="input-group input-group-merge mb-2">
-                                                                <label class="input-group-text" for="default_price">Compare Price</label>
-                                                                <span class="input-group-text">$</span>
-                                                                <input type="text" class="form-control" name="compare_price" value="{{$product->compare_price}}"  aria-label="Amount (to the nearest dollar)" />
-                                                                {{-- <span class="input-group-text">.00</span> --}}
+                                                            <div class="row">
+                                                                <div class="input-group input-group-merge mb-2">
+                                                                    <label class="input-group-text" for="default_price">Compare Price</label>
+                                                                    <span class="input-group-text">$</span>
+                                                                    <input type="text" class="form-control" name="compare_price" value="{{$product->compare_price}}"  aria-label="Amount (to the nearest dollar)" />
+                                                                    {{-- <span class="input-group-text">.00</span> --}}
+                                                                </div>
                                                                 @error('compare_price')
                                                                     <span class="text-danger"> {{ $message }}</span>
                                                                 @enderror
                                                             </div>
+
                                                             {{-- <div class="mb-1 col-md-6">
                                                                 <label class="form-label" for="default_price">Compare Price</label>
                                                                 <input type="number" id="default_price" name="compare_price" value="{{$product->compare_price}}" class="form-control"  />
@@ -364,6 +376,13 @@
         });
 
 
+    });
+</script>
+<script>
+    $('#selling_price, #price').mouseenter(function(){
+        var number = parseFloat($('#price').val());
+
+        $('#selling_price').val( (((number * 20)/100 + number)) );
     });
 </script>
 @endpush
