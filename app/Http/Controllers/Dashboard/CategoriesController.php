@@ -22,8 +22,12 @@ class CategoriesController extends Controller
     {
 
         //$request = request();
-        $categories = Category::with('parent')
-            ->when(request()->keyword != null,function ($query){
+        $categories = Category::Parents()->select('id', 'name','status','created_at','parent_id')->with(['children' => function ($q) {
+                $q->select('id', 'name','status','created_at','parent_id');
+                $q->with(['children' => function ($qq) {
+                    $qq->select('id', 'name','status','created_at','parent_id');
+                }]);
+            }])->when(request()->keyword != null,function ($query){
                 $query->search(request()->keyword);
             })
             ->when(\request()->status != null, function ($query) {
@@ -31,13 +35,9 @@ class CategoriesController extends Controller
             })
             ->orderBy(\request()->sort_by ?? 'id', \request()->order_by ?? 'desc')
             ->paginate(\request()->limit_by ?? 10);
-            // $data['categories'] = Category::Parents()->select('id', 'slug')->with(['children' => function ($q) {
-            //     $q->select('id', 'parent_id', 'slug');
-            //     $q->with(['children' => function ($qq) {
-            //         $qq->select('id', 'parent_id', 'slug');
-            //     }]);
-            // }])->get();
-            // return $data['categories'];
+
+
+            //return $categories;
         return view('dashboard.categories.index',compact('categories'));
 
     }

@@ -74,12 +74,12 @@
                                     @forelse ($categories as $category)
                                         <tr>
                                             <td><img src="{{$category->image_url}}" height="100" width="100" ></td>
-                                            <td>{{$category->id}}</td>
-                                            <td ><a href="{{route('admin.categories.show',$category->id)}}"> {{$category->name}} </a></td>
-                                            <td>{{$category->parent->name }}</td>
+                                            <td><span ><b>{{$category->id}}</b></span></td>
+                                            <td ><a href="{{route('admin.categories.show',$category->id)}}"><span ><b>{{$category->name}}</a></td>
+                                            <td><span ><b>{{$category->parent->name }}</b></span></td>
                                             {{-- <td>{{$category->products_count }}</td> --}}
-                                            <td>{{$category->status}}</td>
-                                            <td>{{$category->created_at}}</td>
+                                            <td><span ><b>{{$category->status}}</b></span></td>
+                                            <td><span ><b>{{$category->created_at}}</b></span></td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                 <a href="{{route('admin.categories.edit',$category->id)}}"
@@ -92,6 +92,98 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @forelse ($category->children as $children)
+                                            <tr>
+                                                <td><img src="{{$children->image_url}}" height="100" width="100" ></td>
+                                                <td>{{$children->id}}</td>
+                                                <td ><a href="{{route('admin.categories.show',$children->id)}}">- {{$children->name}} </a></td>
+                                                <td>{{$children->parent->name }}</td>
+                                                {{-- <td>{{$category->products_count }}</td> --}}
+                                                <td>{{$children->status}}</td>
+                                                <td>{{$children->created_at}}</td>
+                                                <td>
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="{{route('admin.categories.edit',$children->id)}}"
+                                                        class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
+                                                        <form action="{{route('admin.categories.destroy',$children->id)}}" method="POST">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                                @forelse ($children->children as $child)
+                                                <tr>
+                                                    <td><img src="{{$child->image_url}}" height="100" width="100" ></td>
+                                                    <td>{{$child->id}}</td>
+                                                    <td ><a href="{{route('admin.categories.show',$child->id)}}">--{{$child->name}} </a></td>
+                                                    <td>{{$child->parent->name }}</td>
+                                                    {{-- <td>{{$category->products_count }}</td> --}}
+                                                    <td>{{$child->status}}</td>
+                                                    <td>{{$child->created_at}}</td>
+                                                    <td>
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <a href="{{route('admin.categories.edit',$child->id)}}"
+                                                            class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
+                                                            <form action="{{route('admin.categories.destroy',$child->id)}}" method="POST">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                    @forelse ($child->children as $item)
+                                                    <tr>
+                                                        <td><img src="{{$item->image_url}}" height="100" width="100" ></td>
+                                                        <td>{{$item->id}}</td>
+                                                        <td ><a href="{{route('admin.categories.show',$item->id)}}">---{{$item->name}} </a></td>
+                                                        <td>{{$item->parent->name }}</td>
+                                                        {{-- <td>{{$category->products_count }}</td> --}}
+                                                        <td>{{$item->status}}</td>
+                                                        <td>{{$item->created_at}}</td>
+                                                        <td>
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <a href="{{route('admin.categories.edit',$item->id)}}"
+                                                                class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
+                                                                <form action="{{route('admin.categories.destroy',$item->id)}}" method="POST">
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    @forelse ($item->children as $value)
+                                                        <tr>
+                                                            <td><img src="{{$value->image_url}}" height="100" width="100" ></td>
+                                                            <td>{{$value->id}}</td>
+                                                            <td ><a href="{{route('admin.categories.show',$value->id)}}">----{{$value->name}} </a></td>
+                                                            <td>{{$value->parent->name }}</td>
+                                                            {{-- <td>{{$category->products_count }}</td> --}}
+                                                            <td>{{$value->status}}</td>
+                                                            <td>{{$value->created_at}}</td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <a href="{{route('admin.categories.edit',$value->id)}}"
+                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
+                                                                    <form action="{{route('admin.categories.destroy',$value->id)}}" method="POST">
+                                                                        @csrf
+                                                                        @method('delete')
+                                                                        <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                    @endforelse
+                                                @empty
+                                                @endforelse
+                                            @empty
+                                            @endforelse
+                                        @empty
+                                        @endforelse
                                     @empty
                                         <tr>
                                             <td colspan="7">No categories defined.</td>

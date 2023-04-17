@@ -286,7 +286,7 @@ class ProductsController extends Controller
 
 
             DB::commit();
-            return redirect()->route('admin.products.index')->with([
+            return redirect()->back()->with([
                 'message' => 'Created successfully',
                 'alert-type' => 'success',
             ]);
