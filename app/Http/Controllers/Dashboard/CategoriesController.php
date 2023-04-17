@@ -26,6 +26,9 @@ class CategoriesController extends Controller
                 $q->select('id', 'name','status','created_at','parent_id');
                 $q->with(['children' => function ($qq) {
                     $qq->select('id', 'name','status','created_at','parent_id');
+                        $qq->with(['children' =>function($qqq){
+                            $qqq->select('id', 'name','status','created_at','parent_id');
+                        }]);
                 }]);
             }])->when(request()->keyword != null,function ($query){
                 $query->search(request()->keyword);
