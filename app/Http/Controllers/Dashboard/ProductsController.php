@@ -75,7 +75,7 @@ class ProductsController extends Controller
             'quantity' => 'nullable',
         ]);
 
-        // try{
+        try{
             DB::beginTransaction();
 
             $file_name = null;
@@ -154,10 +154,10 @@ class ProductsController extends Controller
                 'alert-type' => 'success',
             ]);
 
-        // }catch(Exception $ex){
-        //     DB::rollback();
-        //     return redirect()->route('admin.products.index')->with($ex->getMessage());
-        // }
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->route('admin.products.index')->with($ex->getMessage());
+        }
 
 
     }
@@ -234,7 +234,7 @@ class ProductsController extends Controller
                 'company_id' => $request->company,
                 //'category_id' => $request-> category,
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar] ,
-                'slug' => Str::slug($request->name_en.rand(000,999)) ,
+                'slug' => Str::slug($request->name_en.rand(0000,9999)) ,
                 'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
                 //'image' => $file_name,
                 'price' => $request->price ,
@@ -360,7 +360,7 @@ class ProductsController extends Controller
                             '*.attributes'=> ['required', Rule::exists('attributes','id')],
                             '*.variant'=> ['required', 'string']
                         ],
-            'price' => ['nullable','numeric'],
+            'price' => ['nullable','numeric','between:0,99999999.99'],
             'sku' =>['nullable','string','min:6'],
             'quantity' => ['nullable','numeric'],
             'image' => ['nullable','mimes:jpg,jpeg,png'],
