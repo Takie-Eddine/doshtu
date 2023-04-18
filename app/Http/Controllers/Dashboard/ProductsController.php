@@ -97,7 +97,7 @@ class ProductsController extends Controller
                 'company_id' => $request->company,
                 //'category_id' => $request-> category,
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar] ,
-                'slug' => Str::slug($request->name_en.rand(000,999)) ,
+                'slug' => Str::slug($request->name_en.rand(0000,9999)) ,
                 'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
                 'image' => $file_name,
                 'price' => $request->price ,
