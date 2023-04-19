@@ -44,7 +44,7 @@ class ProductsController extends Controller
     public function create(){
 
         $tags = Tag::all();
-        $categories = Category::all();
+        $categories = Category::parents()->get();
         $companies = Company::all();
         return view('dashboard.products.create',compact('tags','categories','companies'));
 

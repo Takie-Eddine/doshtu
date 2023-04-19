@@ -133,7 +133,27 @@
                                                         <select id="default-select-multi{{rand(00,99)}}" class="select2 form-select" name="category[]" multiple>
                                                             <option value="">Select Category</option>
                                                             @forelse ($categories as $category)
-                                                                <option value="{{$category->id}}" {{ (collect(old('category'))->contains($category->id)) ? 'selected':'' }}>{{$category->name}}</option>
+                                                                <option value="{{$category->id}}" {{ (collect(old('category'))->contains($category->id)) ? 'selected':'' }}> <b> {{$category->name}} </b></option>
+                                                                @forelse ($category->children as $children)
+                                                                    <option value="{{$children->id}}" {{ (collect(old('category'))->contains($children->id)) ? 'selected':'' }}>-{{$children->name}}</option>
+                                                                    @forelse ($children->children as $child)
+                                                                        <option value="{{$child->id}}" {{ (collect(old('category'))->contains($child->id)) ? 'selected':'' }}>--{{$child->name}}</option>
+                                                                        @forelse ($child->children as $item)
+                                                                            <option value="{{$item->id}}" {{ (collect(old('category'))->contains($item->id)) ? 'selected':'' }}>---{{$item->name}}</option>
+                                                                            @forelse ($child->children as $item)
+                                                                                <option value="{{$item->id}}" {{ (collect(old('category'))->contains($item->id)) ? 'selected':'' }}>---{{$item->name}}</option>
+                                                                                @forelse ($item->children as $value)
+                                                                                    <option value="{{$value->id}}" {{ (collect(old('category'))->contains($value->id)) ? 'selected':'' }}>----{{$value->name}}</option>
+                                                                                @empty
+                                                                                @endforelse
+                                                                            @empty
+                                                                            @endforelse
+                                                                        @empty
+                                                                        @endforelse
+                                                                    @empty
+                                                                    @endforelse
+                                                                @empty
+                                                                @endforelse
                                                             @empty
                                                             @endforelse
                                                             </select>
@@ -275,6 +295,7 @@
                                                                 <option value="">Select Company</option>
                                                                 @forelse ($companies as $company)
                                                                     <option value="{{$company->id}}" {{ (collect(old('company'))->contains($company->id)) ? 'selected':'' }}>{{$company->company_name}}</option>
+
                                                                 @empty
                                                                 @endforelse
                                                                 </select>
