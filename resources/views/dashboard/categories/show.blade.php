@@ -64,7 +64,10 @@
                                                     </thead>
                                                     <tbody>
                                                         @php
-                                                            $products = $category->products()->with('company')->paginate();
+                                                            //$products = $category->products()->with('company')->paginate();
+                                                            foreach ($childIds as $childId) {
+                                                                $products = $childId->products()->with('company')->paginate();
+                                                            }
                                                         @endphp
                                                         @forelse ($products as $product)
                                                             <tr>

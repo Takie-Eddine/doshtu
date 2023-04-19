@@ -140,12 +140,8 @@
                                                                         <option value="{{$child->id}}" {{ (collect(old('category'))->contains($child->id)) ? 'selected':'' }}>--{{$child->name}}</option>
                                                                         @forelse ($child->children as $item)
                                                                             <option value="{{$item->id}}" {{ (collect(old('category'))->contains($item->id)) ? 'selected':'' }}>---{{$item->name}}</option>
-                                                                            @forelse ($child->children as $item)
-                                                                                <option value="{{$item->id}}" {{ (collect(old('category'))->contains($item->id)) ? 'selected':'' }}>---{{$item->name}}</option>
-                                                                                @forelse ($item->children as $value)
-                                                                                    <option value="{{$value->id}}" {{ (collect(old('category'))->contains($value->id)) ? 'selected':'' }}>----{{$value->name}}</option>
-                                                                                @empty
-                                                                                @endforelse
+                                                                            @forelse ($item->children as $value)
+                                                                                <option value="{{$value->id}}" {{ (collect(old('category'))->contains($value->id)) ? 'selected':'' }}>----{{$value->name}}</option>
                                                                             @empty
                                                                             @endforelse
                                                                         @empty

@@ -133,7 +133,13 @@ class CategoriesController extends Controller
      */
     public function show(Category $category)
     {
-        return view('dashboard.categories.show',compact('category'));
+
+        $childIds = getAllChildIds($category);
+
+        $childIds[] = $category;
+
+
+        return view('dashboard.categories.show',compact('category','childIds'));
     }
 
     /**
@@ -294,4 +300,8 @@ class CategoriesController extends Controller
             'alert-type' => 'success',
         ]);
     }
+
+
+
+
 }
