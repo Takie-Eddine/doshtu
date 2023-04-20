@@ -138,8 +138,14 @@ class CategoriesController extends Controller
 
         $childIds[] = $category;
 
+        return $childIds;
 
-        return view('dashboard.categories.show',compact('category','childIds'));
+        foreach ($childIds as $childId) {
+            $products = $childId->products()->with('company')->paginate();
+        }
+
+
+        return view('dashboard.categories.show',compact('category','products'));
     }
 
     /**

@@ -57,23 +57,26 @@
                                                             <th></th>
                                                             <th>ID</th>
                                                             <th>Name</th>
+                                                            <th>Parent</th>
                                                             <th>Supplier</th>
                                                             <th>Status</th>
                                                             <th>Created At</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @php
-                                                            //$products = $category->products()->with('company')->paginate();
-                                                            foreach ($childIds as $childId) {
-                                                                $products = $childId->products()->with('company')->paginate();
-                                                            }
-                                                        @endphp
+
                                                         @forelse ($products as $product)
                                                             <tr>
                                                                 <td><img src="{{$product->image_url}}" height="100" width="100" ></td>
                                                                 <td>{{$product->id}}</td>
                                                                 <td>{{$product->name }}</td>
+                                                                <td>
+                                                                    @forelse ($product->categories as $item)
+                                                                        <span>{{$item->name}},</span>
+                                                                    @empty
+                                                                        <span>__</span>
+                                                                    @endforelse
+                                                                </td>
                                                                 <td><a href="{{route('admin.companies.show',$product->company->id)}}">{{$product->company->company_name }}</a></td>
                                                                 <td>{{$product->status}}</td>
                                                                 <td>{{$product->created_at}}</td>
