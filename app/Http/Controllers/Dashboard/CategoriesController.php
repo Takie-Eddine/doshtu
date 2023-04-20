@@ -138,10 +138,11 @@ class CategoriesController extends Controller
 
         $childIds[] = $category;
 
-        //return $childIds;
+
+        $products = [];
 
         foreach ($childIds as $childId) {
-            $products = $childId->products()->with('company')->get();
+            $products[] = $childId->products()->with('company')->get();
         }
 
         return $products ;
