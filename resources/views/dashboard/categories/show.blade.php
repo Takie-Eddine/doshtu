@@ -91,7 +91,7 @@
                                                         <tr>
                                                             <td colspan="12">
                                                                 <div class="float-right">
-                                                                    {{$products->withQueryString()->links()}}
+                                                                    {{-- {{$products->withQueryString()->links()}} --}}
                                                                 </div>
                                                             </td>
                                                         </tr>

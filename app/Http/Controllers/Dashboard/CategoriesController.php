@@ -139,13 +139,14 @@ class CategoriesController extends Controller
         $childIds[] = $category;
 
 
-        $products = [];
+
+        $products = collect();
 
         foreach ($childIds as $childId) {
-            $products[] = $childId->products()->with('company')->get();
+            $products = $products->merge( $childId->products()->get());
         }
 
-        return $products ;
+        // return $products ;
 
 
         return view('dashboard.categories.show',compact('category','products'));
