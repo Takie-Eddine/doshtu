@@ -141,7 +141,7 @@ class CategoriesController extends Controller
         //return $childIds;
 
         foreach ($childIds as $childId) {
-            $products = $childId->products()->with('company')->paginate();
+            $products = $childId->products()->with('company')->get();
         }
 
         return $products ;
