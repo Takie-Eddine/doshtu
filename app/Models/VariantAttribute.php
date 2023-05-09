@@ -13,6 +13,7 @@ class VariantAttribute extends Pivot
 
     public $table = 'variant_attributes';
     public $timestamps = false;
+
     protected $fillable = [
         'value', 'variant_id', 'attribute_id',
     ];

@@ -58,18 +58,16 @@
                                 <form class="form" action="{{route('admin.categories.store')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="first-name-column">Arabic Name</label>
-                                                <input type="text" id="first-name-column" class="form-control" placeholder="Arabic Name" name="name_ar" value="{{old('name_ar')}}"/>
+                                        @forelse (LaravelLocalization::getSupportedLocales() as $localeCode => $properties )
+                                            <div class="col-md-6 col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="first-name-column">{{$properties['name']}} Name</label>
+                                                    <input type="text" id="first-name-column" class="form-control" placeholder="{{$properties['name']}} Name" name="{{$localeCode}}" value="{{old($localeCode)}}"/>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="last-name-column">English Name</label>
-                                                <input type="text" id="last-name-column" class="form-control" placeholder="English Name" name="name_en" value="{{old('name_en')}}"/>
-                                            </div>
-                                        </div>
+                                        @empty
+
+                                        @endforelse
                                         <div class="col-12 col-sm-6 mb-1">
                                             <label class="form-label" class="d-block">Category Parent</label>
                                                 <select name="parent_id" class="form-control" id="">

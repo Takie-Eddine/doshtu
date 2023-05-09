@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 
-@section('title','Products Variants')
+@section('title','Products Variant Edit')
 
 
 @push('style')
@@ -17,14 +17,14 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-start mb-0">Product</h2>
+                        <h2 class="content-header-title float-start mb-0">Variant</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{route('admin.products.index')}}">Products</a>
                                 </li>
-                                <li class="breadcrumb-item active">Add Variants
+                                <li class="breadcrumb-item active"><a >Edit</a>
                                 </li>
                             </ol>
                         </div>
@@ -32,20 +32,18 @@
                 </div>
             </div>
             <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
-
             </div>
         </div>
         <div class="content-body">
-            <section class="form-control-repeater">
-                @include('dashboard.layouts.alerts.flash')
+            <!-- Basic multiple Column Form section start -->
+            <section id="multiple-column-form">
                 <div class="row">
-                    <!-- Invoice repeater -->
                     <div class="col-12">
                         <div class="card">
+                            @include('dashboard.layouts.alerts.flash')
                             <div class="card-header">
-                                <h4 class="card-title">Add Variants</h4>
+                                <h4 class="card-title">Edit Variant</h4>
                             </div>
-                            <div class="card-body">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <h5>Error Occured!</h5>
@@ -56,9 +54,28 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <form action="{{route('admin.products.store_variant')}}" method="POST" enctype="multipart/form-data" >
+                            <div class="card-body">
+                                <form action="{{route('admin.products.update_variant',$variant->id)}}" method="POST" enctype="multipart/form-data" >
                                     @csrf
-                                    <input type="hidden" name="id" value="{{$product->id}}" id="">
+                                    <div >
+                                        <div data-repeater-list="values">
+                                            <div data-repeater-item>
+                                                <div class="row d-flex align-items-end">
+                                                    @forelse ($variant->attributes as $attribute)
+                                                        <div class="col-md-3 col-12">
+                                                            <input type="hidden" name="attribute_id[]" id="attribute_id-{{$attribute->id}}" value="{{$attribute->option->attribute_id}}">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">Variant</label>
+                                                                <input type="text" class="form-control"  value="{{$attribute->option->value}}" id="value-{{$attribute->id}}" name="value[]"  />
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="invoice-repeater">
                                         <div data-repeater-list="variants">
                                             <div data-repeater-item>
@@ -111,19 +128,19 @@
                                                     <div class="col-md-3 col-12">
                                                         <div class="mb-1">
                                                             <label class="form-label" for="itemquantity">Quantity</label>
-                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity" name="quantity" placeholder="1" />
+                                                            <input type="number" class="form-control" id="itemquantity" value="{{$variant->quantity}}" aria-describedby="itemquantity" name="quantity" placeholder="1" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-12">
                                                         <div class="mb-1">
                                                             <label class="form-label" for="itemquantity">SKU</label>
-                                                            <input type="text" class="form-control" id="itemquantity" aria-describedby="itemquantity" name="sku" placeholder="" />
+                                                            <input type="text" class="form-control" id="itemquantity" aria-describedby="itemquantity" name="sku" placeholder="" value="{{$variant->sku}}" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-12">
                                                         <div class="mb-1">
                                                             <label class="form-label" for="staticprice">Price</label>
-                                                            <input type="number"  class="form-control" id="staticprice" name="price" value="" />
+                                                            <input type="number"  class="form-control" id="staticprice" name="price" value="{{$variant->price}}" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-12">
@@ -132,26 +149,10 @@
                                                             <input type="file"  class="form-control" id="staticprice" name="image" value="" />
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="col-md-2 col-12 mb-50">
-                                                        <div class="mb-1">
-                                                            <button class="btn btn-outline-danger text-nowrap px-1" data-repeater-delete type="button">
-                                                                <i data-feather="x" class="me-25"></i>
-                                                                <span>Delete</span>
-                                                            </button>
-                                                        </div>
-                                                    </div> --}}
                                                 </div>
                                                 <hr />
                                             </div>
                                         </div>
-                                        {{-- <div class="row">
-                                            <div class="col-12">
-                                                <button class="btn btn-icon btn-primary" type="button" data-repeater-create>
-                                                    <i data-feather="plus" class="me-25"></i>
-                                                    <span>Add New</span>
-                                                </button>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                     <br>
                                         <button class="btn btn-icon btn-primary" type="submit">
@@ -161,77 +162,13 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /Invoice repeater -->
                 </div>
             </section>
+            <!-- Basic Floating Label Form section end -->
 
-        </div>
-
-        <div class="content-body">
-            <div class="row" id="table-responsive">
-                <div class="col-12">
-                        <div class="card">
-                            <div class="table-responsive">
-                                <table id="varients" class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="text-nowrap">#</th>
-                                            <th scope="col" class="text-nowrap">Options</th>
-                                            <th scope="col" class="text-nowrap">Image</th>
-                                            <th scope="col" class="text-nowrap">Sku</th>
-                                            <th scope="col" class="text-nowrap">Price</th>
-                                            <th scope="col" class="text-nowrap">Quantity</th>
-                                            <th scope="col" class="text-nowrap">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($variants as $variant)
-                                            <tr>
-                                                <td class="text-nowrap">{{$variant->id}}</td>
-                                                <td class="text-nowrap">
-                                                    @forelse ($variant->attributes as $name)
-                                                        {{$name->option->value}}/
-                                                    @empty
-
-                                                    @endforelse
-                                                </td>
-                                                <td class="text-nowrap"><div class="avatar">
-                                                    <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                        data-bs-placement="top" class="avatar pull-up my-0"
-                                                        title="{{ $product->name }}">
-                                                        <img src="{{ asset('assets/product_images/' . $variant->image) }}"
-                                                            alt="Avatar" height="50" width="50" />
-                                                    </div>
-                                                </div></td>
-                                                <td class="text-nowrap">{{$variant->sku}}</td>
-                                                <td class="text-nowrap">{{$variant->price}}</td>
-                                                <td class="text-nowrap">{{$variant->quantity}}</td>
-                                                <td class="text-nowrap">
-                                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                                        <a href="{{route('admin.products.edit_variant',$variant->id)}}" class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">edit</a>
-                                                        <form action="{{route('admin.products.delete_variant',$variant->id)}}" method="POST">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">delete</button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <td colspan="7">No variants defined.</td>
-                                        @endforelse
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-
-
 
 @endsection
 

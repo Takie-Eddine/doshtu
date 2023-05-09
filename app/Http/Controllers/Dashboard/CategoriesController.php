@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str ;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Support\Facades\File;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class CategoriesController extends Controller
 {
@@ -67,10 +68,17 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
+
+
+
+        //return  $translation ;
+
+        //return $request ;
         $request->validate([
 
-            'name_ar' => ['required', 'string' ,'min:4', 'unique:categories,name'] ,
-            'name_en' => ['required', 'string', 'min:4','unique:categories,name'] ,
+            'tr' => ['required', 'string' ,'min:4', 'unique:categories,name'] ,
+            'ar' => ['required', 'string', 'min:4','unique:categories,name'] ,
+            'en' => ['required', 'string', 'min:4','unique:categories,name'] ,
             'parent_id' => ['nullable' , 'int' , 'exists:categories,id'] ,
             'description' => ['nullable','string' , 'min:10'] ,
             'image' => ['nullable', 'mimes:jpg,jpeg,png'] ,
@@ -79,7 +87,7 @@ class CategoriesController extends Controller
         ]);
 
         if ($photo = $request->file('image')) {
-            $file_name = Str::slug($request->name_en).".".$photo->getClientOriginalExtension();
+            $file_name = Str::slug($request->en).".".$photo->getClientOriginalExtension();
             $path = public_path('/assets/category_images/' .$file_name);
             Image::make($photo->getRealPath())->resize(500,null,function($constraint){
                 $constraint->aspectRatio();
@@ -89,7 +97,7 @@ class CategoriesController extends Controller
             //return $input['photo'];
         }
 
-        $category = Category::whereSlug(Str::slug($request->name_en))->first();
+        $category = Category::whereSlug(Str::slug($request->en))->first();
 
         if($category){
             return redirect()->back()->with([
@@ -99,14 +107,19 @@ class CategoriesController extends Controller
         }
 
 
+
+        $translation = [] ;
+
+        foreach (LaravelLocalization::getSupportedLocales() as $localeCode=> $properties) {
+            $translation  =  array_merge ($translation, [$localeCode => $request->$localeCode] );
+        }
+
+
         try{
 
             $category = Category::create([
-                'name' => [
-                    'en' => $request-> name_en,
-                    'ar' => $request-> name_ar,
-                ],
-                'slug' => Str::slug($request->name_en),
+                'name' => $translation,
+                'slug' => Str::slug($request->en),
                 'parent_id' => $request->parent_id,
                 'description' => $request->description,
                 'image' => $request->image,
@@ -190,8 +203,9 @@ class CategoriesController extends Controller
     {
 
         $request->validate([
-            'name_ar' => ['required', 'string' ,'min:4', 'unique:categories,name'] ,
-            'name_en' => ['required', 'string', 'min:4','unique:categories,name'] ,
+            'ar' => ['required', 'string' ,'min:4', 'unique:categories,name'] ,
+            'en' => ['required', 'string', 'min:4','unique:categories,name'] ,
+            'tr' => ['required', 'string', 'min:4','unique:categories,name'] ,
             'parent_id' => ['nullable' , 'int' , 'exists:categories,id'] ,
             'description' => ['nullable','string' , 'min:10'] ,
             'image' => ['nullable', 'mimes:jpg,jpeg,png'] ,
@@ -211,7 +225,7 @@ class CategoriesController extends Controller
                     $category->image = null ;
                     $category->save();
                 }
-                $file_name = Str::slug($request->name_en).".".$photo->getClientOriginalExtension();
+                $file_name = Str::slug($request->en).".".$photo->getClientOriginalExtension();
                 $path = public_path('/assets/category_images/' .$file_name);
                 Image::make($photo->getRealPath())->resize(500,null,function($constraint){
                     $constraint->aspectRatio();
@@ -222,12 +236,16 @@ class CategoriesController extends Controller
                 ]) ;
             }
 
+            $translation = [] ;
+
+            foreach (LaravelLocalization::getSupportedLocales() as $localeCode=> $properties) {
+                $translation  =  array_merge ($translation, [$localeCode => $request->$localeCode] );
+            }
+
+
             $category->update([
-                'name' => [
-                    'en' => $request-> name_en,
-                    'ar' => $request-> name_ar,
-                ],
-                'slug' => Str::slug($request->name_en),
+                'name' => $translation ,
+                'slug' => Str::slug($request->en),
                 'parent_id' => $request->parent_id,
                 'description' => $request->description,
                 'status' =>$request->status,

@@ -99,6 +99,8 @@ Route::group(
                 Route::get('/add_variant/{product}', [ProductsController::class, 'add_variant'])->name('products.add_variant');
                 Route::post('/store_variant', [ProductsController::class, 'store_variant'])->name('products.store_variant');
                 Route::delete('/variant/delete/{id}',[ProductsController::class, 'delete_variant'])->name('products.delete_variant');
+                Route::get('/variant/edit/{id}',[ProductsController::class, 'edit_variant'])->name('products.edit_variant');
+                Route::post('/variant/update/{id}', [ProductsController::class, 'update_variant'])->name('products.update_variant');
             });
 
 

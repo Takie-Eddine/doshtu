@@ -58,7 +58,13 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>
+                                            <div class="col-sm">
+                                                <div class="form-check mt-3">
+                                                    <input class="form-check-input" type="checkbox" name="id[]" value="" id="defaultCheck" />
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Category</th>
@@ -71,6 +77,13 @@
                                 <tbody>
                                     @forelse ($products as $product)
                                         <tr>
+                                            <td>
+                                                <div class="col-sm">
+                                                    <div class="form-check mt-3">
+                                                        <input class="form-check-input" type="checkbox" value="{{$product->id}}" id="defaultCheck" />
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td><img src="{{$product->image_url}}" height="100" width="100" ></td>
                                             <td>{{$product->id}}</td>
                                             <td ><a href="{{route('admin.products.show',$product->id)}}"> {{$product->name}} </a></td>
@@ -146,6 +159,10 @@
 
 
 @push('script')
+
+<script>
+
+</script>
 
 @endpush
 

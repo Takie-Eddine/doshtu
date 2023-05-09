@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as Image;
+use SimpleXMLElement;
 
 class ProductsController extends Controller
 {
@@ -36,6 +37,17 @@ class ProductsController extends Controller
         ->paginate(\request()->limit_by ?? 10);
 
 
+        $products1 = getXmlDetails('https://www.hapshoe.com/TicimaxCustomXml/60C1FBE427A7427CA0F3431BD6902D87');
+
+        //$products = $products->merge($products1);
+
+        foreach ($products1 as  $value) {
+
+            return $value ;
+        }
+
+        return $products1 ;
+        return view('dashboard.products.test',compact('products1'));
 
         return view('dashboard.products.index',compact('products'));
     }
@@ -449,6 +461,91 @@ class ProductsController extends Controller
 
 
     }
+
+
+
+    public function edit_variant($id){
+
+        $attributes = Attribute::all();
+        $variant = Variant::findOrFail($id);
+
+        // return $variant->attributes;
+
+
+        return view('dashboard.products.variantedit',compact('variant','attributes'));
+    }
+
+
+
+    public function update_variant(Request $request, $id){
+
+
+        //return $request->attribute_id[0];
+        $request->validate([
+            'attribute_id.*' => ['required', Rule::exists('attributes','id')],
+            'value.*' => ['required','string'],
+            'variants' => [
+                            '*.attributes'=> ['nullable', Rule::exists('attributes','id')],
+                            '*.variant'=> ['nullable', 'string']
+                        ],
+            'price' => ['required','numeric','between:0,99999999.99'],
+            'sku' =>['required','string','min:6'],
+            'quantity' => ['required','numeric'],
+            'image' => ['nullable','mimes:jpg,jpeg,png'],
+
+        ]);
+
+
+        $variant = Variant::findOrFail($id);
+
+        $product = Product::findOrFail($variant->product_id);
+
+        if ($image = $request->file('image')) {
+
+            if(File::exists('assets/product_images/'.$variant->image) && $variant->image) {
+                unlink('assets/product_images/'.$variant->image);
+                $variant->image = null ;
+                $variant->save();
+            }
+
+            $file_name = Str::slug($product->getTranslation('name','en')).".".$image->getClientOriginalExtension();
+                $path = public_path('/assets/product_images/' .$file_name);
+                Image::make($image->getRealPath())->resize(500,null,function($constraint){
+                    $constraint->aspectRatio();
+                })->save($path,100);
+
+                $variant->update([
+                    'image' => $file_name,
+                ]);
+        }
+
+        $variant->update([
+            'price' => $request->price ,
+            'sku' =>$request->sku ,
+            'quantity' =>$request->quantity ,
+        ]);
+
+        $variant_attributes = VariantAttribute::where('variant_id',$variant->id)->get();
+
+
+        foreach ($variant_attributes as $variant_attribute) {
+
+            for ($i=0; $i <count($request->attribute_id) ; $i++) {
+                $variant_attribute->update([
+                    'variant_id' => $variant->id,
+                ]);
+
+
+            }
+
+        }
+
+
+
+
+    }
+
+
 
 
 

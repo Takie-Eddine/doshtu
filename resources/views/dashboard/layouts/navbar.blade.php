@@ -32,6 +32,9 @@
                     @if (App::getLocale() == 'ar' )
                         <i class="flag-icon flag-icon-dz"></i>
                     @endif
+                    @if (App::getLocale() == 'tr' )
+                        <i class="flag-icon flag-icon-tr"></i>
+                    @endif
 
                     <span class="selected-language">{{LaravelLocalization::getCurrentLocaleName()}}</span>
                 </a>
@@ -43,6 +46,9 @@
                             @endif
                             @if ($properties['native'] == 'العربية')
                                 <i class="flag-icon flag-icon-dz"></i>
+                            @endif
+                            @if ($properties['native'] == 'Türkçe')
+                                <i class="flag-icon flag-icon-tr"></i>
                             @endif
                             {{ $properties['native'] }}
                         </a>
