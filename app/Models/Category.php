@@ -25,6 +25,7 @@ class Category extends Model
 
         'columns' => [
             'categories.name' => 10,
+            'categories.slug' => 10,
         ],
     ];
 
