@@ -84,7 +84,7 @@
                                                 <select name="parent_id" class="form-control" id="">
                                                     <option value="">Primary Category</option>
                                                     @foreach ($categories as $parent)
-                                                        <option value="{{$parent->id }}" @selected($category->parent_id == $parent->id)>{{$parent->name }}</option>
+                                                        <option value="{{$parent->id }}" @selected($category->parent_id == $parent->id) >{{$parent->name }}</option>
                                                     @endforeach
                                                 </select>
                                         </div>
