@@ -149,6 +149,8 @@ class CategoriesController extends Controller
 
         $childIds = getAllChildIds($category);
 
+        return $childIds ;
+
         $childIds[] = $category;
 
 
@@ -158,6 +160,7 @@ class CategoriesController extends Controller
         foreach ($childIds as $childId) {
             $products = $products->merge( $childId->products()->get());
         }
+
 
         // return $products ;
 
