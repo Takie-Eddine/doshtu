@@ -37,17 +37,17 @@ class ProductsController extends Controller
         ->paginate(\request()->limit_by ?? 10);
 
 
-        $products1 = getXmlDetails('https://www.hapshoe.com/TicimaxCustomXml/60C1FBE427A7427CA0F3431BD6902D87');
+        // $products1 = getXmlDetails('https://www.hapshoe.com/TicimaxCustomXml/60C1FBE427A7427CA0F3431BD6902D87');
 
-        //$products = $products->merge($products1);
+        // $products2 = [];
 
-        foreach ($products1 as  $value) {
+        // foreach ($products1 as  $value) {
 
-            return $value ;
-        }
+        //     $products2 = $value ;
+        // }
 
-        return $products1 ;
-        return view('dashboard.products.test',compact('products1'));
+        // return $products2->Urun ;
+        // return view('dashboard.products.test',compact('products2'));
 
         return view('dashboard.products.index',compact('products'));
     }

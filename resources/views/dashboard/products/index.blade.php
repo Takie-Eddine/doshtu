@@ -65,6 +65,7 @@
                                                 </div>
                                             </div>
                                         </th>
+                                        <th></th>
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Category</th>
