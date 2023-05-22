@@ -40,6 +40,7 @@
                 <div class="col-12">
                     <div class="mb-5">
                         <a href="{{route('admin.products.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
+                        <a href="{{route('admin.products.add')}}" class="btn btn-sm btn-secondary btn-rounded btn-fw mr-2">Add</a>
                         <a href="{{route('admin.products.trash')}}" class="btn btn-sm btn-dark btn-rounded btn-fw">Trash</a>
                     </div>
                     {{-- <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">

@@ -87,6 +87,8 @@ Route::group(
             Route::group(['prefix' => 'products', 'middleware'=>'can:product' ], function () {
                 Route::get('/', [ProductsController::class, 'index'])->name('products.index');
                 Route::get('create', [ProductsController::class, 'create'])->name('products.create');
+                Route::get('add', [ProductsController::class, 'add'])->name('products.add');
+                Route::post('store_xml', [ProductsController::class, 'store_xml'])->name('products.store_xml');
                 Route::post('store', [ProductsController::class, 'store'])->name('products.store');
                 Route::get('edit/{id}', [ProductsController::class, 'edit'])->name('products.edit');
                 Route::post('update/{id}', [ProductsController::class, 'update'])->name('products.update');

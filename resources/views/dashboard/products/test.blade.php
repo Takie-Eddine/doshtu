@@ -14,7 +14,7 @@
     <table>
         <thead>
             <tr>
-                <td></td>
+
                 <td>id</td>
                 <td>Name</td>
                 <td>Category</td>
@@ -22,14 +22,14 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($products1 as $item)
+            @forelse ($products1->Urunler as $item)
                 @forelse ($item as $item1)
                     <tr>
-                        <td>{{$item1->UrunAdi}}</td>
+                        {{-- <td><img src="{{$item1->Resimler->Resim[0]}}" alt=""></td> --}}
                         <td>{{$item1->UrunKartiID}}</td>
                         <td>{{$item1->UrunAdi}}</td>
-                        <td>{{$item1->kategory}}</td>
-                        <td>{{$item1->UrunAdi}}</td>
+                        <td>{{$item1->Kategori}}</td>
+                        <td></td>
                     </tr>
                 @empty
                 @endforelse

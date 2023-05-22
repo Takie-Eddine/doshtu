@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Supplier;
 use App\Models\Tag;
 use App\Models\Variant;
 use App\Models\VariantAttribute;
@@ -15,10 +16,14 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as Image;
 use SimpleXMLElement;
+use Symfony\Component\Intl\Countries;
+use Symfony\Component\Intl\Languages;
 
 class ProductsController extends Controller
 {
@@ -37,19 +42,139 @@ class ProductsController extends Controller
         ->paginate(\request()->limit_by ?? 10);
 
 
-        // $products1 = getXmlDetails('https://www.hapshoe.com/TicimaxCustomXml/60C1FBE427A7427CA0F3431BD6902D87');
+        //$products1 = getXmlDetails('https://www.hapshoe.com/TicimaxCustomXml/60C1FBE427A7427CA0F3431BD6902D87');
 
-        // $products2 = [];
+        // $products2 = getXmlDetails('https://goktuggrup.com/TicimaxXml/E3743264826343C3AC321328AB97303D');
 
-        // foreach ($products1 as  $value) {
+        // return $products2 ;
+        // foreach ($products1->Urunler as  $value) {
 
-        //     $products2 = $value ;
+        //     //return $value ;
         // }
 
-        // return $products2->Urun ;
-        // return view('dashboard.products.test',compact('products2'));
+        //return $products2 ;
+
+        //return view('dashboard.products.test',compact('products1'));
 
         return view('dashboard.products.index',compact('products'));
+    }
+
+
+    public function add(){
+
+        return view('dashboard.products.add',[
+            'countries' => Countries::getNames(),
+            'locales' => Languages::getNames(),
+        ]);
+    }
+
+    public function store_xml(Request $request){
+
+        // $request->validate([
+        //     'company_name' => ['required' ,'string' , 'min:5' , 'max:255'],
+        //     'email' => ['required', 'string', 'email', Rule::unique('companies','email')],
+        //     'description' => ['required', 'string', 'min:30'],
+        //     'mobile' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', Rule::unique('companies','mobile')] ,
+        //     'country' => ['required' ,'string' , 'size:2'],
+        //     'city' => ['nullable' ,'string'],
+        //     'address' => ['required', 'string', 'min:10', 'max:255'],
+        //     'username' => ['required' ,'string' , 'min:5' , 'max:255'],
+        //     'email' => ['required', 'string', 'email', Rule::unique('suppliers','email')],
+        //     'password' => ['required',  Rules\Password::defaults()],
+        //     'link' => ['required','url'] ,
+        // ]);
+
+
+            $products = getXmlDetails($request->link);
+
+            //return $products->Urunler ;
+
+        $company = Company::create([
+            'company_name' => $request->company_name,
+            'email' =>$request->email,
+            'description' =>$request->description,
+            'mobile' =>$request->mobile,
+            'country' =>$request->country,
+            'city' =>$request->city,
+            'address' =>$request->address,
+        ]);
+
+        $user = Supplier::create([
+            'name' => $request->username,
+            'email' => $request->user_email,
+            'password' => Hash::make($request->password),
+            'role_id' => 1 ,
+            'company_id' => $company->id,
+        ]);
+
+        foreach ($products->Urunler as $product  ) {
+            foreach ($product as $item) {
+
+                //return $item->UrunSecenek->Secenek[0]->EkSecenekOzellik->Ozellik  ;
+                $prod = Product::create([
+                    'company_id' => $company->id,
+                    'link_xml' => $request->link,
+                    'xml_product_id' =>$item->UrunKartiID,
+                    'name' => $item-> UrunAdi,
+                    'slug' => Str::slug($item-> UrunAdi.$item->UrunKartiID),
+                    'description' => $item->Aciklama,
+                    'image'=> $item->Resimler->Resim[0],
+                    'price'=>  (floatval($item ->UrunSecenek->Secenek[0]->IndirimliFiyat)/20 ),
+                    'selling_price' => (floatval($item -> UrunSecenek->Secenek[0]->SatisFiyati)/20),
+                    'sku' => $item -> UrunSecenek->Secenek[0]->StokKodu,
+                    'quantity'=> $item -> UrunSecenek->Secenek[0]->StokAdedi,
+                ]);
+
+                if (!is_string($item->Resimler->Resim)) {
+                    foreach ($item->Resimler->Resim as $resim) {
+                        ProductImage::create([
+                            'product_id' =>$prod->id,
+                            'name' => $resim,
+                        ]);
+                    }
+                }else{
+                    ProductImage::create([
+                        'product_id' => $prod->id ,
+                        'name' => $item->Resimler->Resim ,
+                    ]);
+                }
+
+
+
+
+                foreach ($item -> UrunSecenek->Secenek as $variant) {
+                    $variant = Variant::create([
+                        'product_id'=> $prod->id,
+                        'price' => (floatval($variant->SatisFiyati) /20),
+                        'selling_price' => (floatval($variant->IndirimliFiyat) /20),
+                        'quantity' => $variant->StokAdedi,
+                        'sku' => $variant->StokKodu,
+                    ]);
+
+                    // if (!is_null($variant->EkSecenekOzellik) ) {
+                    //     foreach ($variant->EkSecenekOzellik as $Ozellik) {
+                    //         $attributes = VariantAttribute::create([
+                    //             'variant_id' => $variant->id,
+                    //             'attribute_id' => 2,
+                    //             'value' => $Ozellik,
+                    //         ]);
+                    //     }
+                    // }
+                }
+            }
+
+
+
+
+        }
+
+
+
+
+
+
+
+
     }
 
 

@@ -22,6 +22,7 @@ class Product extends Model
         'company_id', 'category_id', 'name', 'slug', 'description', 'price',
         'image', 'selling_price', 'compare_price', 'global_price', 'rating',
         'featured', 'status', 'image', 'shipping_time', 'sku', 'quantity',
+        'link_xml', 'xml_product_id',
     ];
 
 
