@@ -127,14 +127,7 @@
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div class="img-container w-50 mx-auto py-75">
-                                            <img src="{{asset('assets/product_images/'.$image->name)}}" class="img-fluid" alt="image" />
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#">
-                                        <div class="img-container w-50 mx-auto py-75">
-                                            <img src="{{asset($image->name)}}" class="img-fluid" alt="image" />
+                                            <img src="{{$image_url}}" class="img-fluid" alt="image" />
                                         </div>
                                     </a>
                                 </div>
