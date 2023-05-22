@@ -68,7 +68,10 @@
                                     @endif
                                 </p>
                                 <p class="card-text">
+                                    @if ($product->description)
                                     {!!$product->description!!}
+                                    @endif
+
                                 </p>
                                 <ul class="product-features list-unstyled">
                                 </ul>
