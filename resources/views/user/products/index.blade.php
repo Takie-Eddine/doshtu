@@ -119,7 +119,10 @@
                                     {{-- <span class="card-text item-company">By <a href="#" class="company-name">Apple</a></span> --}}
                                 </h6>
                                 <p class="card-text item-description">
+                                    @if ($product->description)
                                     {!!($product->description)!!}
+                                    @endif
+
                                 </p>
                             </div>
                             <div class="item-options text-center">

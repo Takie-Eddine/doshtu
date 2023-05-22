@@ -70,7 +70,10 @@
                                     <a href="{{route('user.products.details',$product->products->slug)}}">{{$product-> products->name}}</a>
                                 </div>
                                 <p class="card-text item-description">
+                                    @if ($product-> products-> description)
                                     {!!($product-> products-> description)!!}
+                                    @endif
+
                                 </p>
                             </div>
                             <div class="item-options text-center">
