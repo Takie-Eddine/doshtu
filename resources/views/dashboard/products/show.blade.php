@@ -127,7 +127,7 @@
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div class="img-container w-50 mx-auto py-75">
-                                            <img src="{{$image_url}}" class="img-fluid" alt="image" />
+                                            <img src="{{$image->$image_url}}" class="img-fluid" alt="image" />
                                         </div>
                                     </a>
                                 </div>
