@@ -71,7 +71,10 @@
                                                     <div id="blog-editor-wrapper">
                                                         <div id="blog-editor-container">
                                                             <div class="editor">
-                                                                <textarea name="description" class="form-control summernote" id="description">{!!($product->description)!!}</textarea>
+                                                                <textarea name="description" class="form-control summernote" id="description"> @if ($product->description)
+                                                                    {!!($product->description)!!}
+                                                                @endif
+                                                            </textarea>
                                                             </div>
                                                         </div>
                                                         @error('description')
