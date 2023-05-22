@@ -138,7 +138,7 @@ class ProductsController extends Controller
             'tags' => ['required', 'array', 'min:1'] ,
             'categories' => ['required', Rule::exists('categories','id'), 'array', 'min:1'] ,
             'selling_price' => ['required','numeric'] ,
-            'sku' => ['required','min:3','max:10'] ,
+            'sku' => ['required','min:3'] ,
         ]);
 
         try {
