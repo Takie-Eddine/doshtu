@@ -93,13 +93,19 @@
                                         <div class="col-12">
                                             <div class="mb-2">
                                                 <label class="form-label">Arabic Description</label>
-                                                <textarea name="description_ar" class="form-control summernote" >{!!($product->getTranslation('description','ar'))!!}</textarea>
+                                                <textarea name="description_ar" class="form-control summernote" >@if ($product->description)
+                                                    {!!($product->getTranslation('description','ar'))!!}
+                                                @endif
+                                            </textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="mb-2">
                                                 <label class="form-label">English Description</label>
-                                                <textarea name="description_en" class="form-control summernote" >{!!($product->getTranslation('description','en'))!!}</textarea>
+                                                <textarea name="description_en" class="form-control summernote" >@if ($product->description)
+                                                    {!!($product->getTranslation('description','en'))!!}
+                                                @endif
+                                            </textarea>
                                             </div>
                                         </div>
                                     </div>

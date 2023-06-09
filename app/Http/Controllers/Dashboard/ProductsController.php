@@ -44,15 +44,16 @@ class ProductsController extends Controller
 
         //$products1 = getXmlDetails('https://www.hapshoe.com/TicimaxCustomXml/60C1FBE427A7427CA0F3431BD6902D87');
 
-        // $products2 = getXmlDetails('https://goktuggrup.com/TicimaxXml/E3743264826343C3AC321328AB97303D');
+        $products2 = getXmlDetails('https://ikas-exporter-app.ikasapps.com/api/exports/02abdf09-16c8-47bb-8040-dbf6e5d3f7c0/1d55e245-d33d-4048-a687-551603a6e829.xml?templateType=1');
 
-        // return $products2 ;
-        // foreach ($products1->Urunler as  $value) {
 
-        //     //return $value ;
+        //return $products2->product[7] ;
+        // foreach ($products2->product as  $value) {
+
+        //     return $value->variants->variant ;
         // }
 
-        //return $products2 ;
+        //return $products2->product[0]->categories->category->id ;
 
         //return view('dashboard.products.test',compact('products1'));
 
@@ -60,113 +61,120 @@ class ProductsController extends Controller
     }
 
 
-    public function add(){
+    // public function add(){
 
-        return view('dashboard.products.add',[
-            'countries' => Countries::getNames(),
-            'locales' => Languages::getNames(),
-        ]);
-    }
+    //     //return $products2 = getXmlDetails('https://goktuggrup.com/TicimaxXml/E3743264826343C3AC321328AB97303D');
 
-    public function store_xml(Request $request){
+    //     return view('dashboard.products.add',[
+    //         'countries' => Countries::getNames(),
+    //         'locales' => Languages::getNames(),
+    //     ]);
+    // }
 
-        // $request->validate([
-        //     'company_name' => ['required' ,'string' , 'min:5' , 'max:255'],
-        //     'email' => ['required', 'string', 'email', Rule::unique('companies','email')],
-        //     'description' => ['required', 'string', 'min:30'],
-        //     'mobile' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', Rule::unique('companies','mobile')] ,
-        //     'country' => ['required' ,'string' , 'size:2'],
-        //     'city' => ['nullable' ,'string'],
-        //     'address' => ['required', 'string', 'min:10', 'max:255'],
-        //     'username' => ['required' ,'string' , 'min:5' , 'max:255'],
-        //     'email' => ['required', 'string', 'email', Rule::unique('suppliers','email')],
-        //     'password' => ['required',  Rules\Password::defaults()],
-        //     'link' => ['required','url'] ,
-        // ]);
+    // public function store_xml(Request $request){
+
+    //     // $request->validate([
+    //     //     'company_name' => ['required' ,'string' , 'min:5' , 'max:255'],
+    //     //     'email' => ['required', 'string', 'email', Rule::unique('companies','email')],
+    //     //     'description' => ['required', 'string', 'min:30'],
+    //     //     'mobile' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', Rule::unique('companies','mobile')] ,
+    //     //     'country' => ['required' ,'string' , 'size:2'],
+    //     //     'city' => ['nullable' ,'string'],
+    //     //     'address' => ['required', 'string', 'min:10', 'max:255'],
+    //     //     'username' => ['required' ,'string' , 'min:5' , 'max:255'],
+    //     //     'email' => ['required', 'string', 'email', Rule::unique('suppliers','email')],
+    //     //     'password' => ['required',  Rules\Password::defaults()],
+    //     //     'link' => ['required','url'] ,
+    //     // ]);
 
 
-            $products = getXmlDetails($request->link);
+    //         $products = getXmlDetails($request->link);
 
-            //return $products->Urunler ;
+    //         //return $products->Urunler ;
 
-        $company = Company::create([
-            'company_name' => $request->company_name,
-            'email' =>$request->email,
-            'description' =>$request->description,
-            'mobile' =>$request->mobile,
-            'country' =>$request->country,
-            'city' =>$request->city,
-            'address' =>$request->address,
-        ]);
+    //     $company = Company::create([
+    //         'company_name' => $request->company_name,
+    //         'email' =>$request->email,
+    //         'description' =>$request->description,
+    //         'mobile' =>$request->mobile,
+    //         'country' =>$request->country,
+    //         'city' =>$request->city,
+    //         'address' =>$request->address,
+    //     ]);
 
-        $user = Supplier::create([
-            'name' => $request->username,
-            'email' => $request->user_email,
-            'password' => Hash::make($request->password),
-            'role_id' => 1 ,
-            'company_id' => $company->id,
-        ]);
+    //     // $user = Supplier::create([
+    //     //     'name' => $request->username,
+    //     //     'email' => $request->user_email,
+    //     //     'password' => Hash::make($request->password),
+    //     //     'role_id' => 1 ,
+    //     //     'company_id' => $company->id,
+    //     // ]);
 
-        foreach ($products->Urunler as $product  ) {
-            foreach ($product as $item) {
 
-                //return $item->UrunSecenek->Secenek[0]->EkSecenekOzellik->Ozellik  ;
-                $prod = Product::create([
-                    'company_id' => $company->id,
-                    'link_xml' => $request->link,
-                    'xml_product_id' =>$item->UrunKartiID,
-                    'name' => $item-> UrunAdi,
-                    'slug' => Str::slug($item-> UrunAdi.$item->UrunKartiID),
-                    'description' => $item->Aciklama,
-                    'image'=> $item->Resimler->Resim[0],
-                    'price'=>  (floatval($item ->UrunSecenek->Secenek[0]->IndirimliFiyat)/20 ),
-                    'selling_price' => (floatval($item -> UrunSecenek->Secenek[0]->SatisFiyati)/20),
-                    'sku' => $item -> UrunSecenek->Secenek[0]->StokKodu,
-                    'quantity'=> $item -> UrunSecenek->Secenek[0]->StokAdedi,
-                ]);
+    //     foreach ($products->Urunler as $product  ) {
 
-                if (!is_string($item->Resimler->Resim)) {
-                    foreach ($item->Resimler->Resim as $resim) {
-                        ProductImage::create([
-                            'product_id' =>$prod->id,
-                            'name' => $resim,
-                        ]);
-                    }
-                }else{
-                    ProductImage::create([
-                        'product_id' => $prod->id ,
-                        'name' => $item->Resimler->Resim ,
-                    ]);
-                }
+    //         foreach ($product as $item) {
+
+    //             //return  ($item->UrunSecenek->Secenek)   ;
+    //                 $prod = Product::create([
+    //                     'company_id' => $company->id,
+    //                     'link_xml' => $request->link,
+    //                     'xml_product_id' =>$item->UrunKartiID,
+    //                     'name' => $item-> UrunAdi,
+    //                     'slug' => Str::slug($item-> UrunAdi.$item->UrunKartiID),
+    //                     'description' => $item->Aciklama,
+    //                     'image'=> $item->Resimler->Resim,
+    //                     'price'=>  (floatval($item ->UrunSecenek->Secenek->IndirimliFiyat)/20 ),
+    //                     'selling_price' => (floatval($item -> UrunSecenek->Secenek->SatisFiyati)/20),
+    //                     'sku' => $item ->UrunSecenek->Secenek->StokKodu,
+    //                     'quantity'=> $item->UrunSecenek->Secenek->StokAdedi,
+    //                 ]);
 
 
 
 
-                foreach ($item -> UrunSecenek->Secenek as $variant) {
-                    $variant = Variant::create([
-                        'product_id'=> $prod->id,
-                        'price' => (floatval($variant->SatisFiyati) /20),
-                        'selling_price' => (floatval($variant->IndirimliFiyat) /20),
-                        'quantity' => $variant->StokAdedi,
-                        'sku' => $variant->StokKodu,
-                    ]);
-
-                    // if (!is_null($variant->EkSecenekOzellik) ) {
-                    //     foreach ($variant->EkSecenekOzellik as $Ozellik) {
-                    //         $attributes = VariantAttribute::create([
-                    //             'variant_id' => $variant->id,
-                    //             'attribute_id' => 2,
-                    //             'value' => $Ozellik,
-                    //         ]);
-                    //     }
-                    // }
-                }
-            }
+    //             if (!is_string($item->Resimler->Resim)) {
+    //                 foreach ($item->Resimler->Resim as $resim) {
+    //                     ProductImage::create([
+    //                         'product_id' =>$prod->id,
+    //                         'name' => $resim,
+    //                     ]);
+    //                 }
+    //             }else{
+    //                 ProductImage::create([
+    //                     'product_id' => $prod->id ,
+    //                     'name' => $item->Resimler->Resim ,
+    //                 ]);
+    //             }
 
 
 
 
-        }
+    //                     // if (!is_null($variant->EkSecenekOzellik) ) {
+    //                     //     foreach ($variant->EkSecenekOzellik as $Ozellik) {
+    //                     //         $attributes = VariantAttribute::create([
+    //                     //             'variant_id' => $variant->id,
+    //                     //             'attribute_id' => 2,
+    //                     //             'value' => $Ozellik,
+    //                     //         ]);
+    //                     //     }
+    //                     // }
+
+
+    //                 $variant = Variant::create([
+    //                     'product_id'=> $prod->id,
+    //                     'price' => (floatval($item-> UrunSecenek->Secenek->SatisFiyati) /20),
+    //                     'selling_price' => (floatval($item-> UrunSecenek->Secenek->IndirimliFiyat) /20),
+    //                     'quantity' => $item-> UrunSecenek->Secenek->StokAdedi,
+    //                     'sku' => $item-> UrunSecenek->Secenek->StokKodu,
+    //                 ]);
+
+    //         }
+
+
+
+
+    //     }
 
 
 
@@ -175,10 +183,111 @@ class ProductsController extends Controller
 
 
 
-    }
+    // }
 
 
     public function create(){
+        // $products = getXmlDetails('https://ikas-exporter-app.ikasapps.com/api/exports/02abdf09-16c8-47bb-8040-dbf6e5d3f7c0/1d55e245-d33d-4048-a687-551603a6e829.xml?templateType=1');
+
+        // $attributes = Attribute::all();
+        // $categories1 = Category::all();
+
+        // foreach ($products->product as $product) {
+
+        //     if (is_array($product->variants->variant[0]->images->image) ) {
+        //         $prod = Product::create([
+        //             'link_xml' => 'https://ikas-exporter-app.ikasapps.com/api/exports/02abdf09-16c8-47bb-8040-dbf6e5d3f7c0/1d55e245-d33d-4048-a687-551603a6e829.xml?templateType=1',
+        //             'xml_product_id' => $product->id,
+        //             'name' => $product->name,
+        //             'slug' => $product->metaData->slug,
+        //             'description' => $product->description,
+        //             'image' => $product->variants->variant[0]->images->image[0]->imageUrl,
+        //             'price' => (floatval($product->variants->variant[0]->prices->price->discountPrice)/20),
+        //             'selling_price' => (floatval($product->variants->variant[0]->prices->price->sellPrice)/20),
+        //             'status' => 'active' ,
+        //             'sku' => $product->variants->variant[0]->sku,
+        //             'quantity' => $product->variants->variant[0]->stocks->stock->stockCount,
+        //         ]);
+        //     }else{
+        //         $prod = Product::create([
+        //             'link_xml' => 'https://ikas-exporter-app.ikasapps.com/api/exports/02abdf09-16c8-47bb-8040-dbf6e5d3f7c0/1d55e245-d33d-4048-a687-551603a6e829.xml?templateType=1',
+        //             'xml_product_id' => $product->id,
+        //             'name' => $product->name,
+        //             'slug' => $product->metaData->slug,
+        //             'description' => $product->description,
+        //             'image' => $product->variants->variant[0]->images->image->imageUrl,
+        //             'price' => (floatval($product->variants->variant[0]->prices->price->discountPrice)/20),
+        //             'selling_price' => (floatval($product->variants->variant[0]->prices->price->sellPrice)/20),
+        //             'status' => 'active' ,
+        //             'sku' => $product->variants->variant[0]->sku,
+        //             'quantity' => $product->variants->variant[0]->stocks->stock->stockCount,
+        //         ]);
+        //     }
+
+        //     if (is_array($product->categories->category)) {
+        //         foreach ($product->categories->category as $category) {
+        //             $slug = Str::slug($category->name);
+        //             $cat =  $categories1->where('slug',$slug)->first();
+        //             if (!$cat) {
+        //                 $cat = Category::create([
+        //                     'name' => $category->name,
+        //                     'slug' => $slug,
+        //                 ]);
+        //             }
+        //             $cat_ids [] = $cat->id ;
+        //         };
+        //     }else{
+        //         $slug = Str::slug($product->categories->category->name);
+        //         $cat =  $categories1->where('slug',$slug)->first();
+        //             if (!$cat) {
+        //                 $cat = Category::create([
+        //                     'name' => $product->categories->category->name,
+        //                     'slug' => $slug,
+        //                 ]);
+        //             }
+        //             $cat_ids [] = $cat->id ;
+        //     }
+        //     $prod->categories()->sync($cat_ids);
+
+        //     foreach ($product->variants->variant as $variants) {
+
+        //         if ($variants->stocks->stock->stockCount>=0) {
+        //             $variant = Variant::create([
+        //                 'product_id' => $prod->id,
+        //                 'price' => (floatval($variants->prices->price->discountPrice)/20),
+        //                 'selling_price' => (floatval($variants->prices->price->sellPrice)/20),
+        //                 'sku' => $variants->sku,
+        //                 'quantity' => $variants->stocks->stock->stockCount,
+        //                 //'image' => $variants->images->image->imageUrl,
+        //             ]);
+        //         }else{
+        //             $variant = Variant::create([
+        //                 'product_id' => $prod->id,
+        //                 'price' => (floatval($variants->prices->price->discountPrice)/20),
+        //                 'selling_price' => (floatval($variants->prices->price->sellPrice)/20),
+        //                 'sku' => $variants->sku,
+        //                 'quantity' => 0,
+        //                 //'image' => $variants->images->image->imageUrl,
+        //             ]);
+        //         }
+
+
+
+        //             foreach ($variants->variantValues->variantValue as  $value) {
+        //                     $attr = $attributes->where('name',$value->variantTypeName)->first();
+        //                     if (!$attr) {
+        //                         $attr = Attribute::create([
+        //                             'name' => $value->variantTypeName,
+        //                         ]);
+        //                     }
+        //                     // $vattribute = VariantAttribute::create([
+        //                     //     'variant_id ' => $variant->id,
+        //                     //     'attribute_id' => $attr->id ,
+        //                     //     'value' => $value->variantValueName,
+        //                     // ]);
+        //             };
+        //     }
+        // }
 
         $tags = Tag::all();
         $categories = Category::parents()->get();

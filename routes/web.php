@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InstalationController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\User\ComplaintsController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\ProductsController;
@@ -44,8 +45,10 @@ Route::group(
 
             Route::group(['prefix'=>'subscribe' ],function(){
                 Route::get('/create', [SubscribeController::class, 'create'])->name('subscribe.create');
+                Route::get('/store_year/{id}', [PaypalController::class, 'checkout'])->name('subscribe.store');
                 Route::post('/store_month/{id}', [SubscribeController::class, 'storeM'])->name('subscribe.storeM');
                 Route::post('/store_year/{id}', [SubscribeController::class, 'storeY'])->name('subscribe.storeY');
+                Route::post('/free/{id}', [SubscribeController::class, 'free'])->name('subscribe.free');
                 Route::get('/payment', [SubscribeController::class, 'payment'])->name('subscribe.payment');
                 Route::post('/payment/store', [SubscribeController::class, 'store'])->name('subscribe.payment.store');
             });

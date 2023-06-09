@@ -7,6 +7,7 @@ use App\Models\Card;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +75,7 @@ class SubscribeController extends Controller
             'user_id' => Auth::user('web')->id,
             'plan_id' =>$plan->id,
             'started_date'=> Carbon::now(),
-            'ended_date' => Carbon::now()->addMonth(),
+            'ended_date' => Carbon::now()->addYear(),
         ]);
 
         return redirect()->route('user.subscribe.payment');
@@ -127,6 +128,36 @@ class SubscribeController extends Controller
         ]);
 
 
+    }
+
+
+    public function free($id){
+        $plan = Plan::findOrFail($id);
+
+        $user_id = Auth::user('web')->parent;
+
+        if ($user_id) {
+            $user = User::findOrFail($user_id);
+
+            Subscription::create([
+                'user_id' => $user->id,
+                'plan_id' =>$plan->id,
+                'started_date'=> Carbon::now(),
+                'ended_date' => Carbon::now()->addYear(),
+                'status' => 'paid',
+            ]);
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+
+        Subscription::create([
+            'user_id' => Auth::user('web')->id,
+            'plan_id' =>$plan->id,
+            'started_date'=> Carbon::now(),
+            'ended_date' => Carbon::now()->addYear(),
+            'status' => 'paid',
+        ]);
+
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
 }
