@@ -30,7 +30,7 @@ class PaypalController extends Controller
                 ]
             ]],
             "application_context" => [
-                "cancel_url" => "{{route('user.subscribe.create')}}",
+                "cancel_url" => "{{route('user.profile')}}",
                 "return_url" => "{{route(''user.dashboard')}}"
             ]
         ];
