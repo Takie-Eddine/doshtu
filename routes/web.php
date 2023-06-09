@@ -45,7 +45,7 @@ Route::group(
 
             Route::group(['prefix'=>'subscribe' ],function(){
                 Route::get('/create', [SubscribeController::class, 'create'])->name('subscribe.create');
-                Route::get('/store_year/{id}', [PaypalController::class, 'checkout'])->name('subscribe.store');
+                Route::get('/store/{id}', [PaypalController::class, 'checkout'])->name('subscribe.store');
                 Route::post('/store_month/{id}', [SubscribeController::class, 'storeM'])->name('subscribe.storeM');
                 Route::post('/store_year/{id}', [SubscribeController::class, 'storeY'])->name('subscribe.storeY');
                 Route::post('/free/{id}', [SubscribeController::class, 'free'])->name('subscribe.free');
