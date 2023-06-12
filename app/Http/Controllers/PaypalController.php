@@ -38,7 +38,7 @@ class PaypalController extends Controller
             // Call API with your client and get a response for your call
             $response = $client->execute($request);
 
-            if ($response->result->statusCode == 201) {
+            if ($response->statusCode == 201) {
                 foreach ($response->result->links as $link) {
                     if ($link->rel == 'approve') {
                         return redirect()->away($link->href);
