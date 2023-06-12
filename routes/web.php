@@ -45,7 +45,6 @@ Route::group(
 
             Route::group(['prefix'=>'subscribe' ],function(){
                 Route::get('/create', [SubscribeController::class, 'create'])->name('subscribe.create');
-                Route::get('/checkout/{id}', [PaypalController::class, 'checkout'])->name('subscribe.store');
                 Route::post('/store_month/{id}', [SubscribeController::class, 'storeM'])->name('subscribe.storeM');
                 Route::post('/store_year/{id}', [SubscribeController::class, 'storeY'])->name('subscribe.storeY');
                 Route::post('/free/{id}', [SubscribeController::class, 'free'])->name('subscribe.free');
@@ -132,6 +131,12 @@ Route::group(
                 Route::get('/variants/{slug}', [ProductsController::class, 'variant'])->name('products.variant');
                 Route::post('/variant', [ProductsController::class, 'pushvariant'])->name('products.pushvariant');
             });
+
+
+            Route::get('checkout/{id}',[PaypalController::class, 'checkout'])->name('paypal.checkout');
+            Route::get('paypal/return',[PaypalController::class, 'paypalReturn'])->name('paypal.return');
+            Route::get('paypal/cancel',[PaypalController::class, 'paypalCancel'])->name('paypal.cancel');
+
 
         });
 

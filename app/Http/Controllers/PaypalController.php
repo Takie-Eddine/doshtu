@@ -12,7 +12,7 @@ use PayPalHttp\HttpException;
 
 class PaypalController extends Controller
 {
-    public function checkout(Request $request , $id){
+    public function checkout($id){
 
         $client = $this->getPaypalClient();
 
@@ -25,13 +25,13 @@ class PaypalController extends Controller
             "purchase_units" => [[
                 "reference_id" => "Subscription Status",
                 "amount" => [
-                    "value" => "{{$plan->annual_price}}",
+                    "value" => $plan->annual_price,
                     "currency_code" => "USD"
                 ]
             ]],
             "application_context" => [
-                "cancel_url" => "{{route('user.subscribe.create')}}",
-                "return_url" => "{{route(''user.dashboard')}}"
+                "cancel_url" => url(route('user.paypal.cancel')),
+                "return_url" => url(route('user.paypal.return')),
             ]
         ];
 
@@ -40,11 +40,21 @@ class PaypalController extends Controller
             $response = $client->execute($request);
 
             // If call returns body in response, you can get the deserialized version from the result attribute of the response
-            print_r($response);
+            dd($response);
         } catch (HttpException $ex) {
             echo $ex->statusCode;
             print_r($ex->getMessage());
         }
+
+    }
+
+
+    public function paypalReturn(){
+
+    }
+
+
+    public function paypalCancel(){
 
     }
 
