@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Plan;
 use Illuminate\Http\Request;
-use PaypalPayoutsSDK\Core\PayPalHttpClient;
-use PaypalPayoutsSDK\Core\SandboxEnvironment;
-use PaypalPayoutsSDK\Payouts\PayoutsPostRequest;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalHttp\HttpException;
 
