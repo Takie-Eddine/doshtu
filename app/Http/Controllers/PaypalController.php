@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalHttp\HttpException;
 
 class PaypalController extends Controller
@@ -39,6 +40,7 @@ class PaypalController extends Controller
             $response = $client->execute($request);
 
             if ($response->statusCode == 201) {
+                session()->put('paypal_order_id',$response->result->id);
                 foreach ($response->result->links as $link) {
                     if ($link->rel == 'approve') {
                         return redirect()->away($link->href);
@@ -58,6 +60,23 @@ class PaypalController extends Controller
 
     public function paypalReturn(){
 
+        $client = $this->getPaypalClient();
+        $id = session()->get('paypal_order_id');
+        $request = new OrdersCaptureRequest($id);
+        $request->prefer('return=representation');
+        try {
+            // Call API with your client and get a response for your call
+            $response = $client->execute($request);
+
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            dd($response);
+            if ($response->result->status == 'COMPLETED') {
+
+            }
+        } catch (HttpException $ex) {
+            echo $ex->statusCode;
+            print_r($ex->getMessage());
+        }
     }
 
 
