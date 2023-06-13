@@ -146,10 +146,7 @@ class PaypalController extends Controller
                     'paypal_email' => $response->result->payer->email_address,
                     'created_time' => Carbon::now(),
                 ]);
-                return redirect()->route('user.subscribe.create')->with([
-                    'message' => 'Please you have to complate your subscription',
-                    'alert-type' => 'danger',
-                ]);
+
                 return redirect()->route('user.dashboard')->with([
                     'message' => 'Your Subscription has completed ',
                     'alert-type' => 'success',
