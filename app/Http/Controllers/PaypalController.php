@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Paypal;
 use App\Models\Plan;
 use App\Models\Subscription;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
@@ -118,17 +120,40 @@ class PaypalController extends Controller
             $response = $client->execute($request);
 
             // If call returns body in response, you can get the deserialized version from the result attribute of the response
-            dd($response);
+            //dd($response);
             if ($response->result->status == 'COMPLETED') {
+                if ($plan->annual_price == $price) {
+                    Subscription::create([
+                        'plan_id' => $plan->id,
+                        'user_id' => Auth::user('web')->id,
+                        'started_date' => $response->result->create_time,
+                        'ended_date' => Carbon::now()->addYear(),
+                        'status' => 'paid',
+                    ]);
+                }
+                if ($plan->monthly_price == $price) {
+                    Subscription::create([
+                        'plan_id' => $plan->id,
+                        'user_id' => Auth::user('web')->id,
+                        'started_date' => $response->result->create_time,
+                        'ended_date' => Carbon::now()->addMonth(),
+                        'status' => 'paid',
+                    ]);
+                }
 
-                Subscription::create([
-                    'plan_id' => $plan->id,
-                    'user_id' => Auth::user('web')->id,
-                    'started_date' => '',
-                    'ended_date' => '',
-                    'status' => '',
+                Paypal::create([
+                    'transaction_id' => $response->result->id,
+                    'paypal_email' => $response->result->payer->email_address,
+                    'created_time' => $response->result->create_time,
                 ]);
-
+                return redirect()->route('user.subscribe.create')->with([
+                    'message' => 'Please you have to complate your subscription',
+                    'alert-type' => 'danger',
+                ]);
+                return redirect()->route('user.dashboard')->with([
+                    'message' => 'Your Subscription has completed ',
+                    'alert-type' => 'success',
+                ]);
             }
         } catch (HttpException $ex) {
             echo $ex->statusCode;
@@ -138,7 +163,10 @@ class PaypalController extends Controller
 
 
     public function paypalCancel(){
-
+        return redirect()->route('user.subscribe.create')->with([
+            'message' => 'Please you have to complate your subscription',
+            'alert-type' => 'danger',
+        ]);
     }
 
 
