@@ -144,7 +144,7 @@ class PaypalController extends Controller
                 Paypal::create([
                     'transaction_id' => $response->result->id,
                     'paypal_email' => $response->result->payer->email_address,
-                    'created_time' => $response->result->create_time,
+                    'created_time' => Carbon::now(),
                 ]);
                 return redirect()->route('user.subscribe.create')->with([
                     'message' => 'Please you have to complate your subscription',
