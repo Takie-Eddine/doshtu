@@ -130,6 +130,12 @@ class PaypalController extends Controller
                         'ended_date' => Carbon::now()->addYear(),
                         'status' => 'paid',
                     ]);
+                    Paypal::create([
+                        'subscription_id' => $subscription->id,
+                        'transaction_id' => $response->result->id,
+                        'paypal_email' => $response->result->payer->email_address,
+                        'created_time' => Carbon::now(),
+                    ]);
                 }
                 if ($plan->monthly_price == $price) {
                     $subscription = Subscription::create([
@@ -139,14 +145,15 @@ class PaypalController extends Controller
                         'ended_date' => Carbon::now()->addMonth(),
                         'status' => 'paid',
                     ]);
+                    Paypal::create([
+                        'subscription_id' => $subscription->id,
+                        'transaction_id' => $response->result->id,
+                        'paypal_email' => $response->result->payer->email_address,
+                        'created_time' => Carbon::now(),
+                    ]);
                 }
 
-                Paypal::create([
-                    'subscription_id' => $subscription->id,
-                    'transaction_id' => $response->result->id,
-                    'paypal_email' => $response->result->payer->email_address,
-                    'created_time' => Carbon::now(),
-                ]);
+
 
                 return redirect()->route('user.dashboard')->with([
                     'message' => 'Your Subscription has completed ',
