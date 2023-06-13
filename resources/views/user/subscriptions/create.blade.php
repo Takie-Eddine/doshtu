@@ -90,18 +90,18 @@
                                             @if ($item->name == 'FREE')
                                                 <form action="{{route('user.subscribe.free',$item->id)}}" method="POST">
                                                     @csrf
-                                                    {{-- <input type="hidden" name="id" value="{{$subscription->id}}"> --}}
+                                                    <input type="hidden" name="price" value="{{$item->id}}">
                                                     <button class="btn w-100 btn-primary mt-2">Subscribe(month)</button>
                                                 </form>
                                             @else
-                                                <form action="{{route('user.subscribe.storeM',$item->id)}}" method="POST">
+                                                <form action="{{route('user.paypal.checkout',$item->id)}}" method="POST">
                                                     @csrf
-                                                    {{-- <input type="hidden" name="id" value="{{$subscription->id}}"> --}}
+                                                    <input type="hidden" name="price" value="{{$item->monthly_price}}">
                                                     <button class="btn w-100 btn-primary mt-2">Subscribe(month)</button>
                                                 </form>
-                                                <form action="{{route('user.subscribe.storeY',$item->id)}}" method="POST">
+                                                <form action="{{route('user.paypal.checkout',$item->id)}}" method="POST">
                                                     @csrf
-                                                    {{-- <input type="hidden" name="id" value="{{$subscription->id}}"> --}}
+                                                    <input type="hidden" name="price" value="{{$item->annual_price}}">
                                                     <button class="btn w-100 btn-secondary mt-2">Subscribe(year)</button>
                                                 </form>
                                             @endif

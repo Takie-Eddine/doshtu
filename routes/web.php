@@ -133,7 +133,7 @@ Route::group(
             });
 
 
-            Route::get('checkout/{id}',[PaypalController::class, 'checkout'])->name('paypal.checkout');
+            Route::post('checkout/{id}',[PaypalController::class, 'checkout'])->name('paypal.checkout');
             Route::get('paypal/return',[PaypalController::class, 'paypalReturn'])->name('paypal.return');
             Route::get('paypal/cancel',[PaypalController::class, 'paypalCancel'])->name('paypal.cancel');
 
