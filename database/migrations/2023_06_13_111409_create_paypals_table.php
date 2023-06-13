@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('paypals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subscription_id')->constrained('subscriptions')->cascadeOnDelete();
             $table->string('transaction_id');
             $table->string('paypal_email');
             $table->date('created_time');

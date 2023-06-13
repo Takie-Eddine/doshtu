@@ -13,7 +13,7 @@ class Subscription extends Pivot
     public $table = 'subscriptions';
 
     protected $fillable = [
-        'plan_id',  'user_id',  'started_date',  'ended_date',
+        'plan_id',  'user_id',  'started_date',  'ended_date', 'status',
     ];
 
 

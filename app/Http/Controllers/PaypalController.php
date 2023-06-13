@@ -123,7 +123,7 @@ class PaypalController extends Controller
             //dd($response);
             if ($response->result->status == 'COMPLETED') {
                 if ($plan->annual_price == $price) {
-                    Subscription::create([
+                    $subscription = Subscription::create([
                         'plan_id' => $plan->id,
                         'user_id' => Auth::user('web')->id,
                         'started_date' => Carbon::now(),
@@ -132,7 +132,7 @@ class PaypalController extends Controller
                     ]);
                 }
                 if ($plan->monthly_price == $price) {
-                    Subscription::create([
+                    $subscription = Subscription::create([
                         'plan_id' => $plan->id,
                         'user_id' => Auth::user('web')->id,
                         'started_date' => Carbon::now(),
@@ -142,6 +142,7 @@ class PaypalController extends Controller
                 }
 
                 Paypal::create([
+                    'subscription_id' => $subscription->id,
                     'transaction_id' => $response->result->id,
                     'paypal_email' => $response->result->payer->email_address,
                     'created_time' => Carbon::now(),

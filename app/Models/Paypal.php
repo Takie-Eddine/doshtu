@@ -11,6 +11,6 @@ class Paypal extends Model
 
 
     protected $fillable = [
-        'transaction_id', 'paypal_email', 'created_time',
+        'subscription_id', 'transaction_id', 'paypal_email', 'created_time',
     ];
 }
