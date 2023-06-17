@@ -49,6 +49,7 @@ Route::group(
                 Route::post('/store_year/{id}', [SubscribeController::class, 'storeY'])->name('subscribe.storeY');
                 Route::post('/free/{id}', [SubscribeController::class, 'free'])->name('subscribe.free');
                 Route::get('/payment', [SubscribeController::class, 'payment'])->name('subscribe.payment');
+                Route::get('/pay', [SubscribeController::class, 'pay'])->name('subscribe.pay');
                 Route::post('/payment/store', [SubscribeController::class, 'store'])->name('subscribe.payment.store');
             });
 

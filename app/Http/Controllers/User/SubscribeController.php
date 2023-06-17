@@ -160,4 +160,12 @@ class SubscribeController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
+
+
+
+    public function pay(){
+
+        return view('user.subscriptions.paypal');
+    }
+
 }

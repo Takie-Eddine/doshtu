@@ -87,7 +87,7 @@
                                             {{-- @if ($subscription->plan_id == $item->id)
                                                 <button class="btn w-100 btn-success mt-2">Curent Plan</button>
                                             @else --}}
-                                            @if ($item->name == 'FREE')
+                                            {{-- @if ($item->name == 'FREE')
                                                 <form action="{{route('user.subscribe.free',$item->id)}}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="price" value="{{$item->id}}">
@@ -104,18 +104,56 @@
                                                     <input type="hidden" name="price" value="{{$item->annual_price}}">
                                                     <button class="btn w-100 btn-secondary mt-2">Subscribe(year)</button>
                                                 </form>
-                                            @endif
-
-
-
+                                            @endif --}}
                                             {{-- @endif --}}
 
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-12 col-lg-10 col-lg-offset-3 mx-auto">
+                                        <div class="mt-3">
+                                            <label for="select2Basic" class="form-label">Plan</label>
+                                            <select id="select2Basic" name="plan" class="select2 form-select form-select-lg" data-allow-clear="true">
+                                                <option value="">Select a plan</option>
+                                                @forelse ($plans as $plan)
+                                                    <option value="{{$plan->id}}">{{$plan->name}}</option>
+                                                @empty
 
-                            <!--/ standard plan -->
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        <div class="row w-75 mt-2">
+                                            <div class="col-md mb-md-0 mb-2">
+                                                <div class="form-check form-check-success custom-option custom-option-basic">
+                                                    <label class="form-check-label custom-option-content" for="customRadioVTemp1">
+                                                        <input name="price" class="form-check-input" type="radio" value="monthly" id="customRadioVTemp1"
+                                                            checked />
+                                                        <span class="custom-option-header">
+                                                            <span class="fw-semibold">Monthly</span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-check form-check-success custom-option custom-option-basic">
+                                                    <label class="form-check-label custom-option-content" for="customRadioVTemp2">
+                                                        <input name="price" class="form-check-input" type="radio" value="annual" id="customRadioVTemp2" />
+                                                        <span class="custom-option-header">
+                                                            <span class="fw-semibold">Annual</span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div >
+                                            <div id="paypal-button-container" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -193,6 +231,85 @@
 
 
 @push('script')
+<script data-sdk-integration-source="integrationbuilder_sc"></script>
 <script src="{{asset('app-assets/js/scripts/pages/page-pricing.js')}}"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AQMy2O4ztSGxMm-qTcERSh3xo_A8es_iq17qCIPIAx_8G1Bsrpw6rnUfafSv46ehenG22L3f7GuLtAdv&components=buttons&vault=true&intent=subscription"></script>
+<script>
+    const FUNDING_SOURCES = [
+      // // EDIT FUNDING SOURCES
+        paypal.FUNDING.PAYPAL,
+        paypal.FUNDING.CARD
+    ];
+    FUNDING_SOURCES.forEach(fundingSource => {
+      paypal.Buttons({
+        fundingSource,
 
+        style: {
+          layout: 'vertical',
+          shape: 'rect',
+          color: (fundingSource == paypal.FUNDING.PAYLATER) ? 'gold' : '',
+        },
+
+        // createOrder: async (data, actions) => {
+        //   try {
+        //     const response = await fetch("http://localhost:9597/orders", {
+        //       method: "POST"
+        //     });
+
+        //     const details = await response.json();
+        //     return details.id;
+        //   } catch (error) {
+        //     console.error(error);
+        //     // Handle the error or display an appropriate error message to the user
+        //   }
+        // },
+
+
+        createSubscription: (data, actions) => {
+          return actions.subscription.create({
+            plan_id: "P-3VY541363X5493216MQPMXBQ",
+          });
+        },
+
+
+        onApprove: async (data, actions) => {
+          try {
+            const response = await fetch(`http://localhost:9597/orders/${data.orderID}/capture`, {
+              method: "POST"
+            });
+
+            const details = await response.json();
+            // Three cases to handle:
+            //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+            //   (2) Other non-recoverable errors -> Show a failure message
+            //   (3) Successful transaction -> Show confirmation or thank you message
+
+            // This example reads a v2/checkout/orders capture response, propagated from the server
+            // You could use a different API or structure for your 'orderData'
+            const errorDetail = Array.isArray(details.details) && details.details[0];
+
+            if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+              return actions.restart();
+              // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+            }
+
+            if (errorDetail) {
+              let msg = 'Sorry, your transaction could not be processed.';
+              msg += errorDetail.description ? ' ' + errorDetail.description : '';
+              msg += details.debug_id ? ' (' + details.debug_id + ')' : '';
+              alert(msg);
+            }
+
+            // Successful capture! For demo purposes:
+            console.log('Capture result', details, JSON.stringify(details, null, 2));
+            const transaction = details.purchase_units[0].payments.captures[0];
+            alert('Transaction ' + transaction.status + ': ' + transaction.id + 'See console for all available details');
+          } catch (error) {
+            console.error(error);
+            // Handle the error or display an appropriate error message to the user
+          }
+        },
+      }).render("#paypal-button-container");
+    })
+  </script>
 @endpush
