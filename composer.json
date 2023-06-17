@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "braintree/braintree_php": "^6.12",
         "browner12/helpers": "^3.4",
         "guzzlehttp/guzzle": "^7.0",
         "intervention/image": "^2.7",

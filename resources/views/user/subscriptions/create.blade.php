@@ -233,7 +233,7 @@
 @push('script')
 <script data-sdk-integration-source="integrationbuilder_sc"></script>
 <script src="{{asset('app-assets/js/scripts/pages/page-pricing.js')}}"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=AQMy2O4ztSGxMm-qTcERSh3xo_A8es_iq17qCIPIAx_8G1Bsrpw6rnUfafSv46ehenG22L3f7GuLtAdv&components=buttons&vault=true&intent=subscription"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AbyorskkCd14rgLBa4xd-lDvS68shzowwh2zs687C4rCrGEQTFule6JmPDzdC4A71SPlUfrLrWAzzT2B&components=buttons&vault=true&intent=subscription"></script>
 <script>
     const FUNDING_SOURCES = [
       // // EDIT FUNDING SOURCES
