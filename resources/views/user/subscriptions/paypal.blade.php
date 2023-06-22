@@ -111,6 +111,7 @@
         paypal.FUNDING.PAYPAL,
         paypal.FUNDING.CARD
     ];
+    var plan = @json($plan);
     FUNDING_SOURCES.forEach(fundingSource => {
         paypal.Buttons({
             fundingSource,
@@ -139,7 +140,7 @@
 
             createSubscription: (data, actions) => {
                 return actions.subscription.create({
-                    plan_id: "P-3VY541363X5493216MQPMXBQ",
+                    plan_id: "{{$plan->paypal_id_annual}}",
                 });
             },
 
