@@ -94,14 +94,14 @@
                                     </div>
                                 </div>
                             @endforeach
-                            <div class="pricing-free-trial">
+                            {{-- <div class="pricing-free-trial">
                                 <div class="row">
                                     <div class="col-12 col-lg-10 col-lg-offset-3 mx-auto">
                                         <div class="pricing-trial-content d-flex justify-content-between">
                                             <div class="text-center text-md-start mt-3">
                                                 <h3 class="text-primary"></h3>
                                                 <h5></h5>
-                                                {{-- <a href="{{route('user.subscribe.pay')}}" class="btn btn-primary mt-2 mt-lg-3">Choose your plan</a> --}}
+                                                <a href="{{route('user.subscribe.pay')}}" class="btn btn-primary mt-2 mt-lg-3">Choose your plan</a>
                                             </div>
 
                                             <!-- image -->
@@ -109,7 +109,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <div class="row custom-options-checkable gx-3 gy-2">
                             @forelse ($plans as $plan)
