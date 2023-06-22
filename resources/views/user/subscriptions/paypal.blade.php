@@ -57,8 +57,8 @@
                                 </div>
                                 <form class="form" action="{{route('user.subscribe.post')}}" method="POST">
                                     @csrf
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
+                                    <div class="row" >
+                                        <div class="col-md-6 col-12" onchange="myvalue()">
                                             <input class="custom-option-item-check" type="radio" name="plans"
                                                 id="basicPlan" value="annual" checked />
                                             <label class="custom-option-item text-center p-1" for="basicPlan">
@@ -112,6 +112,16 @@
         paypal.FUNDING.CARD
     ];
     var plan = @json($plan);
+    function myvalue(){
+        if (document.getElementById('basicPlan').checked) {
+            value = document.getElementById('basicPlan').value;
+        }
+        if (document.getElementById('standardPlan').checked) {
+            value = document.getElementById('standardPlan').value;
+        }
+        console.log('Selected value:', value);
+    }
+
     FUNDING_SOURCES.forEach(fundingSource => {
         paypal.Buttons({
             fundingSource,
@@ -138,12 +148,31 @@
 
 
 
-            createSubscription: (data, actions) => {
-                return actions.subscription.create({
-                    plan_id: "{{$plan->paypal_id_annual}}",
-                });
-            },
+                createSubscription: (data, actions) => {
 
+                    if (value === 'annual') {
+                        return actions.subscription.create({
+                            plan_id: "{{$plan->paypal_id_annual}}",
+                        });
+                    };
+                    if (value === 'month') {
+                        return actions.subscription.create({
+                            plan_id: "{{$plan->paypal_id_monthly}}",
+                        });
+                    };
+
+                },
+
+
+
+
+            // if (value = 'month') {
+            //     createSubscription: (data, actions) => {
+            //         return actions.subscription.create({
+            //             plan_id: "{{$plan->paypal_id_monthly}}",
+            //         });
+            //     }
+            // },
 
 
             onApprove: async (data, actions) => {
