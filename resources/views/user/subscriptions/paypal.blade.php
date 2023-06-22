@@ -150,12 +150,12 @@
 
                 createSubscription: (data, actions) => {
 
-                    if (value === 'annual') {
+                    if (value == 'annual') {
                         return actions.subscription.create({
                             plan_id: "{{$plan->paypal_id_annual}}",
                         });
                     };
-                    if (value === 'month') {
+                    if (value == 'month') {
                         return actions.subscription.create({
                             plan_id: "{{$plan->paypal_id_monthly}}",
                         });
