@@ -163,9 +163,15 @@ class SubscribeController extends Controller
 
 
 
-    public function pay(){
+    public function pay($id){
+        $plan = Plan::findOrFail($id);
+        return view('user.subscriptions.paypal',compact('plan'));
+    }
 
-        return view('user.subscriptions.paypal');
+
+    public function post(Request $request){
+
+        return $request;
     }
 
 }

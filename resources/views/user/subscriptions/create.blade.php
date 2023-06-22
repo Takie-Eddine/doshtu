@@ -57,12 +57,16 @@
                 <div class="row pricing-card">
                     <div class="col-12 col-sm-offset-2 col-sm-10 col-md-12 col-lg-offset-2 col-lg-10 mx-auto">
                         <div class="row">
-                            <!-- standard plan -->
                             @foreach ($plans as $item)
                                 <div class="col-12 col-md-3">
                                     <div class="card standard-pricing popular text-center">
+
                                         <div class="card-body">
-                                            <img src="{{asset('app-assets/images/illustration/Pot2.svg')}}" class="mb-1" alt="svg img" />
+                                            @if ($item->image)
+                                                <img src="{{asset('assets/plan_images/'.$item->image)}}" class="mb-1" alt="svg img" />
+                                            @else
+                                                <img src="{{asset('app-assets/images/illustration/Pot2.svg')}}" class="mb-1" alt="svg img" />
+                                            @endif
                                             <h3>{{$item->name}}</h3>
                                             <p class="card-text">For small to medium businesses</p>
                                             <div class="annual-plan">
@@ -84,82 +88,50 @@
                                             <ul class="list-group list-group-circle text-start">
                                                 {!!($item->description)!!}
                                             </ul>
-                                            {{-- @if ($subscription->plan_id == $item->id)
-                                                <button class="btn w-100 btn-success mt-2">Curent Plan</button>
-                                            @else --}}
-                                            {{-- @if ($item->name == 'FREE')
-                                                <form action="{{route('user.subscribe.free',$item->id)}}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="price" value="{{$item->id}}">
-                                                    <button class="btn w-100 btn-primary mt-2">Subscribe(month)</button>
-                                                </form>
-                                            @else
-                                                <form action="{{route('user.paypal.checkout',$item->id)}}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="price" value="{{$item->monthly_price}}">
-                                                    <button class="btn w-100 btn-primary mt-2">Subscribe(month)</button>
-                                                </form>
-                                                <form action="{{route('user.paypal.checkout',$item->id)}}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="price" value="{{$item->annual_price}}">
-                                                    <button class="btn w-100 btn-secondary mt-2">Subscribe(year)</button>
-                                                </form>
-                                            @endif --}}
-                                            {{-- @endif --}}
-
+                                            <a href="{{route('user.subscribe.pay',$item->id)}}" class="btn btn-primary mt-2 mt-lg-3">Choose your plan</a>
                                         </div>
+
                                     </div>
                                 </div>
                             @endforeach
-                            <div class="">
+                            <div class="pricing-free-trial">
                                 <div class="row">
                                     <div class="col-12 col-lg-10 col-lg-offset-3 mx-auto">
-                                        <div class="mt-3">
-                                            <label for="select2Basic" class="form-label">Plan</label>
-                                            <select id="select2Basic" name="plan" class="select2 form-select form-select-lg" data-allow-clear="true">
-                                                <option value="">Select a plan</option>
-                                                @forelse ($plans as $plan)
-                                                    <option value="{{$plan->id}}">{{$plan->name}}</option>
-                                                @empty
+                                        <div class="pricing-trial-content d-flex justify-content-between">
+                                            <div class="text-center text-md-start mt-3">
+                                                <h3 class="text-primary"></h3>
+                                                <h5></h5>
+                                                {{-- <a href="{{route('user.subscribe.pay')}}" class="btn btn-primary mt-2 mt-lg-3">Choose your plan</a> --}}
+                                            </div>
 
-                                                @endforelse
-                                            </select>
-                                        </div>
-                                        <div class="row w-75 mt-2">
-                                            <div class="col-md mb-md-0 mb-2">
-                                                <div class="form-check form-check-success custom-option custom-option-basic">
-                                                    <label class="form-check-label custom-option-content" for="customRadioVTemp1">
-                                                        <input name="price" class="form-check-input" type="radio" value="monthly" id="customRadioVTemp1"
-                                                            checked />
-                                                        <span class="custom-option-header">
-                                                            <span class="fw-semibold">Monthly</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md">
-                                                <div class="form-check form-check-success custom-option custom-option-basic">
-                                                    <label class="form-check-label custom-option-content" for="customRadioVTemp2">
-                                                        <input name="price" class="form-check-input" type="radio" value="annual" id="customRadioVTemp2" />
-                                                        <span class="custom-option-header">
-                                                            <span class="fw-semibold">Annual</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div >
-                                            <div id="paypal-button-container" class="mt-2"></div>
+                                            <!-- image -->
+                                            <img src="{{asset('app-assets/images/illustration/pricing-Illustration.svg')}}" class="pricing-trial-img img-fluid" alt="svg img" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {{-- <div class="row custom-options-checkable gx-3 gy-2">
+                            @forelse ($plans as $plan)
+                                <div class="col-md-4">
+                                    <input class="custom-option-item-check" type="radio" name="plans" id="basicPlan" value="" />
+                                    <label class="custom-option-item text-center p-1" for="basicPlan">
+                                        <span class="custom-option-item-title h3 fw-bolder">{{$plan->name}}</span>
+                                        <span class="d-block m-75">{!!$plan->description!!}</span>
+                                        <span class="plan-price">
+                                            <sup class="font-medium-1 fw-bold text-primary">$</sup>
+                                            <span class="pricing-value fw-bolder text-primary">{{$plan->monthly_price}}</span>
+                                            <sub class="pricing-duration text-body font-medium-1 fw-bold">/month</sub>
+                                        </span>
+                                    </label>
+                                </div>
+                            @empty
+                            @endforelse
+                        </div> --}}
                     </div>
                 </div>
 
 
-                <!-- pricing faq -->
                 <div class="pricing-faq">
                     <h3 class="text-center">FAQ's</h3>
                     <p class="text-center">Let us help answer the most common questions.</p>
@@ -216,9 +188,7 @@
                         </div>
                     </div>
                 </div>
-                <!--/ pricing faq -->
             </section>
-
         </div>
     </div>
 </div>
