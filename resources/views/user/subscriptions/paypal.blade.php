@@ -55,7 +55,7 @@
                                         plan
                                     </h5>
                                 </div>
-                                <form class="form" action="{{route('user.subscribe.post')}}" method="POST">
+                                <form class="form" action="" method="POST">
                                     @csrf
                                     <div class="row" >
                                         <div class="col-md-6 col-12" onchange="myvalue()">
@@ -119,7 +119,7 @@
         if (document.getElementById('standardPlan').checked) {
             value = document.getElementById('standardPlan').value;
         }
-        console.log('Selected value:', value);
+
     }
 
     FUNDING_SOURCES.forEach(fundingSource => {
@@ -176,6 +176,8 @@
 
 
             onApprove: async (data, actions) => {
+
+
                 try {
                     const response = await fetch(`http://localhost:9597/orders/${data.orderID}/capture`, {
                         method: "POST"

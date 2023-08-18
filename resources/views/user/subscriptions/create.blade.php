@@ -203,6 +203,5 @@
 @push('script')
 <script data-sdk-integration-source="integrationbuilder_sc"></script>
 <script src="{{asset('app-assets/js/scripts/pages/page-pricing.js')}}"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=AbyorskkCd14rgLBa4xd-lDvS68shzowwh2zs687C4rCrGEQTFule6JmPDzdC4A71SPlUfrLrWAzzT2B&components=buttons&vault=true&intent=subscription"></script>
 
 @endpush

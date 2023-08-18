@@ -165,13 +165,61 @@ class SubscribeController extends Controller
 
     public function pay($id){
         $plan = Plan::findOrFail($id);
+        if (strtolower($plan->name) === 'free') {
+
+            $user_id = Auth::user('web')->parent;
+
+        if ($user_id) {
+            $user = User::findOrFail($user_id);
+
+            Subscription::create([
+                'user_id' => $user->id,
+                'plan_id' =>$plan->id,
+                'started_date'=> Carbon::now(),
+                'ended_date' => Carbon::now()->addMonth(),
+                'status' => 'paid',
+            ]);
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+
+        Subscription::create([
+            'user_id' => Auth::user('web')->id,
+            'plan_id' =>$plan->id,
+            'started_date'=> Carbon::now(),
+            'ended_date' => Carbon::now()->addMonth(),
+            'status' => 'paid',
+        ]);
+
+        return redirect()->intended(RouteServiceProvider::HOME);
+
+
+
+        }
         return view('user.subscriptions.paypal',compact('plan'));
+
     }
 
 
-    public function post(Request $request){
+    public function success(){
 
-        return $request;
+        $user = Auth::user('web');
+
+        Subscription::create([
+            'user_id' => $user->id,
+            'plan_id' => '',
+            'started_date' => Carbon::now(),
+            'ended_date' => '',
+            'status' => 'paid',
+        ]);
+
+
+    }
+
+
+
+    public function cancel(){
+
+
     }
 
 }

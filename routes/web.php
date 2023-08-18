@@ -50,7 +50,8 @@ Route::group(
                 Route::post('/free/{id}', [SubscribeController::class, 'free'])->name('subscribe.free');
                 Route::get('/payment', [SubscribeController::class, 'payment'])->name('subscribe.payment');
                 Route::get('/pay/{id}', [SubscribeController::class, 'pay'])->name('subscribe.pay');
-                Route::post('/paym', [SubscribeController::class, 'post'])->name('subscribe.post');
+                Route::get('/success', [SubscribeController::class, 'success'])->name('subscribe.payapal.success');
+                Route::get('/cancel', [SubscribeController::class, 'cancel'])->name('subscribe.payapal.cancel');
                 Route::post('/payment/store', [SubscribeController::class, 'store'])->name('subscribe.payment.store');
             });
 
